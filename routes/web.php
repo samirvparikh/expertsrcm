@@ -4,27 +4,13 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AdminController;
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
+use App\Http\Controllers\UserController;
 
-Route::get('/', function () {  return view('site.index'); });
-Route::get('/about-us', function () {  return view('site.about-us'); });
-Route::get('/why-choose-us', function () {  return view('site.why-choose-us'); });
-Route::get('/credentialing', function () {  return view('site.credentialing'); });
-Route::get('/eligibility', function () {  return view('site.eligibility'); });
-Route::get('/claim-submission', function () {  return view('site.claim-submission'); });
-Route::get('/payment-posting', function () {  return view('site.payment-posting'); });
-Route::get('/account-receivable', function () {  return view('site.account-receivable'); });
-Route::get('/adjustment-and-adjudication', function () {  return view('site.adjustment-and-adjudication'); });
-Route::get('/contact-us', function () {  return view('site.contact-us'); });
+
+Route::resource('users', UserController::class);
+
+
+
 
 
 
@@ -47,3 +33,4 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+require __DIR__.'/site.php';
