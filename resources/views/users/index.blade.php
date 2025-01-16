@@ -25,7 +25,7 @@
                                     <th>#</th>
                                     <th>Name</th>
                                     <th>Email</th>
-                                    <th>Actions</th>
+                                    <th  class="text-end">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -34,7 +34,7 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
-                                    <td>
+                                    <td  class="text-end">
                                         <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning">Edit</a>
                                         <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline-block;">
                                             @csrf

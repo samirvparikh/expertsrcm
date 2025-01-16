@@ -5,9 +5,13 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\OfficeController;
 
 
-Route::resource('users', UserController::class);
+Route::middleware('auth')->group(function () {
+    Route::resource('users', UserController::class);
+    Route::resource('offices', OfficeController::class);
+});
 
 
 
@@ -30,6 +34,12 @@ Route::middleware('auth')->group(function () {
     Route::post('/update/password', [AdminController::class, 'AdminUpdatePassword'])->name('admin.update.password');
     Route::get('/logout', [AdminController::class, 'AdminLogout'])->name('admin.logout');
 
+});
+
+Route::get('/cache/clear', function() {
+    $exitCode = Artisan::call('optimize:clear');
+    echo "Cache Clear Done..";
+    // return what you want
 });
 
 require __DIR__.'/auth.php';

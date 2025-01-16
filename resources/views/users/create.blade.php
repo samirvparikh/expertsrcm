@@ -42,6 +42,17 @@
                             <label class="form-label">Password:</label>
                             <input type="password" name="password" class="form-control" required>
                         </div>
+                        {{-- <div class="mb-3">
+                            <label class="form-label">Multiple select using select 2</label>
+                            <select class="js-example-basic-multiple form-select" multiple="multiple" data-width="100%">
+                                <option value="TX">Texas</option>
+                                <option value="WY">Wyoming</option>
+                                <option value="NY">New York</option>
+                                <option value="FL">Florida</option>
+                                <option value="KN">Kansas</option>
+                                <option value="HW">Hawaii</option>
+                            </select>
+                        </div> --}}
                         <button type="submit" class="btn btn-primary me-2">Save Changes </button>
                         <button type="button" class="btn btn-primary me-2" onclick="window.location='{{ URL::previous() }}'">Cancel</button>
                     </form>
