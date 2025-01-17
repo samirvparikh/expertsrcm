@@ -1,8 +1,8 @@
 <!-- partial:partials/_sidebar.html -->
 <nav class="sidebar">
     <div class="sidebar-header">
-        <a href="{{ route('dashboard') }}" class="sidebar-brand">
-            Experts<span><strong>RCM</strong></span>
+        <a href="#" class="sidebar-brand" style="color:red">
+            Cake<span><strong style="color:red">PHP</strong></span>
         </a>
         <div class="sidebar-toggler not-active">
             <span></span>
