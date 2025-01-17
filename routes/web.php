@@ -6,11 +6,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OfficeController;
-
+use App\Http\Controllers\InsuranceController;
 
 Route::middleware('auth')->group(function () {
     Route::resource('users', UserController::class);
     Route::resource('offices', OfficeController::class);
+    Route::resource('insurances', InsuranceController::class);
 });
 
 

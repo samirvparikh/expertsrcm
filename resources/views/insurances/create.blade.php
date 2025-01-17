@@ -4,7 +4,7 @@
 <div class="page-content">
     <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
         <div>
-            <h4 class="mb-3 mb-md-0">Create Office</h4>
+            <h4 class="mb-3 mb-md-0">Create Insurance</h4>
         </div>            
     </div>
 
@@ -21,10 +21,10 @@
                             </ul>
                         </div>
                     @endif
-                    <form action="{{ route('offices.store') }}" method="POST" id="myForm" class="forms-sample" enctype="multipart/form-data">
+                    <form action="{{ route('insurances.store') }}" method="POST" id="myForm" class="forms-sample">
                         @csrf
                         <div class="mb-3">
-                            <label class="form-label">Office Name:</label>
+                            <label class="form-label">Insurance Name:</label>
                             <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}">
                             @error('name')
                                 <span class="text-danger">{{ $message }}</span>
@@ -84,34 +84,12 @@
                             <label class="form-label">Country:</label>
                             <input type="text" name="country" class="form-control @error('country') is-invalid @enderror" value="{{ old('country') }}">
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">NPI:</label>
-                            <input type="text" name="npi" class="form-control @error('npi') is-invalid @enderror" value="{{ old('npi') }}">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">TIN:</label>
-                            <input type="text" name="tin" class="form-control @error('tin') is-invalid @enderror" value="{{ old('tin') }}">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Taxonomy Number:</label>
-                            <input type="text" name="taxonomy_number" class="form-control @error('taxonomy_number') is-invalid @enderror" value="{{ old('taxonomy_number') }}">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Logo:</label>
-                            <input type="file" name="logo" class="form-control @error('logo') is-invalid @enderror">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Photo:</label>
-                            <input type="file" name="photo" class="form-control @error('photo') is-invalid @enderror">
-                        </div>
                         <button type="submit" class="btn btn-primary me-2">Save Changes</button>
-                        <button type="button" class="btn btn-secondary" onclick="window.location='{{ route('offices.index') }}'">Cancel</button>
+                        <button type="button" class="btn btn-secondary" onclick="window.location='{{ route('insurances.index') }}'">Cancel</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-
 @endsection

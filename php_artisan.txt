@@ -1,0 +1,10 @@
+php artisan make:migration create_insurances_table
+
+php artisan migrate
+
+php artisan make:model Insurance
+
+php artisan make:controller InsuranceController --resource
+
+
+
