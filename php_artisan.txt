@@ -8,3 +8,49 @@ php artisan make:controller InsuranceController --resource
 
 
 
+php artisan make:migration create_csv_table
+php artisan make:model Csv
+php artisan make:import CsvImport --model=Csv
+php artisan make:export CsvExport --model=Csv
+
+php artisan make:controller ImportController
+
+
+php artisan make:model Patient
+
+
+php artisan make:controller PatientController --resource
+
+php artisan make:model Provider
+php artisan make:controller ProviderController --resource
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        <button type="button" class="btn btn-inverse-primary btn-icon" title="Edit">
+                                            <i data-feather="edit"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-inverse-info btn-icon">
+                                            <i data-feather="eye"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-inverse-danger btn-icon">
+                                            <i data-feather="trash-2"></i>
+                                        </button>

@@ -10,9 +10,21 @@ class Insurance extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'phone', 'phone_ext', 'fax', 'fax_ext', 
-        'website', 'email', 'address1', 'address2', 'city', 
-        'state', 'zipcode', 'country', 'created_by', 'updated_by',
+        'name', 
+        'phone',
+        'phone_ext',
+        'fax',
+        'fax_ext', 
+        'website',
+        'email',
+        'address1',
+        'address2',
+        'city', 
+        'state', 
+        'zipcode', 
+        'country', 
+        'created_by', 
+        'updated_by',
     ];
 
     // Relationships

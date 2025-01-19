@@ -74,7 +74,7 @@
                                            <form class="forms-sample" method="POST" action="{{ route('login') }}">
                                                @csrf
                                                <div class="mb-3">
-                                                   <label for="email" class="form-label">Email/Name/Phone </label>
+                                                   <label for="email" class="form-label">Email</label>
                                                    <input type="text" name="email" class="form-control"
                                                        id="email" placeholder="Email">
                                                </div>

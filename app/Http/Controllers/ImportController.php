@@ -1,0 +1,132 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Auth;
+use App\Imports\CsvImport;
+use App\Models\Csv;
+use App\Models\Patient;
+use App\Models\Insurance;
+use App\Models\Provider;
+
+
+class ImportController extends Controller
+{
+    public function index()
+    {
+        $csvs = Csv::get();
+        return view('import.index', compact('csvs'));
+    }
+
+    public function verify()
+    {
+        $csvs = Csv::get();
+        return view('import.verify', compact('csvs'));
+    }
+
+    public function import(Request $request) 
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,csv',
+        ]);
+
+        Csv::truncate();
+        
+        Excel::import(new CsvImport,request()->file('file'));
+        // return redirect()->back()->with('success', 'Records imported successfully!');
+        return redirect()->route('import.verify')->with('success', 'Records imported successfully!');
+    }
+
+    public function save(Request $request) 
+    {
+        $csvs = Csv::get();
+        // dd($csvs);
+        foreach ($csvs as $csv) {
+            $patientNameParts = $this->parsePatientFullName($csv->full_name);
+            $providerNameParts = $this->parseProviderFullName($csv->provider_full_name);
+
+            $exists = Patient::where('first_name', $patientNameParts['first_name'])
+                ->where('last_name', $patientNameParts['last_name'])
+                ->where('dob', $csv->dob)
+                ->exists();
+            if (!$exists) {                
+                Patient::create([
+                    'first_name' => $patientNameParts['first_name'],
+                    'middle_name' => $patientNameParts['middle_name'],
+                    'last_name' => $patientNameParts['last_name'],
+                    'dob' => $csv->dob,
+                    'gender' => $csv->gender ?? null,
+                    'email' => $csv->email ?? null,
+                    'cell_phone' => $csv->cell_phone ?? null,
+                    'responsible_party' => $csv->responsible_party ?? null,
+                    'preferred_clinic' => $csv->preferred_clinic ?? null,
+                    'fee_schedule' => $csv->fee_schedule ?? null,
+                    'created_by' => auth()->id(),
+                ]);
+            }
+
+            $exists_insurance = Insurance::where('name', $csv->insurance_name)->exists();
+            if (!$exists_insurance) {                
+                Insurance::create([
+                    'name' => $csv->insurance_name,
+                    'created_by' => auth()->id(),
+                ]);
+            }
+
+            $exists_provider = Provider::where('first_name', $providerNameParts['first_name'])
+                ->where('last_name', $providerNameParts['last_name'])
+                ->exists();
+            if (!$exists_provider) {
+                Provider::create([
+                    'first_name' => $providerNameParts['first_name'],
+                    'last_name' => $providerNameParts['last_name'],
+                    'created_by' => auth()->id(),
+                ]);
+            }
+
+        }
+
+        return redirect()->route('patients.index')->with('success', 'Records imported successfully!');
+    }
+
+    private function parsePatientFullName($fullName)
+    {
+        $parts = explode(',', $fullName);
+
+        // Last name is the part before the comma
+        $lastName = trim($parts[0]);
+
+        // First name and middle name (if any) are the part after the comma
+        $firstName = '';
+        $middleName = '';
+        if (isset($parts[1])) {
+            $names = explode(' ', trim($parts[1]));
+            $firstName = $names[0] ?? '';
+            $middleName = $names[1] ?? ''; // If there's a middle name
+        }
+
+        return [
+            'last_name' => $lastName,
+            'first_name' => $firstName,
+            'middle_name' => $middleName,
+        ];
+    }
+
+    private function parseProviderFullName($fullName)
+    {
+        $nameParts = explode(' ', $fullName);
+
+        // First name is the first part
+        $firstName = $nameParts[0];
+
+        // Last name is everything after the first part
+        $lastName = implode(' ', array_slice($nameParts, 1));
+
+        return [
+            'last_name' => $lastName,
+            'first_name' => $firstName,
+        ];
+    }
+}

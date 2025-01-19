@@ -1,8 +1,8 @@
 <!-- partial:partials/_sidebar.html -->
 <nav class="sidebar">
     <div class="sidebar-header">
-        <a href="#" class="sidebar-brand" style="color:red">
-            Cake<span><strong style="color:red">PHP</strong></span>
+        <a href="{{ route('dashboard') }}" class="sidebar-brand">
+            Experts<span><strong>RCM</strong></span>
         </a>
         <div class="sidebar-toggler not-active">
             <span></span>
@@ -17,7 +17,7 @@
                 <a class="nav-link" data-bs-toggle="collapse" href="#uiComponents" role="button" aria-expanded="false"
                     aria-controls="uiComponents">
                     <i class="link-icon" data-feather="settings"></i>
-                    <span class="link-title">Setting</span>
+                    <span class="link-title">Administration</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
                 <div class="collapse" id="uiComponents">
@@ -26,10 +26,16 @@
                             <a href="{{ route('users.index') }}" class="nav-link">Users</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('offices.index') }}" class="nav-link">Office</a>
+                            <a href="{{ route('offices.index') }}" class="nav-link">Offices</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('insurances.index') }}" class="nav-link">Insurance</a>
+                            <a href="{{ route('providers.index') }}" class="nav-link">Providers</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('insurances.index') }}" class="nav-link">Insurances</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('patients.index') }}" class="nav-link">Patients</a>
                         </li>
                     </ul>
                 </div>
