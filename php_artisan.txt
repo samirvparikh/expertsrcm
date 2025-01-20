@@ -25,7 +25,7 @@ php artisan make:model Provider
 php artisan make:controller ProviderController --resource
 
 
-
+php artisan make:model Procedure
 
 
 
