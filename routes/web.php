@@ -10,6 +10,7 @@ use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\InsuranceController;
 use App\Http\Controllers\PatientController;
+use App\Http\Controllers\EligibilityController;
 
 
 
@@ -26,6 +27,11 @@ Route::controller(ImportController::class)->group(function(){
     Route::get('/import/save', 'save')->name('import.save');
 });
 
+Route::controller(EligibilityController::class)->group(function(){
+    Route::get('/eligibilities', 'index')->name('eligibilities.index');
+});
+// Route::resource('eligibilities', EligibilityController::class);
+
 Route::middleware('auth')->group(function () {
     Route::resource('users', UserController::class);
     Route::resource('offices', OfficeController::class);
@@ -33,14 +39,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('insurances', InsuranceController::class);
     Route::resource('patients', PatientController::class);
 });
-
-
-
-
-
-Route::get('/dashboard', function () {
-    return view('admin.dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -55,6 +53,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/logout', [AdminController::class, 'AdminLogout'])->name('admin.logout');
 
 });
+
+Route::get('/dashboard', function () {
+    return view('admin.dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/cache/clear', function() {
     $exitCode = Artisan::call('optimize:clear');

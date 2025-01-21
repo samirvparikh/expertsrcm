@@ -1,3 +1,4 @@
+
 php artisan make:migration create_insurances_table
 
 php artisan migrate
@@ -23,6 +24,7 @@ php artisan make:controller PatientController --resource
 
 php artisan make:model Provider
 php artisan make:controller ProviderController --resource
+php artisan make:controller EligibilityController
 
 
 php artisan make:model Procedure

@@ -40,6 +40,13 @@
                     </ul>
                 </div>
             </li>
+            
+            <li class="nav-item">
+                <a href="{{ route('eligibilities.index') }}" class="nav-link">
+                  <i class="link-icon" data-feather="check-square"></i>
+                  <span class="link-title">Eligibility</span>
+                </a>
+            </li>
 
 
 
