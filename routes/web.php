@@ -27,9 +27,6 @@ Route::controller(ImportController::class)->group(function(){
     Route::get('/import/save', 'save')->name('import.save');
 });
 
-Route::controller(EligibilityController::class)->group(function(){
-    Route::get('/eligibilities', 'index')->name('eligibilities.index');
-});
 // Route::resource('eligibilities', EligibilityController::class);
 
 Route::middleware('auth')->group(function () {
@@ -38,9 +35,15 @@ Route::middleware('auth')->group(function () {
     Route::resource('providers', ProviderController::class);
     Route::resource('insurances', InsuranceController::class);
     Route::resource('patients', PatientController::class);
-});
 
-Route::middleware('auth')->group(function () {
+    Route::controller(PatientController::class)->group(function(){
+        Route::get('/profile', 'profile')->name('patient.profile');
+    });
+
+    Route::controller(EligibilityController::class)->group(function(){
+        Route::get('/eligibilities', 'index')->name('eligibilities.index');
+    });
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

@@ -29,6 +29,8 @@ php artisan make:controller EligibilityController
 
 php artisan make:model Procedure
 
+php artisan make:controller AppointmentController
+php artisan make:model Appointment
 
 
 

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Patient;
 use App\Models\Provider;
+use App\Models\Procedure;
 
 class PatientController extends Controller
 {
@@ -16,6 +17,16 @@ class PatientController extends Controller
     {
         $patients = Patient::all();
         return view('patients.index', compact('patients'));
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        $patient = Patient::findOrFail($id);
+        $procedures = Procedure::where('patient_id', $id)->get();
+        return view('patients.show', compact('patient','procedures'));
     }
 
     /**
@@ -42,15 +53,6 @@ class PatientController extends Controller
         Patient::create($request->all());
 
         return redirect()->route('patients.index')->with('success', 'Patient created successfully.');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        $patient = Patient::findOrFail($id);
-        return view('patients.show', compact('patient'));
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 
-Route::get('/', function () {  return view('site.index'); });
+Route::get('/', function () {  return view('site.index'); })->name('home');
 Route::get('/about-us', function () {  return view('site.about-us'); });
 Route::get('/why-choose-us', function () {  return view('site.why-choose-us'); });
 Route::get('/credentialing', function () {  return view('site.credentialing'); });

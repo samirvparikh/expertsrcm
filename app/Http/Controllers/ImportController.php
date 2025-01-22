@@ -43,7 +43,7 @@ class ImportController extends Controller
     public function save(Request $request) 
     {
         $csvs = Csv::get();
-
+        // dd($csvs);
         foreach ($csvs as $csv) {
             // Parse patient and provider names
             $patientNameParts = $this->parsePatientFullName($csv->full_name);
@@ -84,19 +84,24 @@ class ImportController extends Controller
             );
 
             $amount = preg_replace('/[^0-9.]/', '', $csv->cost);
+
             // Insert data into procedures table
-            Procedure::create([
-                'patient_id' => $patient->id,
-                'insurance_id' => $insurance->id,
-                'provider_id' => $provider->id,
-                'dos' => $csv->billing_date,
-                'code' => $csv->code,
-                'tooth' => $csv->tooth,
-                'surface' => $csv->surface,
-                'quadrant' => $csv->quadrant,
-                'amount' => $amount,
-                'created_by' => auth()->id(),
-            ]);
+            $procedure = Procedure::firstOrCreate(
+                [
+                    'patient_id' => $patient->id,
+                    'insurance_id' => $insurance->id,
+                    'provider_id' => $provider->id,
+                    'dos' => $csv->billing_date,
+                    'procedure_code' => $csv->procedure_code,
+                    'tooth' => $csv->tooth,
+                    'surface' => $csv->surface,
+                    'quadrant' => $csv->quadrant,
+                    'amount' => $amount,
+                ],
+                ['created_by' => auth()->id()]
+            );
+
+            
         }
 
         return redirect()->route('patients.index')->with('success', 'Records imported successfully!');

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('subscriber_id')->nullable();
             $table->string('doctor')->nullable();
             $table->string('billing_date')->nullable();
-            $table->string('prcode')->nullable();
+            $table->string('procedure_code')->nullable();
             $table->string('tooth')->nullable();
             $table->string('surface')->nullable();
             $table->string('quadrant')->nullable();

@@ -14,7 +14,7 @@ class Procedure extends Model
         'insurance_id',
         'provider_id',
         'dos',
-        'code',
+        'procedure_code',
         'tooth',
         'surface',
         'quadrant',

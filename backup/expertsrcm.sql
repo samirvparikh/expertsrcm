@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `csvs` (
   `subscriber_id` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `provider_full_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `billing_date` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `prcode` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `procedure_code` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `tooth` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `surface` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `quadrant` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `csvs` (
 -- Dumping data for table `csvs`
 --
 
-INSERT INTO `csvs` (`id`, `full_name`, `dob`, `insurance_name`, `subscriber_id`, `provider_full_name`, `billing_date`, `prcode`, `tooth`, `surface`, `quadrant`, `cost`, `created_at`, `updated_at`) VALUES
+INSERT INTO `csvs` (`id`, `full_name`, `dob`, `insurance_name`, `subscriber_id`, `provider_full_name`, `billing_date`, `procedure_code`, `tooth`, `surface`, `quadrant`, `cost`, `created_at`, `updated_at`) VALUES
 (1, 'Kafle, Sushil', '1979-05-12', 'Principal Financial Group', '927757423', 'Bhawna Gupta', '2024-12-31', 'D1110', NULL, NULL, NULL, '$150.00 ', '2025-01-19 11:53:16', '2025-01-19 11:53:16'),
 (2, 'Kafle, Sushil', '1979-05-12', 'Principal Financial Group', '927757423', 'Bhawna Gupta', '2024-12-31', 'D0120', NULL, NULL, NULL, '$41.00 ', '2025-01-19 11:53:16', '2025-01-19 11:53:16'),
 (3, 'Martin, Jaida', '2000-03-10', 'Guardian', 'UAL669722', 'Bhawna Gupta', '2024-12-31', 'D1206', NULL, NULL, NULL, '$41.00 ', '2025-01-19 11:53:16', '2025-01-19 11:53:16'),

@@ -16,7 +16,7 @@ class Csv extends Model
         'subscriber_id', 
         'provider_full_name', 
         'billing_date', 
-        'prcode', 
+        'procedure_code', 
         'tooth', 
         'surface', 
         'quadrant', 

@@ -37,7 +37,7 @@
                                         <td>{{ $csv->subscriber_id }}</td>
                                         <td>{{ $csv->provider_full_name }}</td>
                                         <td>{{ $csv->billing_date }}</td>
-                                        <td>{{ $csv->prcode }}</td>
+                                        <td>{{ $csv->procedure_code }}</td>
                                         <td>{{ $csv->tooth }}</td>
                                         <td>{{ $csv->surface }}</td>
                                         <td>{{ $csv->quadrant }}</td>

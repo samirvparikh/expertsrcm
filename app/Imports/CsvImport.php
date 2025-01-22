@@ -32,7 +32,7 @@ class CsvImport implements ToModel, WithHeadingRow
             'subscriber_id' => $row['prim_subscriber_id'],
             'provider_full_name' => $row['provider_full_name'],
             'billing_date' => $billingDate,
-            'prcode' => $row['procedure_code'],
+            'procedure_code' => $row['procedure_code'],
             'tooth' => $row['tooth'],
             'surface' => $row['surfaces'],
             'quadrant' => $row['quadrant'],
