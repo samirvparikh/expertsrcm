@@ -108,6 +108,73 @@ class ImportController extends Controller
     }
 
 
+    public function saveSample(Request $request) 
+    {
+        $csvs = Csv::get();
+        // dd($csvs);
+        foreach ($csvs as $csv) {
+            // Parse patient and provider names
+            $patientNameParts = $this->parsePatientFullName($csv->full_name);
+            $providerNameParts = $this->parseProviderFullName($csv->provider_full_name);
+
+            // Check and create patient
+            $patient = Patient::firstOrCreate(
+                [
+                    'first_name' => $patientNameParts['first_name'],
+                    'last_name' => $patientNameParts['last_name'],
+                    'dob' => $csv->dob,
+                ],
+                [
+                    'middle_name' => $patientNameParts['middle_name'],
+                    'gender' => $csv->gender ?? null,
+                    'email' => $csv->email ?? null,
+                    'cell_phone' => $csv->cell_phone ?? null,
+                    'responsible_party' => $csv->responsible_party ?? null,
+                    'preferred_clinic' => $csv->preferred_clinic ?? null,
+                    'fee_schedule' => $csv->fee_schedule ?? null,
+                    'created_by' => auth()->id(),
+                ]
+            );
+
+            // Check and create insurance
+            $insurance = Insurance::firstOrCreate(
+                ['name' => $csv->insurance_name],
+                ['created_by' => auth()->id()]
+            );
+
+            // Check and create provider
+            $provider = Provider::firstOrCreate(
+                [
+                    'first_name' => $providerNameParts['first_name'],
+                    'last_name' => $providerNameParts['last_name'],
+                ],
+                ['created_by' => auth()->id()]
+            );
+
+            $amount = preg_replace('/[^0-9.]/', '', $csv->cost);
+
+            // Insert data into procedures table
+            $procedure = Procedure::firstOrCreate(
+                [
+                    'patient_id' => $patient->id,
+                    'insurance_id' => $insurance->id,
+                    'provider_id' => $provider->id,
+                    'dos' => $csv->billing_date,
+                    'procedure_code' => $csv->procedure_code,
+                    'tooth' => $csv->tooth,
+                    'surface' => $csv->surface,
+                    'quadrant' => $csv->quadrant,
+                    'amount' => $amount,
+                ],
+                ['created_by' => auth()->id()]
+            );
+
+            
+        }
+
+        return redirect()->route('patients.index')->with('success', 'Records imported successfully!');
+    }
+
     public function save2(Request $request) 
     {
         $csvs = Csv::get();

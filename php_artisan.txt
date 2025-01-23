@@ -25,36 +25,28 @@ php artisan make:controller PatientController --resource
 php artisan make:model Provider
 php artisan make:controller ProviderController --resource
 php artisan make:controller EligibilityController
-
-
 php artisan make:model Procedure
 
+php artisan make:migration create_appointments_table
 php artisan make:controller AppointmentController
 php artisan make:model Appointment
 
 
+CREATE TABLE `temp_appt` (
+  `id` bigint UNSIGNED NOT NULL,
+  `appt_date` varchar(191),
+  `appt_time` varchar(191),
+  `full_name` varchar(191),
+  `date_of_birth` varchar(191),
+  `hoh_full_name` varchar(191),
+  `primary_subscriber` varchar(191),
+  `prim_carrier_name` varchar(191),
+  `prim_subscriber_id` varchar(191),
+  `sec_carrier_name` varchar(191),
+  `sec_subscriber_id` varchar(191),
+  `clinic` varchar(191),
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=MyISAM;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                        <button type="button" class="btn btn-inverse-primary btn-icon" title="Edit">
-                                            <i data-feather="edit"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-inverse-info btn-icon">
-                                            <i data-feather="eye"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-inverse-danger btn-icon">
-                                            <i data-feather="trash-2"></i>
-                                        </button>
+Appt. Date	Appt. Time	Full Name	Date of Birth	HoH Full Name	Prim. Subscriber	Prim. Carrier Name	Prim. Subscriber ID	Sec. Carrier Name	Sec. Subscriber ID	Clinic

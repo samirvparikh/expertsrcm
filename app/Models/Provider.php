@@ -14,11 +14,6 @@ class Provider extends Model
         'email', 'cell_phone', 'created_by', 'updated_by'
     ];
 
-    public function provider()
-    {
-        return $this->belongsTo(Provider::class, 'provider_id');
-    }
-
     // If you're using Laravel's default User model
     public function creator()
     {
