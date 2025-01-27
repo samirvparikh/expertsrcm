@@ -22,7 +22,8 @@ class EligibilityController extends Controller
     public function create($patientId = null)
     {
         $patients = Patient::all();
-        return view('eligibilities.create', compact('patients', 'patientId'));
+        $patient = Patient::findOrFail($patientId);
+        return view('eligibilities.create', compact('patient', 'patients', 'patientId'));
     }
 
 
