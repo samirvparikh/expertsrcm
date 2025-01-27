@@ -31,6 +31,8 @@ php artisan make:migration create_appointments_table
 php artisan make:controller AppointmentController
 php artisan make:model Appointment
 
+php artisan make:model TempEligibilityPatient
+
 
 CREATE TABLE `temp_appt` (
   `id` bigint UNSIGNED NOT NULL,
@@ -39,7 +41,7 @@ CREATE TABLE `temp_appt` (
   `full_name` varchar(191),
   `date_of_birth` varchar(191),
   `hoh_full_name` varchar(191),
-  `primary_subscriber` varchar(191),
+  `prim_subscriber` varchar(191),
   `prim_carrier_name` varchar(191),
   `prim_subscriber_id` varchar(191),
   `sec_carrier_name` varchar(191),
@@ -49,4 +51,4 @@ CREATE TABLE `temp_appt` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=MyISAM;
 
-Appt. Date	Appt. Time	Full Name	Date of Birth	HoH Full Name	Prim. Subscriber	Prim. Carrier Name	Prim. Subscriber ID	Sec. Carrier Name	Sec. Subscriber ID	Clinic
+php artisan make:migration create_eligibilities_table

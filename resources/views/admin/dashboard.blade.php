@@ -20,7 +20,7 @@
                 <h5 class="modal-title" id="varyingModalLabel">Import CSV File</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="btn-close"></button>
               </div>
-              <form action="{{ route('import.create') }}" method="POST" id="myForm" class="forms-sample" enctype="multipart/form-data">
+              <form action="{{ route('import.eligibility.patient.create') }}" method="POST" id="myForm" class="forms-sample" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
                       <div class="mb-3">                          
@@ -149,7 +149,7 @@
                 </div>
               </div>
             </div>
-          </div> <!-- row -->
+        </div> <!-- row -->
 
           <div class="row">
             <div class="col-lg-12 col-xl-12 stretch-card">

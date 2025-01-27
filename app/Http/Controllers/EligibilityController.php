@@ -19,10 +19,12 @@ class EligibilityController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create($patientId = null)
     {
-        //
+        $patients = Patient::all();
+        return view('eligibilities.create', compact('patients', 'patientId'));
     }
+
 
     /**
      * Store a newly created resource in storage.

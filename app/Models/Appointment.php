@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Appointment extends Model
 {
     use HasFactory;
+    public const STATUS_ACTIVE = 'active';
+    public const STATUS_INACTIVE = 'inactive';
 
     protected $fillable = [
         'patient_id', 
@@ -15,6 +17,7 @@ class Appointment extends Model
         'provider_id', 
         'appt_date', 
         'appt_time',
+        'status',
         'created_by', 
         'updated_by'
     ];
@@ -43,5 +46,10 @@ class Appointment extends Model
     public function updater()
     {
         return $this->belongsTo(User::class, 'updated_by');
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', 'active');
     }
 }

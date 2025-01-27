@@ -24,7 +24,7 @@
               <h5 class="modal-title" id="varyingModalLabel">Import CSV File</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="btn-close"></button>
             </div>
-            <form action="{{ route('import.create') }}" method="POST" id="myForm" class="forms-sample" enctype="multipart/form-data">
+            <form action="{{ route('import.eligibility.patient.create') }}" method="POST" id="myForm" class="forms-sample" enctype="multipart/form-data">
               @csrf
               <div class="modal-body">
                     <div class="mb-3">                          
@@ -76,7 +76,7 @@
                                     <td>{{ $patient->first_name }}</td>
                                     <td>{{ $patient->last_name }}</td>
                                     <td>{{ $patient->email }}</td>
-                                    <td>{{ $patient->dob }}</td>
+                                    <td>{{ ymdtomdy($patient->dob) }}</td>
                                     <td>{{ $patient->cell_phone }}</td>
                                     <td>{{ ucfirst($patient->gender) }}</td>
                                     <td class="text-end">

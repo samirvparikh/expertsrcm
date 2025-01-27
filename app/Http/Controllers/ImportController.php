@@ -5,12 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Auth;
-use App\Imports\CsvImport;
+use Carbon\Carbon;
+use App\Imports\EligibilityPatientImport;
 use App\Models\Csv;
+use App\Models\TempEligibilityPatient;
 use App\Models\Patient;
 use App\Models\Insurance;
 use App\Models\Provider;
+use App\Models\Office;
 use App\Models\Procedure;
+use App\Models\Appointment;
 
 
 class ImportController extends Controller
@@ -21,30 +25,32 @@ class ImportController extends Controller
         return view('import.index', compact('csvs'));
     }
 
-    public function verify()
-    {
-        $csvs = Csv::get();
-        return view('import.verify', compact('csvs'));
-    }
-
     public function import(Request $request) 
     {
         $request->validate([
             'file' => 'required|mimes:xlsx,csv',
         ]);
 
-        Csv::truncate();
+        TempEligibilityPatient::truncate();
         
-        Excel::import(new CsvImport,request()->file('file'));
+        // Excel::import(new CsvImport,request()->file('file'));
+        Excel::import(new EligibilityPatientImport,request()->file('file'));
         // return redirect()->back()->with('success', 'Records imported successfully!');
-        return redirect()->route('import.verify')->with('success', 'Records imported successfully!');
+        return redirect()->route('import.appt.data.verify')->with('success', 'Records imported successfully!');
     }
 
-    public function save(Request $request) 
+    public function apptDataVerify()
     {
-        $csvs = Csv::get();
+        $csvs = TempEligibilityPatient::get();
+        return view('import.verify_appt_data', compact('csvs'));
+    }
+
+    public function apptDataSave(Request $request) 
+    {
+        $csvs = TempEligibilityPatient::get();
         // dd($csvs);
         foreach ($csvs as $csv) {
+            // dd($csv);
             // Parse patient and provider names
             $patientNameParts = $this->parsePatientFullName($csv->full_name);
             $providerNameParts = $this->parseProviderFullName($csv->provider_full_name);
@@ -54,7 +60,7 @@ class ImportController extends Controller
                 [
                     'first_name' => $patientNameParts['first_name'],
                     'last_name' => $patientNameParts['last_name'],
-                    'dob' => $csv->dob,
+                    'dob' => $csv->date_of_birth,
                 ],
                 [
                     'middle_name' => $patientNameParts['middle_name'],
@@ -70,35 +76,29 @@ class ImportController extends Controller
 
             // Check and create insurance
             $insurance = Insurance::firstOrCreate(
-                ['name' => $csv->insurance_name],
+                ['name' => $csv->prim_carrier_name],
                 ['created_by' => auth()->id()]
             );
 
             // Check and create provider
-            $provider = Provider::firstOrCreate(
+            $office = Office::firstOrCreate(
                 [
-                    'first_name' => $providerNameParts['first_name'],
-                    'last_name' => $providerNameParts['last_name'],
+                    'name' => $csv->clinic,
                 ],
                 ['created_by' => auth()->id()]
             );
 
-            $amount = preg_replace('/[^0-9.]/', '', $csv->cost);
-
-            // Insert data into procedures table
-            $procedure = Procedure::firstOrCreate(
+            $apptTime24Hour = Carbon::createFromFormat('h:i A', $csv->appt_time)->format('H:i');
+            $appointment = Appointment::firstOrCreate(
                 [
                     'patient_id' => $patient->id,
-                    'insurance_id' => $insurance->id,
-                    'provider_id' => $provider->id,
-                    'dos' => $csv->billing_date,
-                    'procedure_code' => $csv->procedure_code,
-                    'tooth' => $csv->tooth,
-                    'surface' => $csv->surface,
-                    'quadrant' => $csv->quadrant,
-                    'amount' => $amount,
+                    'office_id' => $office->id,
+                    'appt_date' => $csv->appt_date,
+                    'appt_time' => $apptTime24Hour,
                 ],
-                ['created_by' => auth()->id()]
+                [
+                    'created_by' => auth()->id()
+                ]
             );
 
             

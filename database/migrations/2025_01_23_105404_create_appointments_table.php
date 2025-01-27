@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('provider_id');
             $table->date('appt_date');
             $table->time('appt_time');
+            $table->enum('status', ['active', 'inactive'])->default('active');
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by')->nullable();                        
             $table->timestamps();

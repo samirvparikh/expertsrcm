@@ -22,9 +22,11 @@ Route::controller(CsvController::class)->group(function(){
 
 Route::controller(ImportController::class)->group(function(){
     Route::get('/import', 'index')->name('import.index');
-    Route::get('/verify', 'verify')->name('import.verify');
-    Route::post('import', 'import')->name('import.create');
-    Route::get('/import/save', 'save')->name('import.save');
+    Route::get('/verify/appt/data', 'apptDataVerify')->name('import.appt.data.verify');
+    Route::get('/import/appt/data/save', 'apptDataSave')->name('import.appt.data.save');
+
+    // Route::post('import', 'import')->name('import.create');
+    Route::post('import', 'import')->name('import.eligibility.patient.create');
 });
 
 // Route::resource('eligibilities', EligibilityController::class);
@@ -40,9 +42,15 @@ Route::middleware('auth')->group(function () {
         Route::get('/profile', 'profile')->name('patient.profile');
     });
 
-    Route::controller(EligibilityController::class)->group(function(){
-        Route::get('/eligibilities', 'index')->name('eligibilities.index');
-    });
+    Route::resource('eligibilities', EligibilityController::class);
+    Route::get('eligibilities/create/{patientId?}', [EligibilityController::class, 'create'])->name('eligibilities.create');
+
+    // Route::controller(EligibilityController::class)->group(function(){
+    //     Route::get('/eligibilities', 'index')->name('eligibilities.index');
+    //     Route::get('/eligibilities/create/{$id}', 'create')->name('eligibilities.create');
+    // });
+
+    // Route::get('/eligibility/create/{$id}', [EligibilityController::class, 'create'])->name('eligibilities.create');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

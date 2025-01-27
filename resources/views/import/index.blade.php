@@ -13,7 +13,7 @@
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <form action="{{ route('import.create') }}" method="POST" id="myForm" class="forms-sample" enctype="multipart/form-data">
+                    <form action="{{ route('import.eligibility.patient.create') }}" method="POST" id="myForm" class="forms-sample" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-3">
                             <label class="form-label">Select File:</label>

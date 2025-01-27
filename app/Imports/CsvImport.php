@@ -10,6 +10,7 @@ class CsvImport implements ToModel, WithHeadingRow
 {
     public function model(array $row)
     {
+        dd($row);
         // Ensure valid date parsing
         $dob = $row['date_of_birth'];
         if (is_numeric($dob)) {

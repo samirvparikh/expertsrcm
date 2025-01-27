@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Patient;
 use App\Models\Provider;
 use App\Models\Procedure;
+use App\Models\Appointment;
 
 class PatientController extends Controller
 {
@@ -25,8 +26,9 @@ class PatientController extends Controller
     public function show(string $id)
     {
         $patient = Patient::findOrFail($id);
+        $appointments = Appointment::where('patient_id', $id)->get();
         $procedures = Procedure::where('patient_id', $id)->get();
-        return view('patients.show', compact('patient','procedures'));
+        return view('patients.show', compact('patient','appointments','procedures'));
     }
 
     /**
