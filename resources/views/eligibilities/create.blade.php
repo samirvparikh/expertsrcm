@@ -12,8 +12,7 @@
                         <form action="{{ route('eligibilities.store') }}" method="POST">
                             @csrf
                             <div class="row mb-3">
-                                <label for="exampleInputUsername2" class="col-sm-4 col-form-label">Policy Holder
-                                    Name</label>
+                                <label for="exampleInputUsername2" class="col-sm-4 col-form-label">Policy Holder Name</label>
                                 <div class="col-sm-8">
                                     <input type="text" class="form-control">
                                 </div>
@@ -135,9 +134,6 @@
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                123
-                            </div>
-                            <div class="row mb-3">
                                 <label for="exampleInputEmail2" class="col-sm-4 col-form-label">Deductible Applies
                                     To</label>
                                 <div class="col-sm-8">
@@ -155,46 +151,226 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="row mb-3">
+
+                            <div class="alert alert-fill-light" role="alert">
                                 Required Preauth/X-Rays
                             </div>
 
-
-                            <div class="row">
-                                <div class="col-md-12 grid-margin stretch-card">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <h6 class="card-title">Required Preauth/X-Rays</h6>
-                                            
-                                            <div class="input-group flatpickr" id="flatpickr-date">
-                                                <input type="text" class="form-control flatpickr-input"
-                                                    placeholder="Select date" data-input="" readonly="readonly">
-                                                <span class="input-group-text input-group-addon" data-toggle=""><svg
-                                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                        class="feather feather-calendar">
-                                                        <rect x="3" y="4" width="18" height="18" rx="2"
-                                                            ry="2"></rect>
-                                                        <line x1="16" y1="2" x2="16"
-                                                            y2="6"></line>
-                                                        <line x1="8" y1="2" x2="8"
-                                                            y2="6"></line>
-                                                        <line x1="3" y1="10" x2="21"
-                                                            y2="10"></line>
-                                                    </svg></span>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <div class="row mb-3">
+                                <label for="exampleInputEmail2" class="col-sm-4 col-form-label">Extraction</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control" name="option" id="option">
+                                        <option value="yes" {{ old('option', 'no') == 'yes' ? 'selected' : '' }}>Yes</option>
+                                        <option value="no" {{ old('option', 'no') == 'no' ? 'selected' : '' }}>No</option>
+                                    </select>
                                 </div>
                             </div>
+                            <div class="row mb-3">
+                                <label for="exampleInputEmail2" class="col-sm-4 col-form-label">Crown</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control" name="option" id="option">
+                                        <option value="yes" {{ old('option', 'no') == 'yes' ? 'selected' : '' }}>Yes</option>
+                                        <option value="no" {{ old('option', 'no') == 'no' ? 'selected' : '' }}>No</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="exampleInputEmail2" class="col-sm-4 col-form-label">RCT</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control" name="option" id="option">
+                                        <option value="yes" {{ old('option', 'no') == 'yes' ? 'selected' : '' }}>Yes</option>
+                                        <option value="no" {{ old('option', 'no') == 'no' ? 'selected' : '' }}>No</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="exampleInputEmail2" class="col-sm-4 col-form-label">Periodontal</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control" name="option" id="option">
+                                        <option value="yes" {{ old('option', 'no') == 'yes' ? 'selected' : '' }}>Yes</option>
+                                        <option value="no" {{ old('option', 'no') == 'no' ? 'selected' : '' }}>No</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="exampleInputEmail2" class="col-sm-4 col-form-label">Denture</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control" name="option" id="option">
+                                        <option value="yes" {{ old('option', 'no') == 'yes' ? 'selected' : '' }}>Yes</option>
+                                        <option value="no" {{ old('option', 'no') == 'no' ? 'selected' : '' }}>No</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
 
-                            <button type="submit" class="btn btn-primary me-2">Submit</button>
-                            <button class="btn btn-secondary">Cancel</button>
+                            
+
+                            
 
 
                         </form>
                     </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-header">
+                            Required Preauth/X-Rays
+                        </div>
+                        <div class="card-body">
+                            
+                            <div class="row mb-3">
+                                <label for="exampleInputEmail2" class="col-sm-4 col-form-label">Extraction</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control" name="option" id="option">
+                                        <option value="yes" {{ old('option', 'no') == 'yes' ? 'selected' : '' }}>Yes</option>
+                                        <option value="no" {{ old('option', 'no') == 'no' ? 'selected' : '' }}>No</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="exampleInputEmail2" class="col-sm-4 col-form-label">Crown</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control" name="option" id="option">
+                                        <option value="yes" {{ old('option', 'no') == 'yes' ? 'selected' : '' }}>Yes</option>
+                                        <option value="no" {{ old('option', 'no') == 'no' ? 'selected' : '' }}>No</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="exampleInputEmail2" class="col-sm-4 col-form-label">RCT</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control" name="option" id="option">
+                                        <option value="yes" {{ old('option', 'no') == 'yes' ? 'selected' : '' }}>Yes</option>
+                                        <option value="no" {{ old('option', 'no') == 'no' ? 'selected' : '' }}>No</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="exampleInputEmail2" class="col-sm-4 col-form-label">Periodontal</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control" name="option" id="option">
+                                        <option value="yes" {{ old('option', 'no') == 'yes' ? 'selected' : '' }}>Yes</option>
+                                        <option value="no" {{ old('option', 'no') == 'no' ? 'selected' : '' }}>No</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="exampleInputEmail2" class="col-sm-4 col-form-label">Denture</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control" name="option" id="option">
+                                        <option value="yes" {{ old('option', 'no') == 'yes' ? 'selected' : '' }}>Yes</option>
+                                        <option value="no" {{ old('option', 'no') == 'no' ? 'selected' : '' }}>No</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 grid-margin stretch-card">
+                    <div class="card">
+                    <div class="card-header">
+                        Coverage %
+                    </div>
+                        <div class="card-body">
+                            <div class="row mb-3">
+                                <label for="exampleInputEmail2" class="col-sm-6 col-form-label">Diagnostic - X-RAY</label>
+                                <div class="col-sm-6"><input type="text" class="form-control"></div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="exampleInputEmail2" class="col-sm-6 col-form-label">Preventive</label>
+                                <div class="col-sm-6"><input type="text" class="form-control"></div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="exampleInputEmail2" class="col-sm-6 col-form-label">Oral / Facial photographic images - D0350</label>
+                                <div class="col-sm-6"><input type="text" class="form-control"></div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="exampleInputEmail2" class="col-sm-6 col-form-label">Basic Restorative - D2391/Downgrade</label>
+                                <div class="col-sm-6"><input type="text" class="form-control"></div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="exampleInputEmail2" class="col-sm-6 col-form-label">Major Restorative -  D2950</label>
+                                <div class="col-sm-6"><input type="text" class="form-control"></div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="exampleInputEmail2" class="col-sm-6 col-form-label">Major Restorative -  D2740/Downgrade</label>
+                                <div class="col-sm-6"><input type="text" class="form-control"></div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="exampleInputEmail2" class="col-sm-6 col-form-label">Endo - D3310</label>
+                                <div class="col-sm-6"><input type="text" class="form-control"></div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="exampleInputEmail2" class="col-sm-6 col-form-label">Perio - D4341</label>
+                                <div class="col-sm-6"><input type="text" class="form-control"></div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="exampleInputEmail2" class="col-sm-6 col-form-label">Perio - D4346</label>
+                                <div class="col-sm-6"><input type="text" class="form-control"></div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="exampleInputEmail2" class="col-sm-6 col-form-label">Perio - D4381</label>
+                                <div class="col-sm-6"><input type="text" class="form-control"></div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="exampleInputEmail2" class="col-sm-6 col-form-label">Oral & Maxillofacial Surgery - D7210</label>
+                                <div class="col-sm-6"><input type="text" class="form-control"></div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="exampleInputEmail2" class="col-sm-6 col-form-label">Bonegraft - D7953</label>
+                                <div class="col-sm-6"><input type="text" class="form-control"></div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="exampleInputEmail2" class="col-sm-6 col-form-label">Prostho - D5110</label>
+                                <div class="col-sm-6"><input type="text" class="form-control"></div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="exampleInputEmail2" class="col-sm-6 col-form-label">Implants - D6010</label>
+                                <div class="col-sm-6"><input type="text" class="form-control"></div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="exampleInputEmail2" class="col-sm-6 col-form-label">Ortho - D8090</label>
+                                <div class="col-sm-6"><input type="text" class="form-control"></div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="exampleInputEmail2" class="col-sm-6 col-form-label">Nightguard - D9944</label>
+                                <div class="col-sm-6"><input type="text" class="form-control"></div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 grid-margin stretch-card">
+                    <div class="card">
+                    <div class="card-header">
+                        Frequency & History
+                    </div>
+                        <div class="card-body">
+                            <div class="row mb-3">
+                                <label for="exampleInputEmail2" class="col-sm-6 col-form-label">Periodic Exam -  D0120</label>
+                                <div class="col-sm-3"><input type="text" class="form-control"></div>
+                                <div class="col-sm-3"><input type="text" class="form-control"></div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 grid-margin stretch-card">
+                    <button type="submit" class="btn btn-primary me-2">Submit</button>
+                    <button class="btn btn-secondary">Cancel</button>
                 </div>
             </div>
         </div>
