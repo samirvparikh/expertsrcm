@@ -14,13 +14,12 @@ class Provider extends Model
         'email', 'cell_phone', 'created_by', 'updated_by'
     ];
 
-    // If you're using Laravel's default User model
-    public function creator()
+    public function createdBy()
     {
         return $this->belongsTo(User::class, 'created_by');
     }
 
-    public function updater()
+    public function updatedBy()
     {
         return $this->belongsTo(User::class, 'updated_by');
     }

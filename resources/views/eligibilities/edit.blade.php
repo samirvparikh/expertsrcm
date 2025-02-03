@@ -17,7 +17,7 @@
                         @endif
                         <form action="{{ route('eligibility.store') }}" method="POST" class="forms-sample">
                         @csrf
-                        <input type="hidden" name="patient_id" id="patient_id" class="form-control" value="{{ $patientId }}">
+                        <input type="hidden" name="patient_id" id="patient_id" class="form-control" value="{{ $eligibility->patient_id }}">
                         
                         <div class="row">
                             <div class="col-lg-6 border-end-lg">
@@ -33,13 +33,13 @@
                                         <div class="row mb-3">
                                             <label for="policy_holder_name" class="col-sm-4 col-form-label">Policy Holder Name</label>
                                             <div class="col-sm-8">
-                                                <input type="text" id="policy_holder_name" name="policy_holder_name" class="form-control" value="{{ old('policy_holder_name') }}">
+                                                <input type="text" id="policy_holder_name" name="policy_holder_name" class="form-control" value="{{ old('policy_holder_name', $eligibility->policy_holder_name) }}">
                                             </div>
                                         </div>
                                         <div class="row mb-3">
                                             <label for="policy_holder_dob" class="col-sm-4 col-form-label">Policy Holder DOB</label>
                                             <div class="col-sm-8">
-                                                <input type="text" id="policy_holder_dob" name="policy_holder_dob" class="form-control" value="{{ old('policy_holder_dob') }}">
+                                                <input id="policy_holder_dob" name="policy_holder_dob" value="{{ old('policy_holder_dob') }}" class="form-control" data-inputmask="'alias': 'datetime'" data-inputmask-placeholder="*" data-inputmask-inputformat="dd/mm/yyyy" inputmode="numeric">
                                             </div>
                                         </div>
                                         <div class="row mb-3">

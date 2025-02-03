@@ -44,7 +44,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('eligibilities', EligibilityController::class);
     Route::get('eligibilities/create/{patientId?}', [EligibilityController::class, 'create'])->name('eligibilities.create');
-
+    Route::post('/eligibility/store', [EligibilityController::class, 'store'])->name('eligibility.store');
     // Route::controller(EligibilityController::class)->group(function(){
     //     Route::get('/eligibilities', 'index')->name('eligibilities.index');
     //     Route::get('/eligibilities/create/{$id}', 'create')->name('eligibilities.create');

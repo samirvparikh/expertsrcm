@@ -39,12 +39,12 @@ class Procedure extends Model
         return $this->belongsTo(Provider::class);
     }
 
-    public function creator()
+    public function createdBy()
     {
         return $this->belongsTo(User::class, 'created_by');
     }
 
-    public function updater()
+    public function updatedBy()
     {
         return $this->belongsTo(User::class, 'updated_by');
     }
