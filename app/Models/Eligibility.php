@@ -42,7 +42,7 @@ class Eligibility extends Model
         'preventive_waived',
         'exam_data',
         'required_preauth',
-        'coverage_percentages',
+        'coverage_data',
         'diagnostic_xray',
         'preventive',
         'oral_facial_images',
@@ -77,15 +77,16 @@ class Eligibility extends Model
 
     // Casting JSON columns to arrays
     protected $casts = [
+        'exam_data' => 'array',
+        'coverage_data' => 'array',
+
         'deductible_individual' => 'array',
         'deductible_family' => 'array',
         'deductible_ortho' => 'array',
         'deductible_remain_individual' => 'array',
         'deductible_remain_family' => 'array',
         'deductible_remain_ortho' => 'array',
-        'exam_data' => 'array',
         'required_preauth' => 'array',
-        'coverage_percentages' => 'array',
         'fluoride_sealants_data' => 'array',  // Convert JSON to array
     ];
 

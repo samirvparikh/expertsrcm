@@ -18,14 +18,14 @@ class EligibilityController extends Controller
         return view('eligibilities.index', compact('eligibilities'));
     }
 
+
     /**
      * Show the form for creating a new resource.
      */
     public function create($patientId = null)
     {
         $patient = Patient::findOrFail($patientId);
-        $patients = Patient::all();
-        return view('eligibilities.create', compact('patient', 'patients', 'patientId'));
+        return view('eligibilities.create', compact('patientId', 'patient'));
     }
 
 
@@ -39,15 +39,85 @@ class EligibilityController extends Controller
             'patient_id' => 'required|exists:patients,id',
             'insurance_name' => 'required|string|max:255',
             'network_status' => 'required|string|max:255',
+            'coverage_data' => 'array', // Ensure data is an array
+            'coverage_data.*' => 'nullable|string|max:255', // Validate each field
             // 'fluoride_sealants_data' => 'nullable|json',
             // Add validation rules for other fields as needed
         ]);
 
+        $examData = [
+            'periodic_exam' => [
+                'frequency' => $request->input('periodic_exam_frequency'),
+                'history' => $request->input('periodic_exam_history'),
+            ],
+            'comp_exam' => [
+                'frequency' => $request->input('comp_exam_frequency'),
+                'history' => $request->input('comp_exam_history'),
+            ],
+            'consultation' => [
+                'frequency' => $request->input('consultation_frequency'),
+                'history' => $request->input('consultation_history'),
+            ],
+            'fac_photographic' => [
+                'frequency' => $request->input('fac_photographic_frequency'),
+                'history' => $request->input('fac_photographic_history'),
+            ],
+            'prophy' => [
+                'frequency' => $request->input('prophy_frequency'),
+                'history' => $request->input('prophy_history'),
+            ],
+            'bw' => [
+                'frequency' => $request->input('bw_frequency'),
+                'history' => $request->input('bw_history'),
+            ],
+            'fmx_pano' => [
+                'frequency' => $request->input('fmx_pano_frequency'),
+                'history' => $request->input('fmx_pano_history'),
+            ],
+            'crowns' => [
+                'frequency' => $request->input('crowns_frequency'),
+                'history' => $request->input('crowns_history'),
+            ],
+            'dentures' => [
+                'frequency' => $request->input('dentures_frequency'),
+                'history' => $request->input('dentures_history'),
+            ],
+            'nightguard' => [
+                'frequency' => $request->input('nightguard_frequency'),
+                'history' => $request->input('nightguard_history'),
+            ],
+            'perio_srp' => [
+                'frequency' => $request->input('perio_srp_frequency'),
+                'history' => $request->input('perio_srp_history'),
+            ],
+            'perio_maintenance' => [
+                'frequency' => $request->input('perio_maintenance_frequency'),
+                'history' => $request->input('perio_maintenance_history'),
+            ],
+            'd4381' => [
+                'frequency' => $request->input('d4381_frequency'),
+                'history' => $request->input('d4381_history'),
+            ]
+        ];
+
+        $fluorideSealantsData = [
+            'D1208_D1206' => [
+                'frequency' => $request->input('D1208_D1206_frequency'),
+                'history' => $request->input('D1208_D1206_history'),
+                'age_limit' => $request->input('D1208_D1206_age_limit'),
+            ],
+            'D1351' => [
+                'frequency' => $request->input('D1351_frequency'),
+                'history' => $request->input('D1351_history'),
+                'age_limit' => $request->input('D1351_age_limit'),
+            ],
+        ];
+        // echo "<pre>"; print_r($fluorideSealantsData); die;
         // Store eligibility data
         $eligibility = Eligibility::create([
             'patient_id' => $validated['patient_id'],
             'policy_holder_name' => $request->input('policy_holder_name'),
-            'policy_holder_dob' => $request->input('policy_holder_dob'),
+            'policy_holder_dob' => $request->input('policy_holder_dob') ? Carbon::createFromFormat('m/d/Y', $request->input('policy_holder_dob'))->format('Y-m-d') : null,
             'insurance_name' => $validated['insurance_name'],
             'network_status' => $validated['network_status'],
             'member_id' => $request->input('member_id'),
@@ -64,18 +134,21 @@ class EligibilityController extends Controller
             'annual_maximum' => $request->input('annual_maximum'),
             'remaining_maximum' => $request->input('remaining_maximum'),
             'plan_year' => $request->input('plan_year'),
-            'deductible_individual' => json_encode($request->input('deductible_individual')),
-            'deductible_family' => json_encode($request->input('deductible_family')),
-            'deductible_ortho' => json_encode($request->input('deductible_ortho')),
-            'deductible_remain_individual' => json_encode($request->input('deductible_remain_individual')),
-            'deductible_remain_family' => json_encode($request->input('deductible_remain_family')),
-            'deductible_remain_ortho' => json_encode($request->input('deductible_remain_ortho')),
+            'deductible_individual' => $request->input('deductible_individual'),
+            'deductible_family' => $request->input('deductible_family'),
+            'deductible_ortho' => $request->input('deductible_ortho'),
+            'deductible_remain_individual' => $request->input('deductible_remain_individual'),
+            'deductible_remain_family' => $request->input('deductible_remain_family'),
+            'deductible_remain_ortho' => $request->input('deductible_remain_ortho'),
             'deductible_applies_to' => $request->input('deductible_applies_to'),
             'preventive_waived' => $request->input('preventive_waived'),
-            'exam_data' => json_encode($request->input('exam_data')),
+            'exam_data' => json_encode($examData), // Convert array to JSON
+            'fluoride_sealants_data' => json_encode($fluorideSealantsData), // Convert array to JSON
+
+            'coverage_data' => json_encode($request->input('coverage_data')),
             'required_preauth' => json_encode($request->input('required_preauth')),
-            'coverage_percentages' => json_encode($request->input('coverage_percentages')),
-            'fluoride_sealants_data' => json_encode($request->input('fluoride_sealants_data')),
+            
+
             'date' => Carbon::now(),
             'verified_by' => $request->input('verified_by'),
             'insurance_rep_name' => $request->input('insurance_rep_name'),
@@ -102,7 +175,10 @@ class EligibilityController extends Controller
     {
         $eligibility = Eligibility::findOrFail($id);
         $patient = Patient::findOrFail($eligibility->patient_id);
-        return view('eligibilities.edit', compact('eligibility', 'patient'));
+        $examData = json_decode($eligibility->exam_data, true) ?? [];
+        $coverageData = json_decode($eligibility->coverage_data, true) ?? [];
+        $fluorideSealantsData = json_decode($eligibility->fluoride_sealants_data, true) ?? [];
+        return view('eligibilities.edit', compact('eligibility', 'patient', 'examData', 'coverageData', 'fluorideSealantsData'));
     }
 
     /**

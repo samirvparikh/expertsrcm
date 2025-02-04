@@ -39,7 +39,7 @@
                                         <div class="row mb-3">
                                             <label for="policy_holder_dob" class="col-sm-4 col-form-label">Policy Holder DOB</label>
                                             <div class="col-sm-8">
-                                                <input type="text" id="policy_holder_dob" name="policy_holder_dob" class="form-control" value="{{ old('policy_holder_dob') }}">
+                                                <input id="policy_holder_dob" name="policy_holder_dob" value="{{ old('policy_holder_dob') }}" class="form-control" data-inputmask="'alias': 'datetime'" data-inputmask-placeholder="*" data-inputmask-inputformat="dd/mm/yyyy" inputmode="numeric">
                                             </div>
                                         </div>
                                         <div class="row mb-3">
@@ -55,8 +55,8 @@
                                             <label for="network_status" class="col-sm-4 col-form-label">In Network / Out of Network</label>
                                             <div class="col-sm-8">
                                                 <select name="network_status" id="network_status" class="form-control @error('network_status') is-invalid @enderror">
-                                                    <option value="In Network" {{ old('network_status') == 'In Network' ? 'selected' : '' }}>In Network</option>
-                                                    <option value="Out of Network" {{ old('network_status') == 'Out of Network' ? 'selected' : '' }}>Out of Network</option>
+                                                    <option value="1" {{ old('network_status') == '1' ? 'selected' : '' }}>In Network</option>
+                                                    <option value="0" {{ old('network_status') == '0' ? 'selected' : '' }}>Out of Network</option>
                                                 </select>
                                                 @error('network_status')
                                                     <span class="text-danger">{{ $message }}</span>
@@ -493,7 +493,7 @@
                                         <div class="row mb-3">
                                             <label for="date" class="col-sm-4 col-form-label">Date</label>
                                             <div class="col-sm-8">
-                                                <input type="text" class="form-control" id="date" name="date" value="{{ old('date') }}">
+                                                <input id="date" name="date" value="{{ old('date', date('m/d/Y')) }}" class="form-control" data-inputmask="'alias': 'datetime'" data-inputmask-placeholder="*" data-inputmask-inputformat="dd/mm/yyyy" inputmode="numeric">
                                             </div>
                                         </div>            
                                         <div class="row mb-3">

@@ -19,7 +19,7 @@ class CreateEligibilitiesTable extends Migration
             $table->string('policy_holder_name')->nullable();
             $table->date('policy_holder_dob')->nullable();
             $table->string('insurance_name');
-            $table->string('network_status'); // In Network / Out of Network
+            $table->string('network_status'); // In Network / Out of Network //1=>In Network, 0=>Out of Network
             $table->string('member_id')->nullable();
             $table->string('group_name')->nullable();
             $table->string('group_number')->nullable();
@@ -34,12 +34,47 @@ class CreateEligibilitiesTable extends Migration
             $table->string('annual_maximum')->nullable();
             $table->string('remaining_maximum')->nullable();
             $table->string('plan_year')->nullable();
-            $table->json('deductibles')->nullable(); // JSON for Individual, Family, Ortho
-            $table->json('deductible_remain')->nullable(); // JSON for Individual, Family, Ortho
+            $table->json('deductible_individual')->nullable();
+            $table->json('deductible_family')->nullable();
+            $table->json('deductible_ortho')->nullable();
+            $table->json('deductible_remain_individual')->nullable();
+            $table->json('deductible_remain_family')->nullable();
+            $table->json('deductible_remain_ortho')->nullable();
             $table->string('deductible_applies_to')->nullable();
             $table->boolean('preventive_waived')->default(false);
+            $table->json('exam_data')->nullable(); // JSON column to store all exam data
+            $table->json('coverage_data')->nullable(); // Diagnostic, Preventive, etc.
             $table->json('required_preauth')->nullable(); // Extraction, Crown, etc.
-            $table->json('coverage_percentages')->nullable(); // Diagnostic, Preventive, etc.
+            $table->string('diagnostic_xray')->nullable();
+            $table->string('preventive')->nullable();
+            $table->string('oral_facial_images')->nullable();
+            $table->string('basic_restorative')->nullable();
+            $table->string('major_restorative_d2950')->nullable();
+            $table->string('major_restorative_d2740')->nullable();
+            $table->string('endo')->nullable();
+            $table->string('perio_d4341')->nullable();
+            $table->string('perio_d4346')->nullable();
+            $table->string('perio_d4381')->nullable();
+            $table->string('oral_surgery')->nullable();
+            $table->string('bonegraft')->nullable();
+            $table->string('prostho')->nullable();
+            $table->string('implants')->nullable();
+            $table->string('ortho')->nullable();
+            $table->string('nightguard')->nullable();
+            $table->enum('extraction', ['yes', 'no'])->default('yes');
+            $table->enum('crown', ['yes', 'no'])->default('yes');
+            $table->enum('rct', ['yes', 'no'])->default('yes');
+            $table->enum('periodontal', ['yes', 'no'])->default('yes');
+            $table->enum('denture', ['yes', 'no'])->default('yes');            
+            $table->string('exam_codes')->nullable();
+            $table->string('cleaning_codes')->nullable();
+            $table->string('xray_codes')->nullable();
+            $table->string('fluoride_sealants_data')->nullable(); //JSON data store            
+            $table->string('date')->nullable();
+            $table->string('verified_by')->nullable();
+            $table->string('insurance_rep_name')->nullable();
+            $table->string('insurance_reference_number')->nullable();
+            $table->string('additional_notes')->nullable();
             $table->timestamps();
 
             // Foreign Key
