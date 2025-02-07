@@ -16,11 +16,11 @@
                             </div>
                         @endif
                         <form action="{{ route('eligibility.store') }}" method="POST" class="forms-sample">
-                        @csrf
-                        <input type="hidden" name="patient_id" id="patient_id" class="form-control" value="{{ $eligibility->patient_id }}">
+                            @csrf
+                            <input type="hidden" name="patient_id" id="patient_id" class="form-control" value="{{ $patientId }}">
                         
-                        <div class="row">
-                            <div class="col-lg-6 border-end-lg">
+                            <div class="row">
+                                <div class="col-lg-6 border-end-lg">
                                     <div>
                                         <div class="d-flex align-items-center p-2 border-bottom tx-16">
                                             <span data-feather="user-plus" class="icon-md me-2"></span>
@@ -39,13 +39,13 @@
                                         <div class="row mb-3">
                                             <label for="policy_holder_dob" class="col-sm-4 col-form-label">Policy Holder DOB</label>
                                             <div class="col-sm-8">
-                                                <input id="policy_holder_dob" name="policy_holder_dob" value="{{ old('policy_holder_dob') }}" class="form-control" data-inputmask="'alias': 'datetime'" data-inputmask-placeholder="*" data-inputmask-inputformat="dd/mm/yyyy" inputmode="numeric">
+                                                <input id="policy_holder_dob" name="policy_holder_dob" value="{{ old('policy_holder_dob', \Carbon\Carbon::parse($eligibility->policy_holder_dob)->format('m/d/Y')) }}" class="form-control" data-inputmask="'alias': 'datetime'" data-inputmask-placeholder="*" data-inputmask-inputformat="dd/mm/yyyy" inputmode="numeric">
                                             </div>
                                         </div>
                                         <div class="row mb-3">
                                             <label for="insurance_name" class="col-sm-4 col-form-label">Insurance Name</label>
                                             <div class="col-sm-8">
-                                                <input type="text" id="insurance_name" name="insurance_name" class="form-control @error('insurance_name') is-invalid @enderror" value="{{ old('insurance_name') }}">
+                                                <input type="text" id="insurance_name" name="insurance_name" class="form-control @error('insurance_name') is-invalid @enderror" value="{{ old('insurance_name', $eligibility->insurance_name) }}">
                                                 @error('insurance_name')
                                                     <span class="text-danger">{{ $message }}</span>
                                                 @enderror
@@ -66,89 +66,88 @@
                                         <div class="row mb-3">
                                             <label for="member_id" class="col-sm-4 col-form-label">Member ID</label>
                                             <div class="col-sm-8">
-                                                <input type="text" id="member_id" name="member_id" class="form-control" value="{{ old('member_id') }}">
+                                                <input type="text" id="member_id" name="member_id" class="form-control" value="{{ old('member_id', $eligibility->member_id) }}">
                                             </div>
                                         </div>
                                         <div class="row mb-3">
                                             <label for="group_name" class="col-sm-4 col-form-label">Group Name</label>
                                             <div class="col-sm-8">
-                                                <input type="text" id="group_name" name="group_name" class="form-control" value="{{ old('group_name') }}">
+                                                <input type="text" id="group_name" name="group_name" class="form-control" value="{{ old('group_name', $eligibility->group_name) }}">
                                             </div>
                                         </div>
                                         <div class="row mb-3">
                                             <label for="group_number" class="col-sm-4 col-form-label">Group Number</label>
                                             <div class="col-sm-8">
-                                                <input type="text" id="group_number" name="group_number" class="form-control" value="{{ old('group_number') }}">
+                                                <input type="text" id="group_number" name="group_number" class="form-control" value="{{ old('group_number', $eligibility->group_number) }}">
                                             </div>
                                         </div>
                                         <div class="row mb-3">
                                             <label for="effective_date" class="col-sm-4 col-form-label">Effective Date</label>
                                             <div class="col-sm-8">
-                                                <input type="text" id="effective_date" name="effective_date" class="form-control" value="{{ old('effective_date') }}" data-inputmask="'alias': 'datetime'" data-inputmask-inputformat="mm/dd/yyyy" inputmode="numeric">
+                                                <input type="text" id="effective_date" name="effective_date" class="form-control" value="{{ old('effective_date', $eligibility->effective_date ? \Carbon\Carbon::parse($eligibility->effective_date)->format('m/d/Y') : '') }}" data-inputmask="'alias': 'datetime'" data-inputmask-inputformat="mm/dd/yyyy" inputmode="numeric">
                                             </div>
                                         </div>
                                         <div class="row mb-3">
                                             <label for="claims_filing_limit" class="col-sm-4 col-form-label">Claims Filing Limit</label>
                                             <div class="col-sm-8">
-                                                <input type="text" id="claims_filing_limit" name="claims_filing_limit" class="form-control" value="{{ old('claims_filing_limit') }}">
+                                                <input type="text" id="claims_filing_limit" name="claims_filing_limit" class="form-control" value="{{ old('claims_filing_limit', $eligibility->claims_filing_limit) }}">
                                             </div>
                                         </div>
                                         <div class="row mb-3">
                                             <label for="life_time" class="col-sm-4 col-form-label">Life Time</label>
                                             <div class="col-sm-8">
-                                                <input type="text" id="life_time" name="life_time" class="form-control" value="{{ old('life_time') }}">
+                                                <input type="text" id="life_time" name="life_time" class="form-control" value="{{ old('life_time', $eligibility->life_time) }}">
                                             </div>
                                         </div>
                                         <div class="row mb-3">
                                             <label for="waiting_period" class="col-sm-4 col-form-label">Waiting Period</label>
                                             <div class="col-sm-8">
-                                                <input type="text" id="waiting_period" name="waiting_period" class="form-control" value="{{ old('waiting_period') }}">
+                                                <input type="text" id="waiting_period" name="waiting_period" class="form-control" value="{{ old('waiting_period', $eligibility->waiting_period) }}">
                                             </div>
                                         </div>
                                         <div class="row mb-3">
                                             <label for="missing_tooth_clause" class="col-sm-4 col-form-label">Missing Tooth Clause</label>
                                             <div class="col-sm-8">
-                                                <input type="text" id="missing_tooth_clause" name="missing_tooth_clause" class="form-control" value="{{ old('missing_tooth_clause') }}">
+                                                <input type="text" id="missing_tooth_clause" name="missing_tooth_clause" class="form-control" value="{{ old('missing_tooth_clause', $eligibility->missing_tooth_clause) }}">
                                             </div>
                                         </div>
                                         <div class="row mb-3">
                                             <label for="ortho_maximum" class="col-sm-4 col-form-label">Ortho Maximum</label>
                                             <div class="col-sm-8">
-                                                <input type="text" id="ortho_maximum" name="ortho_maximum" class="form-control" value="{{ old('ortho_maximum') }}">
+                                                <input type="text" id="ortho_maximum" name="ortho_maximum" class="form-control" value="{{ old('ortho_maximum', $eligibility->ortho_maximum) }}">
                                             </div>
                                         </div>
                                         <div class="row mb-3">
                                             <label for="ortho_remaining_maximum" class="col-sm-4 col-form-label">Ortho Remaining Maximum</label>
                                             <div class="col-sm-8">
-                                                <input type="text" id="ortho_remaining_maximum" name="ortho_remaining_maximum" class="form-control" value="{{ old('ortho_remaining_maximum') }}">
+                                                <input type="text" id="ortho_remaining_maximum" name="ortho_remaining_maximum" class="form-control" value="{{ old('ortho_remaining_maximum', $eligibility->ortho_remaining_maximum) }}">
                                             </div>
                                         </div>
                                         <div class="row mb-3">
                                             <label for="ortho_age_limit" class="col-sm-4 col-form-label">Ortho Age Limit</label>
                                             <div class="col-sm-8">
-                                                <input type="text" id="ortho_age_limit" name="ortho_age_limit" class="form-control" value="{{ old('ortho_age_limit') }}">
+                                                <input type="text" id="ortho_age_limit" name="ortho_age_limit" class="form-control" value="{{ old('ortho_age_limit', $eligibility->ortho_age_limit) }}">
                                             </div>
                                         </div>
                                         <div class="row mb-3">
                                             <label for="annual_maximum" class="col-sm-4 col-form-label">Annual Maximum</label>
                                             <div class="col-sm-8">
-                                                <input type="text" id="annual_maximum" name="annual_maximum" class="form-control" value="{{ old('annual_maximum') }}">
+                                                <input type="text" id="annual_maximum" name="annual_maximum" class="form-control" value="{{ old('annual_maximum', $eligibility->annual_maximum) }}">
                                             </div>
                                         </div>
                                         <div class="row mb-3">
                                             <label for="remaining_maximum" class="col-sm-4 col-form-label">Remaining Maximum</label>
                                             <div class="col-sm-8">
-                                                <input type="text" id="remaining_maximum" name="remaining_maximum" class="form-control" value="{{ old('remaining_maximum') }}">
+                                                <input type="text" id="remaining_maximum" name="remaining_maximum" class="form-control" value="{{ old('remaining_maximum', $eligibility->remaining_maximum) }}">
                                             </div>
                                         </div>
                                         <div class="row mb-3">
                                             <label for="plan_year" class="col-sm-4 col-form-label">Plan Year</label>
                                             <div class="col-sm-8">
-                                                <input type="text" id="plan_year" name="plan_year" class="form-control" value="{{ old('plan_year') }}">
+                                                <input type="text" id="plan_year" name="plan_year" class="form-control" value="{{ old('plan_year', $eligibility->plan_year) }}">
                                             </div>
                                         </div>
                                         
-                
                                         <div class="row mb-3">
                                             <div class="table-responsive">
                                                 <table class="table mb-0">
@@ -161,18 +160,27 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
-                                                            <td>Deductibles</td>
-                                                            <td><input type="text" id="deductible_individual" name="deductible_individual" class="form-control" value="{{ old('deductible_individual') }}"></td>
-                                                            <td><input type="text" id="deductible_family" name="deductible_family" class="form-control" value="{{ old('deductible_family') }}"></td>
-                                                            <td><input type="text" id="deductible_ortho" name="deductible_ortho" class="form-control" value="{{ old('deductible_ortho') }}"></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Deductible REMAIN</td>
-                                                            <td><input type="text" id="deductible_remain_individual" name="deductible_remain_individual" class="form-control" value="{{ old('deductible_remain_individual') }}"></td>
-                                                            <td><input type="text" id="deductible_remain_family" name="deductible_remain_family" class="form-control" value="{{ old('deductible_remain_family') }}"></td>
-                                                            <td><input type="text" id="deductible_remain_ortho" name="deductible_remain_ortho" class="form-control" value="{{ old('deductible_remain_ortho') }}"></td>
-                                                        </tr>
+                                                        @php
+                                                            $fluorideFields = [
+                                                                'deductibles' => 'Deductibles',
+                                                                'deductible_remain' => 'Deductible REMAIN',
+                                                            ];
+                                                        @endphp
+
+                                                        @foreach($fluorideFields as $key => $label)
+                                                            <tr>
+                                                                <td>{{ $label }}</td>
+                                                                <td>
+                                                                    <input type="text" id="{{ $key }}_individual" name="{{ $key }}_individual" class="form-control" value="{{ old($key.'_individual', $deductiblesData[$key]['individual'] ?? '') }}">
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" id="{{ $key }}_family" name="{{ $key }}_family" class="form-control" value="{{ old($key.'_family', $deductiblesData[$key]['family'] ?? '') }}">
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" id="{{ $key }}_ortho" name="{{ $key }}_ortho" class="form-control" value="{{ old($key.'_ortho', $deductiblesData[$key]['ortho'] ?? '') }}">
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -181,7 +189,7 @@
                                         <div class="row mb-3">
                                             <label for="deductible_applies_to" class="col-sm-4 col-form-label">Deductible Applies To</label>
                                             <div class="col-sm-8">
-                                                <input type="text" id="deductible_applies_to" name="deductible_applies_to" class="form-control" value="{{ old('deductible_applies_to') }}">
+                                                <input type="text" id="deductible_applies_to" name="deductible_applies_to" class="form-control" value="{{ old('deductible_applies_to', $eligibility->deductible_applies_to) }}">
                                             </div>
                                         </div>
 
@@ -189,8 +197,8 @@
                                             <label for="preventive_waived" class="col-sm-4 col-form-label">Preventive Waived</label>
                                             <div class="col-sm-8">
                                                 <select class="form-control" name="preventive_waived" id="preventive_waived">
-                                                    <option value="yes" {{ old('preventive_waived', 'Yes') == 'Yes' ? 'selected' : '' }}>Yes</option>
-                                                    <option value="no" {{ old('preventive_waived', 'No') == 'No' ? 'selected' : '' }}>No</option>
+                                                    <option value="1" {{ old('preventive_waived', '1') == '1' ? 'selected' : '' }}>Yes</option>
+                                                    <option value="0" {{ old('preventive_waived', '0') == '0' ? 'selected' : '' }}>No</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -328,7 +336,6 @@
                                         @endforeach
                                     </div>
 
-
                                     <div>
                                         <div class="d-flex align-items-center p-2 border-bottom tx-16">
                                             <span data-feather="clipboard" class="icon-md me-2"></span>Share History?
@@ -409,7 +416,7 @@
                                         <div class="row mb-3">
                                             <label for="date" class="col-sm-4 col-form-label">Date</label>
                                             <div class="col-sm-8">
-                                                <input type="text" class="form-control" id="date" name="date" value="{{ old('date') }}">
+                                                <input type="text" id="verified_date" name="verified_date" class="form-control" value="{{ old('verified_date', $eligibility->verified_date ? $eligibility->verified_date->format('m/d/Y') : '') }}" data-inputmask="'alias': 'datetime'" data-inputmask-inputformat="mm/dd/yyyy" inputmode="numeric">
                                             </div>
                                         </div>            
                                         <div class="row mb-3">

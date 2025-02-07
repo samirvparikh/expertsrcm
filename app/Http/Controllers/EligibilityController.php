@@ -45,6 +45,19 @@ class EligibilityController extends Controller
             // Add validation rules for other fields as needed
         ]);
 
+        $deductiblesData = [
+            'deductibles' => [
+                'individual' => $request->input('deductibles_individual'),
+                'family' => $request->input('deductibles_family'),
+                'ortho' => $request->input('deductibles_ortho'),
+            ],
+            'deductible_remain' => [
+                'individual' => $request->input('deductible_remain_individual'),
+                'family' => $request->input('deductible_remain_family'),
+                'ortho' => $request->input('deductible_remain_ortho'),
+            ],
+        ];
+
         $examData = [
             'periodic_exam' => [
                 'frequency' => $request->input('periodic_exam_frequency'),
@@ -112,6 +125,26 @@ class EligibilityController extends Controller
                 'age_limit' => $request->input('D1351_age_limit'),
             ],
         ];
+
+        $CoverageData = [
+            'diagnostic_xray' => $request->input('diagnostic_xray'),
+            'preventive' => $request->input('preventive'),
+            'oral_facial_images' => $request->input('oral_facial_images'),
+            'basic_restorative' => $request->input('basic_restorative'),
+            'major_restorative_d2950' => $request->input('major_restorative_d2950'),
+            'major_restorative_d2740' => $request->input('major_restorative_d2740'),
+            'endo' => $request->input('endo'),
+            'perio_d4341' => $request->input('perio_d4341'),
+            'perio_d4346' => $request->input('perio_d4346'),
+            'perio_d4381' => $request->input('perio_d4381'),
+            'oral_surgery' => $request->input('oral_surgery'),
+            'bonegraft' => $request->input('bonegraft'),
+            'prostho' => $request->input('prostho'),
+            'implants' => $request->input('implants'),
+            'ortho' => $request->input('ortho'),
+            'nightguard' => $request->input('nightguard'),
+        ];
+
         // echo "<pre>"; print_r($fluorideSealantsData); die;
         // Store eligibility data
         $eligibility = Eligibility::create([
@@ -123,7 +156,7 @@ class EligibilityController extends Controller
             'member_id' => $request->input('member_id'),
             'group_name' => $request->input('group_name'),
             'group_number' => $request->input('group_number'),
-            'effective_date' => $request->input('effective_date'),
+            'effective_date' => $request->input('effective_date') ? Carbon::createFromFormat('m/d/Y', $request->input('effective_date'))->format('Y-m-d') : null,
             'claims_filing_limit' => $request->input('claims_filing_limit'),
             'life_time' => $request->input('life_time'),
             'waiting_period' => $request->input('waiting_period'),
@@ -134,22 +167,14 @@ class EligibilityController extends Controller
             'annual_maximum' => $request->input('annual_maximum'),
             'remaining_maximum' => $request->input('remaining_maximum'),
             'plan_year' => $request->input('plan_year'),
-            'deductible_individual' => $request->input('deductible_individual'),
-            'deductible_family' => $request->input('deductible_family'),
-            'deductible_ortho' => $request->input('deductible_ortho'),
-            'deductible_remain_individual' => $request->input('deductible_remain_individual'),
-            'deductible_remain_family' => $request->input('deductible_remain_family'),
-            'deductible_remain_ortho' => $request->input('deductible_remain_ortho'),
             'deductible_applies_to' => $request->input('deductible_applies_to'),
             'preventive_waived' => $request->input('preventive_waived'),
+            'deductibles_data' => json_encode($deductiblesData), // Convert array to JSON
             'exam_data' => json_encode($examData), // Convert array to JSON
             'fluoride_sealants_data' => json_encode($fluorideSealantsData), // Convert array to JSON
+            'coverage_data' => json_encode($CoverageData),
 
-            'coverage_data' => json_encode($request->input('coverage_data')),
-            'required_preauth' => json_encode($request->input('required_preauth')),
-            
-
-            'date' => Carbon::now(),
+            'verified_date' => Carbon::now(),
             'verified_by' => $request->input('verified_by'),
             'insurance_rep_name' => $request->input('insurance_rep_name'),
             'insurance_reference_number' => $request->input('insurance_reference_number'),
@@ -175,10 +200,12 @@ class EligibilityController extends Controller
     {
         $eligibility = Eligibility::findOrFail($id);
         $patient = Patient::findOrFail($eligibility->patient_id);
+        $deductiblesData = json_decode($eligibility->deductibles_data, true) ?? [];
         $examData = json_decode($eligibility->exam_data, true) ?? [];
         $coverageData = json_decode($eligibility->coverage_data, true) ?? [];
         $fluorideSealantsData = json_decode($eligibility->fluoride_sealants_data, true) ?? [];
-        return view('eligibilities.edit', compact('eligibility', 'patient', 'examData', 'coverageData', 'fluorideSealantsData'));
+        // dd($examData);
+        return view('eligibilities.edit', compact('eligibility', 'patient', 'deductiblesData','examData', 'coverageData', 'fluorideSealantsData'));
     }
 
     /**

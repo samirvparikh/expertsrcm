@@ -28,7 +28,8 @@
                                     <th>Date of Birth</th>
                                     <th>Gender</th>
                                     <th>Verified By</th>
-                                    <th>Check Date</th>
+                                    <th>Verified Date</th>
+                                    <th>Updated Date</th>
                                     <th class="text-end">Actions</th>
                                 </tr>
                             </thead>
@@ -40,6 +41,7 @@
                                     <td> {{ \Carbon\Carbon::parse($eligibility->patient->dob)->format('m/d/Y') }}</td>
                                     <td>{{ $eligibility->patient->gender }}</td>
                                     <td>{{ $eligibility->verified_by }}</td>
+                                    <td>{{ $eligibility->verified_date ? $eligibility->verified_date->format('m/d/Y') : '' }}</td>
                                     <td>{{ $eligibility->updated_at->format('m/d/Y h:i:s') }}</td>
                                     <td class="text-end">
                                         <a href="{{ route('eligibilities.edit', $eligibility->id) }}" class="btn btn-inverse-warning btn-xs">Edit</a>
