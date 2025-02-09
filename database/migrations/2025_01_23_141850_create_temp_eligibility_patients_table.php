@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('temp_eligibility_patients', function (Blueprint $table) {
             $table->id();
+            $table->string('clinic', 191)->nullable();
+            $table->string('appt_provider', 191)->nullable();
             $table->string('appt_date', 191)->nullable();
             $table->string('appt_time', 191)->nullable();
             $table->string('full_name', 191)->nullable();
@@ -23,7 +25,6 @@ return new class extends Migration
             $table->string('prim_subscriber_id', 191)->nullable();
             $table->string('sec_carrier_name', 191)->nullable();
             $table->string('sec_subscriber_id', 191)->nullable();
-            $table->string('clinic', 191)->nullable();
             $table->timestamps();
         });
     }

@@ -20,14 +20,14 @@ return new class extends Migration
             $table->time('appt_time');
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->unsignedBigInteger('created_by');
-            $table->unsignedBigInteger('updated_by')->nullable();                        
+            $table->unsignedBigInteger('updated_by')->nullable();
             $table->timestamps();
 
-            $table->foreign('patient_id')->references('id')->on('patients')->onDelete('cascade');
-            $table->foreign('office_id')->references('id')->on('offices')->onDelete('cascade');
-            $table->foreign('provider_id')->references('id')->on('providers')->onDelete('cascade');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('updated_by')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('patient_id')->references('id')->on('patients');
+            $table->foreign('office_id')->references('id')->on('offices');
+            $table->foreign('provider_id')->references('id')->on('providers');
+            $table->foreign('created_by')->references('id')->on('users');
+            $table->foreign('updated_by')->references('id')->on('users');
         });
     }
 

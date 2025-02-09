@@ -44,7 +44,7 @@
                                     <td>{{ $eligibility->verified_date ? $eligibility->verified_date->format('m/d/Y') : '' }}</td>
                                     <td>{{ $eligibility->updated_at->format('m/d/Y h:i:s') }}</td>
                                     <td class="text-end">
-                                        <a href="{{ route('eligibilities.edit', $eligibility->id) }}" class="btn btn-inverse-warning btn-xs">Edit</a>
+                                        <a href="{{ route('eligibilities.form', ['patientId' => $eligibility->patient_id, 'id' => $eligibility->id]) }}" class="btn btn-inverse-warning btn-xs">Edit</a>
                                     </td>
                                 </tr>
                                 @endforeach

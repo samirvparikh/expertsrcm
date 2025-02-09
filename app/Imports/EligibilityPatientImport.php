@@ -10,6 +10,7 @@ class EligibilityPatientImport implements ToModel, WithHeadingRow
 {
     public function model(array $row)
     {
+        // dd($row);
         // Ensure valid date parsing
         $dob = $row['date_of_birth'];
         if (is_numeric($dob)) {
@@ -26,17 +27,18 @@ class EligibilityPatientImport implements ToModel, WithHeadingRow
         }
 
         return new TempEligibilityPatient([
+            'clinic' => $row['clinic'],
+            'appt_provider' => $row['appt_provider'],
             'appt_date' => $appt_date,
             'appt_time' => $row['appt_time'],
-            'full_name' => $row['full_name'],
+            'full_name' => $row['full_name'] ?? '',
             'date_of_birth' => $dob,
-            'hoh_full_name' => $row['hoh_full_name'],
-            'prim_subscriber' => $row['prim_subscriber'],
-            'prim_carrier_name' => $row['prim_carrier_name'],
-            'prim_subscriber_id' => $row['prim_subscriber_id'],
-            'sec_carrier_name' => $row['sec_carrier_name'],
-            'sec_subscriber_id' => $row['sec_subscriber_id'],
-            'clinic' => $row['clinic'],
+            'prim_subscriber' => $row['prim_subscriber'] ?? '',
+            'prim_carrier_name' => $row['prim_carrier_name'] ?? '',
+            'prim_subscriber_id' => $row['prim_subscriber_id'] ?? '',
+            'sec_carrier_name' => $row['sec_carrier_name'] ?? '',
+            'sec_subscriber_id' => $row['sec_subscriber_id'] ?? '',
+            
             
         ]);
     }

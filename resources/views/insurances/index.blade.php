@@ -42,11 +42,13 @@
                                     <td>{{ $insurance->phone }}</td>
                                     <td>{{ $insurance->email }}</td>
                                     <td class="text-end">
-                                        <a href="{{ route('insurances.edit', $insurance->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                        <a href="{{ route('insurances.edit', $insurance->id) }}" class="btn btn-inverse-warning btn-xs">Edit</a>
                                         <form action="{{ route('insurances.destroy', $insurance->id) }}" method="POST" style="display:inline-block;">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                            <button type="submit" class="btn btn-inverse-danger btn-xs" onclick="return confirm('Are you sure you want to delete this?');">
+                                                Delete
+                                            </button>
                                         </form>
                                     </td>
                                 </tr>

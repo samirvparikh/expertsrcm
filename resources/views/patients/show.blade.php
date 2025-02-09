@@ -6,10 +6,9 @@
     <div class="main-content d-flex justify-content-between flex-wrap">
         <h2 class="page-title">Patient Information</h2>
         <div class="d-flex align-items-center flex-wrap text-nowrap">
-
-            <a href="{{ route('eligibilities.create', $patient->id) }}" class="btn btn-primary  btn-sm  mb-2 mb-md-0 ms-3">
+            <a href="{{ route('eligibilities.form', ['patientId' => $patient->id]) }}" class="btn btn-primary  btn-sm  mb-2 mb-md-0 ms-3">
               Eligibility
-            </a>
+            </a>            
             <a href="{{ route('patients.create') }}" class="btn btn-primary  btn-sm  mb-2 mb-md-0 ms-3">
                 Billing
             </a>

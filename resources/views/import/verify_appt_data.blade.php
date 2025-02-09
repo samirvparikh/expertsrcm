@@ -14,34 +14,35 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
+                                    <th>Clinic</th>
+                                    <th>Appt. Provider</th>
                                     <th>Appt. Date</th>
                                     <th>Appt. Time</th>
                                     <th>Full Name</th>
                                     <th>Date of Birth</th>
-                                    <th>HoH Full Name</th>
                                     <th>Prim. Subscriber</th>
                                     <th>Prim. Carrier Name</th>
                                     <th>Prim. Subscriber ID</th>
                                     <th>Sec. Carrier Name</th>
                                     <th>Sec. Subscriber ID</th>
-                                    <th>Clinic</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($csvs as $csv)
                                     <tr>
                                         <td>{{ $csv->id }}</td>
+                                        <td>{{ $csv->clinic }}</td>
+                                        <td>{{ $csv->appt_provider }}</td>
                                         <td>{{ $csv->appt_date }}</td>
                                         <td>{{ $csv->appt_time }}</td>
                                         <td>{{ $csv->full_name }}</td>
                                         <td>{{ $csv->date_of_birth }}</td>
-                                        <td>{{ $csv->hoh_full_name }}</td>
                                         <td>{{ $csv->prim_subscriber }}</td>
                                         <td>{{ $csv->prim_carrier_name }}</td>
                                         <td>{{ $csv->prim_subscriber_id }}</td>
                                         <td>{{ $csv->sec_carrier_name }}</td>
                                         <td>{{ $csv->sec_subscriber_id }}</td>
-                                        <td>{{ $csv->clinic }}</td>
+
                                     </tr>
                                     @endforeach
                             </tbody>

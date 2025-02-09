@@ -15,6 +15,7 @@ use App\Models\Provider;
 use App\Models\Office;
 use App\Models\Procedure;
 use App\Models\Appointment;
+use App\Models\EligibilityPatient;
 
 
 class ImportController extends Controller
@@ -53,53 +54,93 @@ class ImportController extends Controller
             // dd($csv);
             // Parse patient and provider names
             $patientNameParts = $this->parsePatientFullName($csv->full_name);
-            $providerNameParts = $this->parseProviderFullName($csv->provider_full_name);
+            $providerNameParts = $this->parseProviderFullName($csv->appt_provider);
 
             // Check and create patient
-            $patient = Patient::firstOrCreate(
-                [
-                    'first_name' => $patientNameParts['first_name'],
-                    'last_name' => $patientNameParts['last_name'],
-                    'dob' => $csv->date_of_birth,
-                ],
-                [
-                    'middle_name' => $patientNameParts['middle_name'],
-                    'gender' => $csv->gender ?? null,
-                    'email' => $csv->email ?? null,
-                    'cell_phone' => $csv->cell_phone ?? null,
-                    'responsible_party' => $csv->responsible_party ?? null,
-                    'preferred_clinic' => $csv->preferred_clinic ?? null,
-                    'fee_schedule' => $csv->fee_schedule ?? null,
-                    'created_by' => auth()->id(),
-                ]
-            );
+            if (!empty($patientNameParts['first_name'])) {
+                $patient = Patient::firstOrCreate(
+                    [
+                        'first_name' => $patientNameParts['first_name'],
+                        'last_name' => $patientNameParts['last_name'],
+                        'dob' => $csv->date_of_birth,
+                    ],
+                    [
+                        'middle_name' => $patientNameParts['middle_name'],
+                        'gender' => $csv->gender ?? null,
+                        'email' => $csv->email ?? null,
+                        'cell_phone' => $csv->cell_phone ?? null,
+                        'responsible_party' => $csv->responsible_party ?? null,
+                        'preferred_clinic' => $csv->preferred_clinic ?? null,
+                        'fee_schedule' => $csv->fee_schedule ?? null,
+                        'created_by' => auth()->id(),
+                    ]
+                );
+            }
+            // Check and create provider
+            if (!empty($csv->clinic)) {
+                $office = Office::firstOrCreate(
+                    [
+                        'name' => $csv->clinic,
+                    ],
+                    ['created_by' => auth()->id()]
+                );
+            }
+            // Check and create provider
+            if (!empty($providerNameParts['first_name'])) {
+                $provider = Provider::firstOrCreate(
+                    [
+                        'first_name' => $providerNameParts['first_name'],
+                        'last_name' => $providerNameParts['last_name'],
+                    ],
+                    ['created_by' => auth()->id()]
+                );
+            }
 
             // Check and create insurance
-            $insurance = Insurance::firstOrCreate(
-                ['name' => $csv->prim_carrier_name],
-                ['created_by' => auth()->id()]
-            );
-
-            // Check and create provider
-            $office = Office::firstOrCreate(
-                [
-                    'name' => $csv->clinic,
-                ],
-                ['created_by' => auth()->id()]
-            );
-
+            if (!empty($csv->prim_carrier_name)) {
+                $primary_insurance = Insurance::firstOrCreate(
+                    ['name' => $csv->prim_carrier_name],
+                    ['created_by' => auth()->id()]
+                );
+            }
+            if (!empty($csv->sec_carrier_name)) {
+                $secondary_insurance = Insurance::firstOrCreate(
+                    ['name' => $csv->sec_carrier_name],
+                    ['created_by' => auth()->id()]
+                );
+            }
             $apptTime24Hour = Carbon::createFromFormat('h:i A', $csv->appt_time)->format('H:i');
-            $appointment = Appointment::firstOrCreate(
-                [
-                    'patient_id' => $patient->id,
-                    'office_id' => $office->id,
-                    'appt_date' => $csv->appt_date,
-                    'appt_time' => $apptTime24Hour,
-                ],
-                [
-                    'created_by' => auth()->id()
-                ]
-            );
+            if (!empty($patientNameParts['first_name']) && !empty($patient->id) && !empty($office->id) && !empty($provider->id)) {
+                $appointment = Appointment::firstOrCreate(
+                    [
+                        'patient_id' => $patient->id,
+                        'office_id' => $office->id,
+                        'provider_id' => $provider->id,
+                        'appt_date' => $csv->appt_date,
+                        'appt_time' => $apptTime24Hour,
+                    ],
+                    [
+                        'created_by' => auth()->id()
+                    ]
+                );
+            }
+
+            if (!empty($patientNameParts['first_name']) && !empty($patient->id) && !empty($office->id) && !empty($provider->id)) {
+                $appointment = EligibilityPatient::firstOrCreate(
+                    [
+                        'patient_id' => $patient->id,
+                        'office_id' => $office->id,
+                        'provider_id' => $provider->id,
+                        'primary_insurance_id' => $primary_insurance->id ?? '0',
+                        'secondary_insurance_id' => $secondary_insurance->id ?? '0',
+                        'appt_date' => $csv->appt_date,
+                        'appt_time' => $apptTime24Hour,                    
+                    ],
+                    [
+                        'created_by' => auth()->id()
+                    ]
+                );
+            }
 
             
         }
@@ -115,7 +156,7 @@ class ImportController extends Controller
         foreach ($csvs as $csv) {
             // Parse patient and provider names
             $patientNameParts = $this->parsePatientFullName($csv->full_name);
-            $providerNameParts = $this->parseProviderFullName($csv->provider_full_name);
+            $providerNameParts = $this->parseProviderFullName($csv->appt_provider);
 
             // Check and create patient
             $patient = Patient::firstOrCreate(

@@ -16,7 +16,10 @@ class PatientController extends Controller
      */
     public function index()
     {
-        $patients = Patient::all();
+        // $patients = Patient::all();
+        $patients = Patient::leftJoin('eligibilities', 'patients.id', '=', 'eligibilities.patient_id')
+                    ->select('patients.*', 'eligibilities.id as eligibility_id') // Check if eligibility exists
+                    ->get();
         return view('patients.index', compact('patients'));
     }
 

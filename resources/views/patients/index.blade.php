@@ -66,6 +66,7 @@
                                     <th>Date of Birth</th>
                                     <th>Cell Phone</th>
                                     <th>Gender</th>
+                                    <th>Status</th>
                                     <th class="text-end">Actions</th>
                                 </tr>
                             </thead>
@@ -79,13 +80,20 @@
                                     <td>{{ ymdtomdy($patient->dob) }}</td>
                                     <td>{{ $patient->cell_phone }}</td>
                                     <td>{{ ucfirst($patient->gender) }}</td>
+                                    <td>
+                                        @if ($patient->eligibility_id)
+                                            <span class="badge bg-success">Eligibility</span>
+                                        @else
+                                            
+                                        @endif
+                                    </td>
                                     <td class="text-end">
                                         <a href="{{ route('patients.edit', $patient->id) }}" class="btn btn-inverse-warning btn-xs">Edit</a>
                                         <a href="{{ route('patients.show', $patient->id) }}" class="btn btn-inverse-info btn-xs">View</a>
                                         <form action="{{ route('patients.destroy', $patient->id) }}" method="POST" style="display:inline-block;">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-inverse-danger btn-xs" onclick="return confirm('Are you sure you want to delete this patient?');">
+                                            <button type="submit" class="btn btn-inverse-danger btn-xs" onclick="return confirm('Are you sure you want to delete this?');">
                                                 Delete
                                             </button>
                                         </form>
