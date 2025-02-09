@@ -25,8 +25,8 @@ return new class extends Migration
             $table->unsignedBigInteger('updated_by')->nullable(); // User who last updated the record
             $table->timestamps();
 
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null');
-            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('created_by')->references('id')->on('users');
+            $table->foreign('updated_by')->references('id')->on('users');
         });
     }
 

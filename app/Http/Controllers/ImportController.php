@@ -97,12 +97,14 @@ class ImportController extends Controller
             }
 
             // Check and create insurance
+            $primary_insurance = [];
             if (!empty($csv->prim_carrier_name)) {
                 $primary_insurance = Insurance::firstOrCreate(
                     ['name' => $csv->prim_carrier_name],
                     ['created_by' => auth()->id()]
                 );
             }
+            $secondary_insurance = [];
             if (!empty($csv->sec_carrier_name)) {
                 $secondary_insurance = Insurance::firstOrCreate(
                     ['name' => $csv->sec_carrier_name],
@@ -137,6 +139,11 @@ class ImportController extends Controller
                         'appt_time' => $apptTime24Hour,                    
                     ],
                     [
+                        'prim_subscriber' => $csv->prim_subscriber,
+                        'prim_carrier_name' => $csv->prim_carrier_name,
+                        'prim_subscriber_id' => $csv->prim_subscriber_id,
+                        'sec_carrier_name' => $csv->sec_carrier_name,
+                        'sec_subscriber_id' => $csv->sec_subscriber_id,
                         'created_by' => auth()->id()
                     ]
                 );

@@ -24,12 +24,20 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
+                                    <th>Clinic</th>
+                                    <th>Provider</th>
                                     <th>Patient Name</th>
                                     <th>Date of Birth</th>
-                                    <th>Gender</th>
+                                    <th>Appt. Date</th>
+                                    <th>Appt. Time</th>
+                                    {{-- <th>Prim. Subscriber</th> --}}
+                                    <th>Prim. Carrier Name</th>
+                                    <th>Prim. Subscriber ID</th>
+                                    <th>Sec. Carrier Name</th>
+                                    <th>Sec. Subscriber ID</th>
                                     <th>Verified By</th>
                                     <th>Verified Date</th>
-                                    <th>Updated Date</th>
+                                    <th>Created Date</th>
                                     <th class="text-end">Actions</th>
                                 </tr>
                             </thead>
@@ -37,12 +45,20 @@
                                 @foreach ($eligibilities as $eligibility)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $eligibility->office->name }}</td>
+                                    <td>{{ $eligibility->provider->name }}</td>
                                     <td>{{ $eligibility->patient->name }}</td>
                                     <td> {{ \Carbon\Carbon::parse($eligibility->patient->dob)->format('m/d/Y') }}</td>
-                                    <td>{{ $eligibility->patient->gender }}</td>
+                                    <td> {{ \Carbon\Carbon::parse($eligibility->appt_date)->format('m/d/Y') }}</td>
+                                    <td> {{ \Carbon\Carbon::parse($eligibility->appt_time)->format('g:i A') }}</td>
+                                    {{-- <td>{{ $eligibility->prim_subscriber ?? '' }}</td> --}}
+                                    <td>{{ $eligibility->primaryInsurance->name ?? '' }}</td>
+                                    <td>{{ $eligibility->prim_subscriber_id ?? '' }}</td>
+                                    <td>{{ $eligibility->secondayInsurance->name ?? '' }}</td>
+                                    <td>{{ $eligibility->sec_subscriber_id ?? '' }}</td>
                                     <td>{{ $eligibility->verified_by }}</td>
                                     <td>{{ $eligibility->verified_date ? $eligibility->verified_date->format('m/d/Y') : '' }}</td>
-                                    <td>{{ $eligibility->updated_at->format('m/d/Y h:i:s') }}</td>
+                                    <td>{{ $eligibility->created_at->format('m/d/Y h:i:s') }}</td>
                                     <td class="text-end">
                                         <a href="{{ route('eligibilities.form', ['patientId' => $eligibility->patient_id, 'id' => $eligibility->id]) }}" class="btn btn-inverse-warning btn-xs">Edit</a>
                                     </td>

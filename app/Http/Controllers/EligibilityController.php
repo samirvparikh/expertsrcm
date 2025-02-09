@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\Patient;
 use App\Models\Eligibility;
+use App\Models\EligibilityPatient;
 use App\Models\Insurance;
 
 class EligibilityController extends Controller
@@ -15,7 +16,7 @@ class EligibilityController extends Controller
      */
     public function index()
     {
-        $eligibilities = Eligibility::orderBy('updated_at', 'desc')->get();
+        $eligibilities = EligibilityPatient::orderBy('id')->get();
         return view('eligibilities.index', compact('eligibilities'));
     }
 

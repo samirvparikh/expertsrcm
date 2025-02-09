@@ -42,4 +42,14 @@ class EligibilityPatient extends Model
     {
         return $this->belongsTo(Provider::class, 'provider_id');
     }
+
+    public function primaryInsurance()
+    {
+        return $this->belongsTo(Insurance::class, 'primary_insurance_id');
+    }
+
+    public function secondayInsurance()
+    {
+        return $this->belongsTo(Insurance::class, 'secondary_insurance_id');
+    }
 }
