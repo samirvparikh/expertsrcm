@@ -27,11 +27,11 @@ return new class extends Migration
             $table->timestamps(); // created_at and updated_at
 
             // Foreign key constraints
-            $table->foreign('patient_id')->references('id')->on('patients')->onDelete('set null');
-            $table->foreign('insurance_id')->references('id')->on('insurances')->onDelete('set null');
-            $table->foreign('provider_id')->references('id')->on('providers')->onDelete('set null');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null');
-            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null'); 
+            $table->foreign('patient_id')->references('id')->on('patients');
+            $table->foreign('insurance_id')->references('id')->on('insurances');
+            $table->foreign('provider_id')->references('id')->on('providers');
+            $table->foreign('created_by')->references('id')->on('users');
+            $table->foreign('updated_by')->references('id')->on('users'); 
             
         });
     }
