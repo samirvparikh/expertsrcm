@@ -9,6 +9,7 @@ use App\Models\Eligibility;
 use App\Models\EligibilityHistory;
 use App\Models\EligibilityPatient;
 use App\Models\Insurance;
+use Illuminate\Support\Facades\DB;
 
 class EligibilityController extends Controller
 {
@@ -17,11 +18,25 @@ class EligibilityController extends Controller
      */
     public function index()
     {
-        $eligibilities = EligibilityPatient::orderBy('id')->get();
+        /*$eligibilities = EligibilityPatient::orderBy('id')->get();
+        foreach ($eligibilities as $eligibility) {
+            // Check if there is a corresponding Eligibility record with the same patient_id and insurance_id
+            $eligibility->has_eligibility = Eligibility::where('patient_id', $eligibility->patient_id)
+                ->where('insurance_id', $eligibility->primary_insurance_id)
+                ->exists();
+        }*/
+        
+        $eligibilities = EligibilityPatient::leftJoin('eligibilities as e', function ($join) {
+            $join->on('eligibility_patients.patient_id', '=', 'e.patient_id')
+                 ->on('eligibility_patients.primary_insurance_id', '=', 'e.insurance_id');
+        })
+        ->get(['eligibility_patients.*', 'e.id', 'e.is_eligible','e.verified_by','e.verified_date']);
+        // dd($eligibilityPatients);
+
         return view('eligibilities.index', compact('eligibilities'));
     }
 
-    public function form($patientId = null)
+    public function form($patientId = null, $insuranceId = null)
     {
         $patient = Patient::findOrFail($patientId); // This will throw an error if the patient doesn't exist
         $eligibility = Eligibility::where('patient_id', $patientId)->first();
@@ -39,7 +54,7 @@ class EligibilityController extends Controller
         }
 
         $insurances = Insurance::all(); // Fetch all insurance companies
-        return view('eligibilities.form', compact('eligibility', 'patient', 'deductiblesData', 'examData', 'coverageData', 'fluorideSealantsData', 'insurances'));
+        return view('eligibilities.form', compact('eligibility', 'patient', 'insuranceId','deductiblesData', 'examData', 'coverageData', 'fluorideSealantsData', 'insurances'));
     }
 
 
@@ -52,6 +67,7 @@ class EligibilityController extends Controller
         $validated = $request->validate([
             'patient_id' => 'required|exists:patients,id',
             'insurance_id' => 'required|exists:insurances,id',
+            'policy_holder_name' => 'required|string|max:255',
             'network_status' => 'required|string|max:255',
             'coverage_data' => 'array', // Ensure data is an array
             'coverage_data.*' => 'nullable|string|max:255', // Validate each field
@@ -177,6 +193,7 @@ class EligibilityController extends Controller
 
         $eligibility->patient_id = $validated['patient_id'];
         $eligibility->insurance_id = $validated['insurance_id'];
+        $eligibility->is_eligible = $request->input('is_eligible');
         $eligibility->policy_holder_name = $request->input('policy_holder_name');
         $eligibility->policy_holder_dob = $request->input('policy_holder_dob') ? Carbon::createFromFormat('m/d/Y', $request->input('policy_holder_dob'))->format('Y-m-d') : null;
         $eligibility->insurance_name = $insurance->name;
@@ -185,6 +202,7 @@ class EligibilityController extends Controller
         $eligibility->group_name = $request->input('group_name');
         $eligibility->group_number = $request->input('group_number');
         $eligibility->effective_date = $request->input('effective_date') ? Carbon::createFromFormat('m/d/Y', $request->input('effective_date'))->format('Y-m-d') : null;
+        $eligibility->end_date = $request->input('end_date') ? Carbon::createFromFormat('m/d/Y', $request->input('end_date'))->format('Y-m-d') : null;
         $eligibility->claims_filing_limit = $request->input('claims_filing_limit');
         $eligibility->life_time = $request->input('life_time');
         $eligibility->waiting_period = $request->input('waiting_period');
@@ -221,6 +239,7 @@ class EligibilityController extends Controller
             'eligibility_id' => $eligibility->id,
             'patient_id' => $eligibility->patient_id,
             'insurance_id' => $eligibility->insurance_id,
+            'is_eligible' => $eligibility->is_eligible,
             'policy_holder_name' => $eligibility->policy_holder_name,
             'policy_holder_dob' => $eligibility->policy_holder_dob,
             'insurance_name' => $eligibility->insurance_name,
@@ -229,6 +248,7 @@ class EligibilityController extends Controller
             'group_name' => $eligibility->group_name,
             'group_number' => $eligibility->group_number,
             'effective_date' => $eligibility->effective_date,
+            'end_date' => $eligibility->end_date,
             'claims_filing_limit' => $eligibility->claims_filing_limit,
             'life_time' => $eligibility->life_time,
             'waiting_period' => $eligibility->waiting_period,

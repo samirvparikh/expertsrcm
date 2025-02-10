@@ -15,6 +15,7 @@ class Eligibility extends Model
     protected $fillable = [
         'patient_id',
         'insurance_id',
+        'is_eligible',
         'policy_holder_name',
         'policy_holder_dob',
         'insurance_name',
@@ -23,6 +24,7 @@ class Eligibility extends Model
         'group_name',
         'group_number',
         'effective_date',
+        'end_date',
         'claims_filing_limit',
         'life_time',
         'waiting_period',

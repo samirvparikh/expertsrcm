@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('eligibility_id');
             $table->unsignedBigInteger('patient_id');
             $table->unsignedBigInteger('insurance_id');
+            $table->enum('is_eligible', ['Yes', 'No'])->default('No');
             $table->string('policy_holder_name')->nullable();
             $table->date('policy_holder_dob')->nullable();
             $table->string('insurance_name');
@@ -24,6 +25,7 @@ return new class extends Migration
             $table->string('group_name')->nullable();
             $table->string('group_number')->nullable();
             $table->date('effective_date')->nullable();
+            $table->date('end_date')->nullable();
             $table->string('claims_filing_limit')->nullable();
             $table->boolean('life_time')->nullable();
             $table->string('waiting_period')->nullable();

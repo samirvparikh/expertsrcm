@@ -29,6 +29,15 @@
                                     </div>
                                     <div class="p-3 pb-0">
                                         <div class="row mb-3">
+                                            <label for="is_eligible" class="col-sm-4 col-form-label">Eligible?</label>
+                                            <div class="col-sm-8">
+                                                <select class="form-control" name="is_eligible" id="is_eligible">
+                                                    <option value="Yes" {{ old('is_eligible', 'Yes') == 'Yes' ? 'selected' : '' }}>Yes</option>
+                                                    <option value="No" {{ old('is_eligible', 'No') == 'No' ? 'selected' : '' }}>No</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
                                             <label for="policy_holder_name" class="col-sm-4 col-form-label">Policy Holder Name</label>
                                             <div class="col-sm-8">
                                                 <input type="text" id="policy_holder_name" name="policy_holder_name" class="form-control" value="{{ old('policy_holder_name', $eligibility->policy_holder_name ?? '') }}">
@@ -46,8 +55,9 @@
                                                 <select id="insurance_id" name="insurance_id" class="js-example-basic-single form-select" data-width="100%">
                                                     <option value="">Select Insurance</option>
                                                     @foreach ($insurances as $insurance)
-                                                        <option value="{{ $insurance->id }}" {{ old('insurance_id', $eligibility->network_status ?? '') == '1' ? 'selected' : ''}}>
-                                                            {{ $insurance->name }}
+                                                    <option value="{{ $insurance->id }}" 
+                                                        {{ (old('insurance_id') == $insurance->id || ($eligibility->insurance_id ?? null) == $insurance->id || ($insuranceId ?? null) == $insurance->id) ? 'selected' : '' }}>
+                                                        {{ $insurance->name }}
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -90,6 +100,12 @@
                                             <label for="effective_date" class="col-sm-4 col-form-label">Effective Date</label>
                                             <div class="col-sm-8">
                                                 <input type="text" id="effective_date" name="effective_date" class="form-control" value="{{ old('effective_date', optional($eligibility)->effective_date ? \Carbon\Carbon::parse(optional($eligibility)->effective_date)->format('m/d/Y') : '') }}" data-inputmask="'alias': 'datetime'" data-inputmask-inputformat="mm/dd/yyyy" inputmode="numeric">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <label for="end_date" class="col-sm-4 col-form-label">Effective Date</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" id="end_date" name="end_date" class="form-control" value="{{ old('end_date', optional($eligibility)->end_date ? \Carbon\Carbon::parse(optional($eligibility)->end_date)->format('m/d/Y') : '') }}" data-inputmask="'alias': 'datetime'" data-inputmask-inputformat="mm/dd/yyyy" inputmode="numeric">
                                             </div>
                                         </div>
                                         <div class="row mb-3">
@@ -454,7 +470,7 @@
 
                             <div class="text-center22">
                                 <button type="submit" class="btn btn-primary">Save</button>
-                                <a href="{{ route('patients.index') }}" class="btn btn-secondary">Cancel</a>
+                                <a href="{{ route('eligibilities.index') }}" class="btn btn-secondary">Cancel</a>
                             </div>
                         </form>
                     </div>

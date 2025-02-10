@@ -28,6 +28,10 @@ class EligibilityPatient extends Model
         'updated_by'
     ];
 
+    protected $casts = [
+        'verified_date' => 'datetime'
+    ];
+
     public function patient()
     {
         return $this->belongsTo(Patient::class, 'patient_id');
