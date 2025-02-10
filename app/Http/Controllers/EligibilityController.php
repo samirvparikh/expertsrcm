@@ -299,9 +299,9 @@ class EligibilityController extends Controller
         //
     }
 
-    public function exportExcel()
+    public function exportExcel($patientId)
     {
-        return Excel::download(new EligibilityExport, 'eligibility_data.xlsx');
+        return Excel::download(new EligibilityExport($patientId), 'eligibility_data_' . $patientId . '.xlsx');
     }
 
 }

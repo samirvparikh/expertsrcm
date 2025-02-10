@@ -2,7 +2,7 @@
 
 namespace App\Exports;
 
-use App\Models\EligibilityPatient;
+use App\Models\Eligibility;
 use Maatwebsite\Excel\Concerns\FromArray;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithStyles;
@@ -10,10 +10,20 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class EligibilityExport implements FromArray, WithHeadings, WithStyles
 {
+    protected $patientId;
+
+    public function __construct($patientId)
+    {
+        $this->patientId = $patientId;
+    }
+
     public function array(): array
     {
+        // $eligibilities = Eligibility::with('patient')->get();
         // Fetch eligibility data
-        $eligibilities = Eligibility::with('patient')->get();
+        $eligibilities = Eligibility::with('insurance', 'patient')
+            ->where('patient_id', $this->patientId)
+            ->get();
 
         $data = [];
 

@@ -5,8 +5,6 @@
 
     <div class="main-content d-flex justify-content-between flex-wrap">
         <h2 class="page-title">Eligibility Information</h2>
-        <a href="{{ route('eligibility.export') }}" class="btn btn-success">Export to Excel</a>
-
     </div>
 
     <div class="row">
@@ -65,6 +63,7 @@
                                     <!-- <td>{{ $eligibility->created_at->format('m/d/Y h:i:s') }}</td> -->
                                     <td class="text-end">
                                         <a href="{{ route('eligibilities.form', ['patientId' => $eligibility->patient_id, 'insuranceId' => $eligibility->primary_insurance_id]) }}" class="btn btn-inverse-warning btn-xs">Edit</a>
+                                        <a href="{{ route('eligibility.export', $eligibility->patient_id) }}" class="btn btn-inverse-danger btn-xs">Export</a>
                                     </td>
                                 </tr>
                                 @endforeach
