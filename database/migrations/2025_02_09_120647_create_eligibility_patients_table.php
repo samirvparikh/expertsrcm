@@ -16,8 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger('patient_id');
             $table->unsignedBigInteger('office_id');
             $table->unsignedBigInteger('provider_id');
-            $table->unsignedBigInteger('primary_insurance_id');
-            $table->unsignedBigInteger('secondary_insurance_id');
+            $table->unsignedBigInteger('primary_insurance_id')->nullable();
+            $table->unsignedBigInteger('secondary_insurance_id')->nullable();
             $table->string('appt_date')->nullable();
             $table->string('appt_time')->nullable();
             $table->string('prim_subscriber')->nullable();

@@ -15,7 +15,7 @@
                                 </ul>
                             </div>
                         @endif
-                        <form action="{{ isset($eligibility) ? route('eligibility.store', $eligibility->id) : route('eligibility.store') }}" method="POST" class="forms-sample">
+                        <form action="{{ route('eligibility.store') }}" method="POST" class="forms-sample">
                             @csrf
                             <input type="hidden" name="patient_id" id="patient_id" class="form-control" value="{{ $patient->id }}">
                             <div class="row">
@@ -41,17 +41,17 @@
                                             </div>
                                         </div>
                                         <div class="row mb-3">
-                                            <label for="insurance_name" class="col-sm-4 col-form-label">Insurance Name</label>
+                                            <label for="insurance_id" class="col-sm-4 col-form-label">Insurance Name</label>
                                             <div class="col-sm-8">
-                                                <select id="insurance_name" name="insurance_name" class="js-example-basic-single form-select" data-width="100%">
+                                                <select id="insurance_id" name="insurance_id" class="js-example-basic-single form-select" data-width="100%">
                                                     <option value="">Select Insurance</option>
                                                     @foreach ($insurances as $insurance)
-                                                        <option value="{{ $insurance->name }}" {{ old('insurance_name', $eligibility->insurance_name ?? '') == $insurance->name ? 'selected' : '' }}>
+                                                        <option value="{{ $insurance->id }}" {{ old('insurance_id', $eligibility->network_status ?? '') == '1' ? 'selected' : ''}}>
                                                             {{ $insurance->name }}
                                                         </option>
                                                     @endforeach
                                                 </select>
-                                                @error('insurance_name')
+                                                @error('insurance_id')
                                                     <span class="text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
