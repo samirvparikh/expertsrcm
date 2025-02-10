@@ -10,6 +10,8 @@ use App\Models\EligibilityHistory;
 use App\Models\EligibilityPatient;
 use App\Models\Insurance;
 use Illuminate\Support\Facades\DB;
+use App\Exports\EligibilityExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class EligibilityController extends Controller
 {
@@ -296,4 +298,10 @@ class EligibilityController extends Controller
     {
         //
     }
+
+    public function exportExcel()
+    {
+        return Excel::download(new EligibilityExport, 'eligibility_data.xlsx');
+    }
+
 }

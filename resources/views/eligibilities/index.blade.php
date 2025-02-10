@@ -5,6 +5,8 @@
 
     <div class="main-content d-flex justify-content-between flex-wrap">
         <h2 class="page-title">Eligibility Information</h2>
+        <a href="{{ route('eligibility.export') }}" class="btn btn-success">Export to Excel</a>
+
     </div>
 
     <div class="row">
