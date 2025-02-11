@@ -299,6 +299,12 @@ class EligibilityController extends Controller
         //
     }
 
+    public function export($patientId)
+    {
+        $eligibilities = Eligibility::where('patient_id', $patientId)->get();
+        return view('eligibilities.export', compact('eligibilities'));
+    }
+
     public function exportExcel($patientId)
     {
         return Excel::download(new EligibilityExport($patientId), 'eligibility_data_' . $patientId . '.xlsx');
