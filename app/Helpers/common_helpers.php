@@ -1,7 +1,119 @@
 <?php
 use Carbon\Carbon;
 
-if (!function_exists('setDate')) {
+if (!function_exists('getEligibilityFormFieldsArray')) {
+    function getEligibilityFormFieldsArray()
+    {
+        return [
+            'deductiblesData' => [
+                'deductibles' => 'Deductibles',
+                'deductible_remain' => 'Deductible REMAIN',
+            ],
+            'examData' => [
+                'periodic_exam' => 'Periodic Exam - D0120',
+                'comp_exam' => 'Comp. Exam - D0150',
+                'consultation' => 'Consultation - D9310',
+                'fac_photographic' => 'Fac. photographic images - D0350',
+                'prophy' => 'Prophy - D1110, D1120',
+                'bw' => 'BW - D0274',
+                'fmx_pano' => 'FMX & Pano - D0210 & D0330',
+                'crowns' => 'Crowns - D2740',
+                'dentures' => 'Dentures - D5110',
+                'nightguard' => 'Nightguard - D9944',
+                'perio_srp' => 'Perio SRP - D4341',
+                'perio_maintenance' => 'Perio Maintenance - D4910',
+                'd4381' => 'D4381'
+            ],
+            'coverageData' => [
+                'diagnostic_xray' => [
+                    'coverage' => 'Diagnostic - X-RAY',
+                    'remarks' => false,
+                ],
+                'preventive' => [
+                    'coverage' => 'Preventive',
+                    'remarks' => false,
+                ],
+                'oral_facial_images' => [
+                    'coverage' => 'Oral / Facial photographic images - D0350',
+                    'remarks' => false,
+                ],
+                'basic_restorative' => [
+                    'coverage' => 'Basic Restorative - D2391/Downgrade',
+                    'remarks' => true,
+                ],
+                'major_restorative_d2950' => [
+                    'coverage' => 'Major Restorative - D2950',
+                    'remarks' => false,
+                ],
+                'major_restorative_d2740' => [
+                    'coverage' => 'Major Restorative - D2740/Downgrade',
+                    'remarks' => true,
+                ],
+                'endo' => [
+                    'coverage' => 'Endo - D3310',
+                    'remarks' => false,
+                ],
+                'perio_d4341' => [
+                    'coverage' => 'Perio - D4341',
+                    'remarks' => false,
+                ],
+                'perio_d4346' => [
+                    'coverage' => 'Perio - D4346',
+                    'remarks' => false,
+                ],
+                'perio_d4381' => [
+                    'coverage' => 'Perio - D4381',
+                    'remarks' => false,
+                ],
+                'oral_surgery' => [
+                    'coverage' => 'Oral & Maxillofacial Surgery - D7210',
+                    'remarks' => false,
+                ],
+                'bonegraft' => [
+                    'coverage' => 'Bonegraft - D7953',
+                    'remarks' => false,
+                ],
+                'prostho' => [
+                    'coverage' => 'Prostho - D5110',
+                    'remarks' => false,
+                ],
+                'implants' => [
+                    'coverage' => 'Implants - D6010',
+                    'remarks' => false,
+                ],
+                'ortho' => [
+                    'coverage' => 'Ortho - D8090',
+                    'remarks' => false,
+                ],
+                'nightguard' => [
+                    'coverage' => 'Nightguard - D9944',
+                    'remarks' => false,
+                ],
+            ],
+            'requiredPreauthXrayArray' => [
+                'extraction' => 'Extraction',
+                'crown' => 'Crown',
+                'rct' => 'RCT',
+                'periodontal' => 'Periodontal',
+                'denture' => 'Denture',
+            ],
+            'fluorideSealantsData' => [
+                'extraction' => 'Extraction',
+                'crown' => 'Crown',
+                'rct' => 'RCT',
+                'periodontal' => 'Periodontal',
+                'denture' => 'Denture',
+            ],
+            'options' => [
+                'Yes' => 'Yes',
+                'No' => 'No'
+            ],
+            
+        ];
+    }
+}
+
+if (!function_exists('ymdtomdy')) {
     function ymdtomdy($value = null)
     {
         //DATE_SEPARATOR  Define in config\constants.php

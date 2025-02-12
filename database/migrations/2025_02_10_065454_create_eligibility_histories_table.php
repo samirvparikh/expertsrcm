@@ -4,17 +4,16 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEligibilitiesTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('eligibilities', function (Blueprint $table) {
+        Schema::create('eligibility_histories', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('eligibility_id');
             $table->unsignedBigInteger('patient_id');
             $table->unsignedBigInteger('insurance_id');
             $table->enum('is_eligible', ['Yes', 'No'])->default('No');
@@ -51,7 +50,7 @@ class CreateEligibilitiesTable extends Migration
             $table->string('additional_notes')->nullable();
             $table->timestamps();
 
-            // Foreign Key
+            $table->foreign('eligibility_id')->references('id')->on('eligibilities');
             $table->foreign('patient_id')->references('id')->on('patients');
             $table->foreign('insurance_id')->references('id')->on('insurances');
         });
@@ -59,11 +58,9 @@ class CreateEligibilitiesTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::dropIfExists('eligibilities');
+        Schema::dropIfExists('eligibility_histories');
     }
-}
+};

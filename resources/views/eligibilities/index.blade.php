@@ -32,35 +32,38 @@
                                     <th>Appt. Time</th>
                                     {{-- <th>Prim. Subscriber</th> --}}
                                     <th>Prim. Carrier Name</th>
-                                    <th>Prim. Subscriber ID</th>
+                                    <!-- <th>Prim. Subscriber ID</th> -->
                                     <th>Sec. Carrier Name</th>
-                                    <th>Sec. Subscriber ID</th>
+                                    <!-- <th>Sec. Subscriber ID</th> -->
+                                    <th>Eligible?</th>
                                     <th>Verified By</th>
                                     <th>Verified Date</th>
-                                    <th>Created Date</th>
+                                    <!-- <th>Created Date</th> -->
                                     <th class="text-end">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($eligibilities as $eligibility)
-                                <tr>
+                                <tr class="{{ $eligibility->is_eligible == 'Yes' ? 'bg-success bg-opacity-10' : ($eligibility->is_eligible == 'No' ? 'bg-danger bg-opacity-10' : '') }}">
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $eligibility->office->name }}</td>
-                                    <td>{{ $eligibility->provider->name }}</td>
+                                    <td>{{ \Illuminate\Support\Str::limit($eligibility->office->name, 7) }}</td>
+                                    <td>{{ \Illuminate\Support\Str::limit($eligibility->provider->name, 7) }}</td>
                                     <td>{{ $eligibility->patient->name }}</td>
-                                    <td> {{ \Carbon\Carbon::parse($eligibility->patient->dob)->format('m/d/Y') }}</td>
-                                    <td> {{ \Carbon\Carbon::parse($eligibility->appt_date)->format('m/d/Y') }}</td>
-                                    <td> {{ \Carbon\Carbon::parse($eligibility->appt_time)->format('g:i A') }}</td>
+                                    <td>{{  \Carbon\Carbon::parse($eligibility->patient->dob)->format('m/d/Y') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($eligibility->appt_date)->format('m/d/Y') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($eligibility->appt_time)->format('g:i A') }}</td>
                                     {{-- <td>{{ $eligibility->prim_subscriber ?? '' }}</td> --}}
                                     <td>{{ $eligibility->primaryInsurance->name ?? '' }}</td>
-                                    <td>{{ $eligibility->prim_subscriber_id ?? '' }}</td>
+                                    <!-- <td>{{ $eligibility->prim_subscriber_id ?? '' }}</td> -->
                                     <td>{{ $eligibility->secondayInsurance->name ?? '' }}</td>
-                                    <td>{{ $eligibility->sec_subscriber_id ?? '' }}</td>
+                                    <!-- <td>{{ $eligibility->sec_subscriber_id ?? '' }}</td> -->
+                                    <td>{{ $eligibility->is_eligible }}</td>
                                     <td>{{ $eligibility->verified_by }}</td>
                                     <td>{{ $eligibility->verified_date ? $eligibility->verified_date->format('m/d/Y') : '' }}</td>
-                                    <td>{{ $eligibility->created_at->format('m/d/Y h:i:s') }}</td>
+                                    <!-- <td>{{ $eligibility->created_at->format('m/d/Y h:i:s') }}</td> -->
                                     <td class="text-end">
-                                        <a href="{{ route('eligibilities.form', ['patientId' => $eligibility->patient_id, 'id' => $eligibility->id]) }}" class="btn btn-inverse-warning btn-xs">Edit</a>
+                                        <a href="{{ route('eligibilities.form', ['patientId' => $eligibility->patient_id, 'insuranceId' => $eligibility->primary_insurance_id]) }}" class="btn btn-inverse-warning btn-xs">Edit</a>
+                                        <a href="{{ route('eligibility.export', $eligibility->patient_id) }}" class="btn btn-inverse-danger btn-xs">Export</a>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -74,3 +77,4 @@
     </div>
 </div>
 @endsection
+

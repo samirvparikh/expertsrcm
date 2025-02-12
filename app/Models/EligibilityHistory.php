@@ -5,14 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Eligibility extends Model
+class EligibilityHistory extends Model
 {
     use HasFactory;
 
-    protected $table = 'eligibilities'; // Specify the table name (optional if it's plural of the model name)
-
     // The attributes that are mass assignable.
     protected $fillable = [
+        'eligibility_id',
         'patient_id',
         'insurance_id',
         'is_eligible',
@@ -68,5 +67,4 @@ class Eligibility extends Model
     {
         return $this->belongsTo(Insurance::class, 'insurance_id');
     }
-    
 }

@@ -15,7 +15,7 @@
                                 </ul>
                             </div>
                         @endif
-                        <form action="{{ isset($eligibility) ? route('eligibility.store', $eligibility->id) : route('eligibility.store') }}" method="POST" class="forms-sample">
+                        <form action="{{ route('eligibility.store') }}" method="POST" class="forms-sample">
                             @csrf
                             <input type="hidden" name="patient_id" id="patient_id" class="form-control" value="{{ $patient->id }}">
                             <div class="row">
@@ -29,6 +29,15 @@
                                     </div>
                                     <div class="p-3 pb-0">
                                         <div class="row mb-3">
+                                            <label for="is_eligible" class="col-sm-4 col-form-label">Eligible?</label>
+                                            <div class="col-sm-8">
+                                                <select class="form-control" name="is_eligible" id="is_eligible">
+                                                    <option value="Yes" {{ old('is_eligible', 'Yes') == 'Yes' ? 'selected' : '' }}>Yes</option>
+                                                    <option value="No" {{ old('is_eligible', 'No') == 'No' ? 'selected' : '' }}>No</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
                                             <label for="policy_holder_name" class="col-sm-4 col-form-label">Policy Holder Name</label>
                                             <div class="col-sm-8">
                                                 <input type="text" id="policy_holder_name" name="policy_holder_name" class="form-control" value="{{ old('policy_holder_name', $eligibility->policy_holder_name ?? '') }}">
@@ -41,17 +50,18 @@
                                             </div>
                                         </div>
                                         <div class="row mb-3">
-                                            <label for="insurance_name" class="col-sm-4 col-form-label">Insurance Name</label>
+                                            <label for="insurance_id" class="col-sm-4 col-form-label">Insurance Name</label>
                                             <div class="col-sm-8">
-                                                <select id="insurance_name" name="insurance_name" class="js-example-basic-single form-select" data-width="100%">
+                                                <select id="insurance_id" name="insurance_id" class="js-example-basic-single form-select" data-width="100%">
                                                     <option value="">Select Insurance</option>
                                                     @foreach ($insurances as $insurance)
-                                                        <option value="{{ $insurance->name }}" {{ old('insurance_name', $eligibility->insurance_name ?? '') == $insurance->name ? 'selected' : '' }}>
-                                                            {{ $insurance->name }}
+                                                    <option value="{{ $insurance->id }}" 
+                                                        {{ (old('insurance_id') == $insurance->id || ($eligibility->insurance_id ?? null) == $insurance->id || ($insuranceId ?? null) == $insurance->id) ? 'selected' : '' }}>
+                                                        {{ $insurance->name }}
                                                         </option>
                                                     @endforeach
                                                 </select>
-                                                @error('insurance_name')
+                                                @error('insurance_id')
                                                     <span class="text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
@@ -90,6 +100,12 @@
                                             <label for="effective_date" class="col-sm-4 col-form-label">Effective Date</label>
                                             <div class="col-sm-8">
                                                 <input type="text" id="effective_date" name="effective_date" class="form-control" value="{{ old('effective_date', optional($eligibility)->effective_date ? \Carbon\Carbon::parse(optional($eligibility)->effective_date)->format('m/d/Y') : '') }}" data-inputmask="'alias': 'datetime'" data-inputmask-inputformat="mm/dd/yyyy" inputmode="numeric">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <label for="end_date" class="col-sm-4 col-form-label">Effective Date</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" id="end_date" name="end_date" class="form-control" value="{{ old('end_date', optional($eligibility)->end_date ? \Carbon\Carbon::parse(optional($eligibility)->end_date)->format('m/d/Y') : '') }}" data-inputmask="'alias': 'datetime'" data-inputmask-inputformat="mm/dd/yyyy" inputmode="numeric">
                                             </div>
                                         </div>
                                         <div class="row mb-3">
@@ -165,14 +181,7 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        @php
-                                                            $fluorideFields = [
-                                                                'deductibles' => 'Deductibles',
-                                                                'deductible_remain' => 'Deductible REMAIN',
-                                                            ];
-                                                        @endphp
-
-                                                        @foreach($fluorideFields as $key => $label)
+                                                        @foreach(getEligibilityFormFieldsArray()['deductiblesData'] as $key => $label)
                                                             <tr>
                                                                 <td>{{ $label }}</td>
                                                                 <td>
@@ -226,25 +235,7 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        @php
-                                                            $fields = [
-                                                                'periodic_exam' => 'Periodic Exam - D0120',
-                                                                'comp_exam' => 'Comp. Exam - D0150',
-                                                                'consultation' => 'Consultation - D9310',
-                                                                'fac_photographic' => 'Fac. photographic images - D0350',
-                                                                'prophy' => 'Prophy - D1110, D1120',
-                                                                'bw' => 'BW - D0274',
-                                                                'fmx_pano' => 'FMX & Pano - D0210 & D0330',
-                                                                'crowns' => 'Crowns - D2740',
-                                                                'dentures' => 'Dentures - D5110',
-                                                                'nightguard' => 'Nightguard - D9944',
-                                                                'perio_srp' => 'Perio SRP - D4341',
-                                                                'perio_maintenance' => 'Perio Maintenance - D4910',
-                                                                'd4381' => 'D4381'
-                                                            ];
-                                                        @endphp
-
-                                                        @foreach($fields as $key => $label)
+                                                        @foreach(getEligibilityFormFieldsArray()['examData'] as $key => $label)
                                                             <tr>
                                                                 <td>{{ $label }}</td>
                                                                 <td>
@@ -272,37 +263,27 @@
                                             Coverage %
                                         </div>
                                     </div>
-                                    <div class="p-3 pb-0">
-                                        @php
-                                            $fields = [
-                                                'diagnostic_xray' => 'Diagnostic - X-RAY',
-                                                'preventive' => 'Preventive',
-                                                'oral_facial_images' => 'Oral / Facial photographic images - D0350',
-                                                'basic_restorative' => 'Basic Restorative - D2391/Downgrade',
-                                                'major_restorative_d2950' => 'Major Restorative - D2950',
-                                                'major_restorative_d2740' => 'Major Restorative - D2740/Downgrade',
-                                                'endo' => 'Endo - D3310',
-                                                'perio_d4341' => 'Perio - D4341',
-                                                'perio_d4346' => 'Perio - D4346',
-                                                'perio_d4381' => 'Perio - D4381',
-                                                'oral_surgery' => 'Oral & Maxillofacial Surgery - D7210',
-                                                'bonegraft' => 'Bonegraft - D7953',
-                                                'prostho' => 'Prostho - D5110',
-                                                'implants' => 'Implants - D6010',
-                                                'ortho' => 'Ortho - D8090',
-                                                'nightguard' => 'Nightguard - D9944'
-                                            ];
-                                        @endphp
-
-                                        @foreach($fields as $key => $label)
-                                            <div class="row mb-3">
-                                                <label class="col-sm-6 col-form-label">{{ $label }}</label>
-                                                <div class="col-sm-6">
-                                                    <input type="text" id="{{ $key }}" name="{{ $key }}" class="form-control"
-                                                        value="{{ old($key, $coverageData[$key] ?? '') }}">
-                                                </div>
-                                            </div>
-                                        @endforeach
+                                    <div class="row mb-3">
+                                        <div class="table-responsive">
+                                            <table class="table mb-0">
+                                                <tbody>
+                                                @foreach(getEligibilityFormFieldsArray()['coverageData'] as $key => $data)
+                                                        <tr>
+                                                            <td>{{ $data['coverage'] }}</td>
+                                                            <td>
+                                                                <input type="text" id="{{ $key }}" name="{{ $key }}" class="form-control" value="{{ old($key, $coverageData[$key]['coverage'] ?? '') }}">
+                                                            </td>
+                                                            <td>
+                                                            @if($data['remarks'])
+                                                                <input type="text" id="{{ $key }}_ramarks" name="{{ $key }}_ramarks" class="form-control ms-2"
+                                                                    placeholder="Enter Remarks" value="{{ old($key.'_ramarks', $coverageData[$key]['remarks'] ?? '') }}">
+                                                            @endif
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
 
 
@@ -314,24 +295,13 @@
                                     </div>
 
                                     <div class="card-body">
-                                        @php
-                                            $options = ['yes' => 'Yes', 'no' => 'No'];
-                                            $fields = [
-                                                'extraction' => 'Extraction',
-                                                'crown' => 'Crown',
-                                                'rct' => 'RCT',
-                                                'periodontal' => 'Periodontal',
-                                                'denture' => 'Denture',
-                                            ];
-                                        @endphp
-
-                                        @foreach($fields as $field => $label)
+                                        @foreach(getEligibilityFormFieldsArray()['requiredPreauthXrayArray'] as $field => $label)
                                             <div class="row mb-3">
                                                 <label class="col-sm-4 col-form-label">{{ $label }}</label>
                                                 <div class="col-sm-8">
                                                     <select class="form-control" name="{{ $field }}" id="{{ $field }}">
-                                                        @foreach($options as $value => $option)
-                                                            <option value="{{ $value }}" {{ old($field, $examData[$field] ?? 'yes') == $value ? 'selected' : '' }}>
+                                                        @foreach(getEligibilityFormFieldsArray()['options'] as $value => $option)
+                                                            <option value="{{ $value }}" {{ old($field, $requiredPreauthXrayData[$field] ?? 'yes') == $value ? 'selected' : '' }}>
                                                                 {{ $option }}
                                                             </option>
                                                         @endforeach
@@ -454,7 +424,7 @@
 
                             <div class="text-center22">
                                 <button type="submit" class="btn btn-primary">Save</button>
-                                <a href="{{ route('patients.index') }}" class="btn btn-secondary">Cancel</a>
+                                <a href="{{ route('eligibilities.index') }}" class="btn btn-secondary">Cancel</a>
                             </div>
                         </form>
                     </div>

@@ -44,8 +44,11 @@ Route::middleware('auth')->group(function () {
 
     
     Route::get('/eligibility/index', [EligibilityController::class, 'index'])->name('eligibilities.index');
-    Route::get('/eligibility/form/{patientId?}/{id?}', [EligibilityController::class, 'form'])->name('eligibilities.form');
+    Route::get('/eligibility/form/{patientId?}/{insuranceId?}', [EligibilityController::class, 'form'])->name('eligibilities.form');
     Route::post('/eligibility/store/{id?}', [EligibilityController::class, 'store'])->name('eligibility.store');
+    // Route::get('/eligibility/export/{patientId}', [EligibilityController::class, 'exportExcel'])->name('eligibility.export');
+    Route::get('/eligibility/export/{patientId}', [EligibilityController::class, 'export'])->name('eligibility.export');
+
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
