@@ -10,7 +10,7 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 
-class EligibilityExport implements FromView, WithStyles
+class EligibilityExport implements FromView
 {
     protected $patientId;
 
@@ -19,22 +19,11 @@ class EligibilityExport implements FromView, WithStyles
         $this->patientId = $patientId;
     }
 
-    public function styles(Worksheet $sheet)
-    {
-        return [
-            // Style the first row as bold text.
-            1    => ['font' => ['bold' => true]],
-
-            // Styling a specific cell by coordinate.
-            'B2' => ['font' => ['italic' => true]],
-
-            // Styling an entire column.
-            // 'C'  => ['font' => ['size' => 16]],
-        ];
-    }
+    
 
     public function view(): View
     {
+
         return view('eligibilities.export', [
             'eligibilities' => Eligibility::with('patient')->where('patient_id', $this->patientId)->get()
         ]);

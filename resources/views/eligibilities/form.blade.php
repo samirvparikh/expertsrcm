@@ -181,14 +181,7 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        @php
-                                                            $fluorideFields = [
-                                                                'deductibles' => 'Deductibles',
-                                                                'deductible_remain' => 'Deductible REMAIN',
-                                                            ];
-                                                        @endphp
-
-                                                        @foreach($fluorideFields as $key => $label)
+                                                        @foreach(getEligibilityFormFieldsArray()['deductiblesData'] as $key => $label)
                                                             <tr>
                                                                 <td>{{ $label }}</td>
                                                                 <td>
@@ -242,25 +235,7 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        @php
-                                                            $fields = [
-                                                                'periodic_exam' => 'Periodic Exam - D0120',
-                                                                'comp_exam' => 'Comp. Exam - D0150',
-                                                                'consultation' => 'Consultation - D9310',
-                                                                'fac_photographic' => 'Fac. photographic images - D0350',
-                                                                'prophy' => 'Prophy - D1110, D1120',
-                                                                'bw' => 'BW - D0274',
-                                                                'fmx_pano' => 'FMX & Pano - D0210 & D0330',
-                                                                'crowns' => 'Crowns - D2740',
-                                                                'dentures' => 'Dentures - D5110',
-                                                                'nightguard' => 'Nightguard - D9944',
-                                                                'perio_srp' => 'Perio SRP - D4341',
-                                                                'perio_maintenance' => 'Perio Maintenance - D4910',
-                                                                'd4381' => 'D4381'
-                                                            ];
-                                                        @endphp
-
-                                                        @foreach($fields as $key => $label)
+                                                        @foreach(getEligibilityFormFieldsArray()['examData'] as $key => $label)
                                                             <tr>
                                                                 <td>{{ $label }}</td>
                                                                 <td>
@@ -288,37 +263,27 @@
                                             Coverage %
                                         </div>
                                     </div>
-                                    <div class="p-3 pb-0">
-                                        @php
-                                            $fields = [
-                                                'diagnostic_xray' => 'Diagnostic - X-RAY',
-                                                'preventive' => 'Preventive',
-                                                'oral_facial_images' => 'Oral / Facial photographic images - D0350',
-                                                'basic_restorative' => 'Basic Restorative - D2391/Downgrade',
-                                                'major_restorative_d2950' => 'Major Restorative - D2950',
-                                                'major_restorative_d2740' => 'Major Restorative - D2740/Downgrade',
-                                                'endo' => 'Endo - D3310',
-                                                'perio_d4341' => 'Perio - D4341',
-                                                'perio_d4346' => 'Perio - D4346',
-                                                'perio_d4381' => 'Perio - D4381',
-                                                'oral_surgery' => 'Oral & Maxillofacial Surgery - D7210',
-                                                'bonegraft' => 'Bonegraft - D7953',
-                                                'prostho' => 'Prostho - D5110',
-                                                'implants' => 'Implants - D6010',
-                                                'ortho' => 'Ortho - D8090',
-                                                'nightguard' => 'Nightguard - D9944'
-                                            ];
-                                        @endphp
-
-                                        @foreach($fields as $key => $label)
-                                            <div class="row mb-3">
-                                                <label class="col-sm-6 col-form-label">{{ $label }}</label>
-                                                <div class="col-sm-6">
-                                                    <input type="text" id="{{ $key }}" name="{{ $key }}" class="form-control"
-                                                        value="{{ old($key, $coverageData[$key] ?? '') }}">
-                                                </div>
-                                            </div>
-                                        @endforeach
+                                    <div class="row mb-3">
+                                        <div class="table-responsive">
+                                            <table class="table mb-0">
+                                                <tbody>
+                                                @foreach(getEligibilityFormFieldsArray()['coverageData'] as $key => $data)
+                                                        <tr>
+                                                            <td>{{ $data['coverage'] }}</td>
+                                                            <td>
+                                                                <input type="text" id="{{ $key }}" name="{{ $key }}" class="form-control" value="{{ old($key, $coverageData[$key]['coverage'] ?? '') }}">
+                                                            </td>
+                                                            <td>
+                                                            @if($data['remarks'])
+                                                                <input type="text" id="{{ $key }}_ramarks" name="{{ $key }}_ramarks" class="form-control ms-2"
+                                                                    placeholder="Enter Remarks" value="{{ old($key.'_ramarks', $coverageData[$key]['remarks'] ?? '') }}">
+                                                            @endif
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
 
 
@@ -330,24 +295,13 @@
                                     </div>
 
                                     <div class="card-body">
-                                        @php
-                                            $options = ['yes' => 'Yes', 'no' => 'No'];
-                                            $fields = [
-                                                'extraction' => 'Extraction',
-                                                'crown' => 'Crown',
-                                                'rct' => 'RCT',
-                                                'periodontal' => 'Periodontal',
-                                                'denture' => 'Denture',
-                                            ];
-                                        @endphp
-
-                                        @foreach($fields as $field => $label)
+                                        @foreach(getEligibilityFormFieldsArray()['requiredPreauthXrayArray'] as $field => $label)
                                             <div class="row mb-3">
                                                 <label class="col-sm-4 col-form-label">{{ $label }}</label>
                                                 <div class="col-sm-8">
                                                     <select class="form-control" name="{{ $field }}" id="{{ $field }}">
-                                                        @foreach($options as $value => $option)
-                                                            <option value="{{ $value }}" {{ old($field, $examData[$field] ?? 'yes') == $value ? 'selected' : '' }}>
+                                                        @foreach(getEligibilityFormFieldsArray()['options'] as $value => $option)
+                                                            <option value="{{ $value }}" {{ old($field, $requiredPreauthXrayData[$field] ?? 'yes') == $value ? 'selected' : '' }}>
                                                                 {{ $option }}
                                                             </option>
                                                         @endforeach

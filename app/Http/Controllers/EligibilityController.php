@@ -47,16 +47,18 @@ class EligibilityController extends Controller
             $examData = json_decode($eligibility->exam_data, true) ?? [];
             $coverageData = json_decode($eligibility->coverage_data, true) ?? [];
             $fluorideSealantsData = json_decode($eligibility->fluoride_sealants_data, true) ?? [];
+            $requiredPreauthXrayData = json_decode($eligibility->required_preauth_xray_data, true) ?? [];
         } else {
             // Handle the case where no eligibility record exists
             $deductiblesData = [];
             $examData = [];
             $coverageData = [];
             $fluorideSealantsData = [];
+            $requiredPreauthXrayData = [];
         }
 
         $insurances = Insurance::all(); // Fetch all insurance companies
-        return view('eligibilities.form', compact('eligibility', 'patient', 'insuranceId','deductiblesData', 'examData', 'coverageData', 'fluorideSealantsData', 'insurances'));
+        return view('eligibilities.form', compact('eligibility', 'patient', 'insuranceId','deductiblesData', 'examData', 'coverageData', 'fluorideSealantsData', 'requiredPreauthXrayData','insurances'));
     }
 
 
@@ -158,24 +160,33 @@ class EligibilityController extends Controller
             ],
         ];
 
-        $CoverageData = [
-            'diagnostic_xray' => $request->input('diagnostic_xray'),
-            'preventive' => $request->input('preventive'),
-            'oral_facial_images' => $request->input('oral_facial_images'),
-            'basic_restorative' => $request->input('basic_restorative'),
-            'major_restorative_d2950' => $request->input('major_restorative_d2950'),
-            'major_restorative_d2740' => $request->input('major_restorative_d2740'),
-            'endo' => $request->input('endo'),
-            'perio_d4341' => $request->input('perio_d4341'),
-            'perio_d4346' => $request->input('perio_d4346'),
-            'perio_d4381' => $request->input('perio_d4381'),
-            'oral_surgery' => $request->input('oral_surgery'),
-            'bonegraft' => $request->input('bonegraft'),
-            'prostho' => $request->input('prostho'),
-            'implants' => $request->input('implants'),
-            'ortho' => $request->input('ortho'),
-            'nightguard' => $request->input('nightguard'),
+        $coverageData = [
+            'diagnostic_xray' => ['coverage' => $request->input('diagnostic_xray'),'remarks' => ''],
+            'preventive' => ['coverage' => $request->input('preventive'),'remarks' => ''],
+            'oral_facial_images' => ['coverage' => $request->input('oral_facial_images'),'remarks' => ''],
+            'basic_restorative' => ['coverage' => $request->input('basic_restorative'),'remarks' => $request->input('basic_restorative_ramarks')],
+            'major_restorative_d2950' => ['coverage' => $request->input('major_restorative_d2950'),'remarks' => ''],
+            'major_restorative_d2740' => ['coverage' => $request->input('major_restorative_d2740'),'remarks' => $request->input('major_restorative_d2740_ramarks')],
+            'endo' => ['coverage' => $request->input('endo'),'remarks' => ''],
+            'perio_d4341' => ['coverage' => $request->input('perio_d4341'),'remarks' => ''],
+            'perio_d4346' => ['coverage' => $request->input('perio_d4346'),'remarks' => ''],
+            'perio_d4381' => ['coverage' => $request->input('perio_d4381'),'remarks' => ''],
+            'oral_surgery' => ['coverage' => $request->input('oral_surgery'),'remarks' => ''],
+            'bonegraft' => ['coverage' => $request->input('bonegraft'),'remarks' => ''],
+            'prostho' => ['coverage' => $request->input('prostho'),'remarks' => ''],
+            'implants' => ['coverage' => $request->input('implants'),'remarks' => ''],
+            'ortho' => ['coverage' => $request->input('ortho'),'remarks' => ''],
+            'nightguard' => ['coverage' => $request->input('nightguard'),'remarks' => ''],
         ];
+
+        $requiredPreauthXrayData = [
+                'extraction' => $request->input('extraction'),
+                'crown' => $request->input('crown'),
+                'rct' => $request->input('rct'),
+                'periodontal' => $request->input('periodontal'),
+                'denture' => $request->input('denture'),
+        ];
+        // dd($coverageData);
 
         $insurance = Insurance::find($validated['insurance_id']);
         if (!$insurance) {
@@ -220,7 +231,8 @@ class EligibilityController extends Controller
         $eligibility->deductibles_data = json_encode($deductiblesData); // Convert array to JSON;
         $eligibility->exam_data = json_encode($examData); // Convert array to JSO;
         $eligibility->fluoride_sealants_data = json_encode($fluorideSealantsData); // Convert array to JSON;
-        $eligibility->coverage_data = json_encode($CoverageData);
+        $eligibility->coverage_data = json_encode($coverageData);
+        $eligibility->required_preauth_xray_data = json_encode($requiredPreauthXrayData);
         $eligibility->verified_date = Carbon::now();
         $eligibility->verified_by = $request->input('verified_by');
         $eligibility->insurance_rep_name = $request->input('insurance_rep_name');
