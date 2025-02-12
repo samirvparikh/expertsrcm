@@ -16,8 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger('patient_id');
             $table->unsignedBigInteger('office_id');
             $table->unsignedBigInteger('provider_id');
-            $table->unsignedBigInteger('primary_insurance_id');
-            $table->unsignedBigInteger('secondary_insurance_id');
+            $table->string('primary_insurance_id')->nullable();
+            $table->string('secondary_insurance_id')->nullable();
             $table->string('appt_date')->nullable();
             $table->string('appt_time')->nullable();
             $table->string('prim_subscriber')->nullable();
@@ -33,8 +33,6 @@ return new class extends Migration
             $table->foreign('patient_id')->references('id')->on('patients');
             $table->foreign('office_id')->references('id')->on('offices');
             $table->foreign('provider_id')->references('id')->on('providers');
-            $table->foreign('primary_insurance_id')->references('id')->on('insurances');
-            $table->foreign('secondary_insurance_id')->references('id')->on('insurances');
             $table->foreign('created_by')->references('id')->on('users');
             $table->foreign('updated_by')->references('id')->on('users');
         });
