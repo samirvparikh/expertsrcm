@@ -403,19 +403,19 @@
                                         <div class="row mb-3">
                                             <label for="insurance_rep_name" class="col-sm-4 col-form-label">Insurance Rep. Name</label>
                                             <div class="col-sm-8">
-                                                <input type="text" class="form-control" id="insurance_rep_name" name="insurance_rep_name" value="{{ old('insurance_rep_name') }}">
+                                                <input type="text" class="form-control" id="insurance_rep_name" name="insurance_rep_name" value="{{ old('insurance_rep_name', $eligibility->insurance_rep_name ?? '') }}">
                                             </div>
                                         </div>
                                         <div class="row mb-3">
                                             <label for="insurance_reference_number" class="col-sm-4 col-form-label">Insurance Reference Number</label>
                                             <div class="col-sm-8">
-                                                <input type="text" class="form-control" id="insurance_reference_number" name="insurance_reference_number" value="{{ old('insurance_reference_number') }}">
+                                                <input type="text" class="form-control" id="insurance_reference_number" name="insurance_reference_number" value="{{ old('insurance_reference_number', $eligibility->insurance_reference_number ?? '') }}">
                                             </div>
                                         </div>
                                         <div class="row mb-3">
                                             <label for="additional_notes" class="col-sm-4 col-form-label">Additional Notes</label>
                                             <div class="col-sm-8">
-                                                <input type="text" class="form-control" id="additional_notes" name="additional_notes" value="{{ old('additional_notes') }}">
+                                                <input type="text" class="form-control" id="additional_notes" name="additional_notes" value="{{ old('additional_notes', $eligibility->additional_notes ?? '') }}">
                                             </div>
                                         </div>
                                     </div>

@@ -62,8 +62,11 @@
                                     <td>{{ $eligibility->verified_date ? $eligibility->verified_date->format('m/d/Y') : '' }}</td>
                                     <!-- <td>{{ $eligibility->created_at->format('m/d/Y h:i:s') }}</td> -->
                                     <td class="text-end">
-                                        <a href="{{ route('eligibilities.form', ['patientId' => $eligibility->patient_id, 'insuranceId' => $eligibility->primary_insurance_id]) }}" class="btn btn-inverse-warning btn-xs">Edit</a>
+                                        @if(isset($eligibility->id))
                                         <a href="{{ route('eligibility.export', $eligibility->patient_id) }}" class="btn btn-inverse-danger btn-xs">Export</a>
+                                        @endif
+                                        <a href="{{ route('eligibilities.form', ['patientId' => $eligibility->patient_id, 'insuranceId' => $eligibility->primary_insurance_id]) }}" class="btn btn-inverse-warning btn-xs">Edit</a>
+                                        
                                     </td>
                                 </tr>
                                 @endforeach

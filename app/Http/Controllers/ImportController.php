@@ -152,7 +152,7 @@ class ImportController extends Controller
             
         }
 
-        return redirect()->route('patients.index')->with('success', 'Records imported successfully!');
+        return redirect()->route('eligibilities.index')->with('success', 'Records imported successfully!');
     }
 
 
