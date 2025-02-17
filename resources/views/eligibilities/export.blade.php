@@ -1,6 +1,7 @@
 <?php
 $coverageData = json_decode($eligibilities->first()->coverage_data, true) ?? [];
 $requiredPreauthXrayData = json_decode($eligibilities->first()->required_preauth_xray_data, true) ?? [];
+$eligibility = $eligibilities->first();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,59 +19,60 @@ $requiredPreauthXrayData = json_decode($eligibilities->first()->required_preauth
         </tr>
         <tr>
             <td>Patient Name</td>
-            <td colspan="3">{{ $eligibilities->first()->patient->name ?? '' }}</td>
+            <td colspan="3">{{ $eligibility->patient->name ?? '' }}</td>
         </tr>
         <tr>
             <td>Patient DOB</td>
-            <td colspan="3">{{ $eligibilities->first()->patient->dob ?? '' }}</td>
+            <td colspan="3">{{ $eligibility->patient->dob ?? '' }}</td>
         </tr>
         <tr>
             <td>Policy Holder Name</td>
-            <td colspan="3">Bohnet, Juliene</td>
+            <td colspan="3">{{ $eligibility->policy_holder_name ?? '' }}</td>
         </tr>
         <tr>
             <td>Policy Holder DOB</td>
-            <td colspan="3">04/20/1959</td>
+            <td colspan="3">{{ viewDate($eligibility->policy_holder_dob) ?? '' }}</td>
         </tr>
         <tr>
             <td colspan="4" style="border: 1px solid black; background-color: yellow; font-weight: bold; text-align: center;">Insurance Details</td>
         </tr>
         <tr>
             <td>Insurance Name</td>
-            <td colspan="3">Cigna</td>
+            <td colspan="3">{{ $eligibility->insurance_name ?? '' }}</td>
         </tr>
         <tr>
-            <td style="background-color: green;">In Network / Out of Network</td>
-            <td style="background-color: green;" colspan="3">In Network</td>
+            <td style="background-color: {{ $eligibility->network_status ? '#25d85b' : '#ff524f' }}">In Network / Out of Network</td>
+            <td style="background-color: {{ $eligibility->network_status ? '#25d85b' : '#ff524f' }}" colspan="3">{{ $eligibility->network_status ? 'In Network' : 'Out of Network' }}</td>
         </tr>
         <tr>
             <td>Member ID</td>
-            <td colspan="3">U63209891</td>
+            <td colspan="3">{{ $eligibility->member_id ?? '' }}</td>
         </tr>
         <tr>
             <td>Group Name</td>
-            <td colspan="3">COUNTY OF SAN MATEO</td>
+            <td colspan="3">{{ $eligibility->group_name ?? '' }}</td>
         </tr>
         <tr>
             <td>Group Number</td>
-            <td colspan="3">3340005</td>
+            <td colspan="3">{{ $eligibility->group_number ?? '' }}</td>
         </tr>
         <tr>
             <td>Effective Date</td>
-            <td colspan="3">10/01/2022</td>
+            <td colspan="3">{{ ymdtomdy($eligibility->effective_date) ?? '' }}</td>
         </tr>
         <tr>
             <td>End Date</td>
-            <td colspan="3">10/01/2022</td>
+            <td colspan="3">{{ ymdtomdy($eligibility->end_date) ?? '' }}</td>
         </tr>
         <tr>
             <td>Claims Filling Limit</td>
-            <td colspan="3">365 days</td>
+            <td colspan="3">{{ $eligibility->claims_filing_limit ?? '' }}</td>
         </tr>
         <tr>
             <td>Life Time</td>
-            <td colspan="3">Yes</td>
+            <td colspan="3">{{ $eligibility->life_time ?? '' }}</td>
         </tr>
+        
         <tr>
             <td>Waiting Period</td>
             <td>No</td>
