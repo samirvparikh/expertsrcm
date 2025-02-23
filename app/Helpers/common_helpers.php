@@ -5,26 +5,18 @@ if (!function_exists('getEligibilityFormFieldsArray')) {
     function getEligibilityFormFieldsArray()
     {
         return [
-            'deductiblesData' => [
+            'deductiblesArray' => [
                 'deductibles' => 'Deductibles',
                 'deductible_remain' => 'Deductible REMAIN',
             ],
-            'examData' => [
-                'periodic_exam' => 'Periodic Exam - D0120',
-                'comp_exam' => 'Comp. Exam - D0150',
-                'consultation' => 'Consultation - D9310',
-                'fac_photographic' => 'Fac. photographic images - D0350',
-                'prophy' => 'Prophy - D1110, D1120',
-                'bw' => 'BW - D0274',
-                'fmx_pano' => 'FMX & Pano - D0210 & D0330',
-                'crowns' => 'Crowns - D2740',
-                'dentures' => 'Dentures - D5110',
-                'nightguard' => 'Nightguard - D9944',
-                'perio_srp' => 'Perio SRP - D4341',
-                'perio_maintenance' => 'Perio Maintenance - D4910',
-                'd4381' => 'D4381'
+            'requiredPreauthXrayArray' => [
+                'extraction' => 'Extraction',
+                'crown' => 'Crown',
+                'rct' => 'RCT',
+                'periodontal' => 'Periodontal',
+                'denture' => 'Denture',
             ],
-            'coverageData' => [
+            'coverageArray' => [
                 'diagnostic_xray' => [
                     'coverage' => 'Diagnostic - X-RAY',
                     'remarks' => false,
@@ -90,19 +82,29 @@ if (!function_exists('getEligibilityFormFieldsArray')) {
                     'remarks' => false,
                 ],
             ],
-            'requiredPreauthXrayArray' => [
-                'extraction' => 'Extraction',
-                'crown' => 'Crown',
-                'rct' => 'RCT',
-                'periodontal' => 'Periodontal',
-                'denture' => 'Denture',
+            'examDataArray' => [
+                'periodic_exam' => 'Periodic Exam - D0120',
+                'comp_exam' => 'Comp. Exam - D0150',
+                'consultation' => 'Consultation - D9310',
+                'fac_photographic' => 'Fac. photographic images - D0350',
+                'prophy' => 'Prophy - D1110, D1120',
+                'bw' => 'BW - D0274',
+                'fmx_pano' => 'FMX & Pano - D0210 & D0330',
+                'crowns' => 'Crowns - D2740',
+                'dentures' => 'Dentures - D5110',
+                'nightguard' => 'Nightguard - D9944',
+                'perio_srp' => 'Perio SRP - D4341',
+                'perio_maintenance' => 'Perio Maintenance - D4910',
+                'd4381' => 'D4381'
             ],
-            'fluorideSealantsData' => [
-                'extraction' => 'Extraction',
-                'crown' => 'Crown',
-                'rct' => 'RCT',
-                'periodontal' => 'Periodontal',
-                'denture' => 'Denture',
+            'shareHistoryArray' => [
+                'exam_codes' => 'D0150/D0120/D0140/D9310',
+                'cleaning_codes' => 'D1110/D4910',
+                'xray_codes' => 'D0210/D0330',
+            ],
+            'fluorideSealantsArray' => [
+                'fluoride' => 'D1208, D1206',
+                'sealant' => 'D1351',
             ],
             'options' => [
                 'Yes' => 'Yes',
@@ -115,16 +117,6 @@ if (!function_exists('getEligibilityFormFieldsArray')) {
 
 if (!function_exists('viewDate')) {
     function viewDate($value = null)
-    {
-        //DATE_SEPARATOR  Define in config\constants.php
-        if($value){
-            return date('m'.config('constants.DATE_SEPARATOR').'d'.config('constants.DATE_SEPARATOR').'Y', strtotime($value));
-        }
-    }
-}
-
-if (!function_exists('ymdtomdy')) {
-    function ymdtomdy($value = null)
     {
         //DATE_SEPARATOR  Define in config\constants.php
         if($value){

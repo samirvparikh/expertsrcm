@@ -27,9 +27,11 @@ return new class extends Migration
             $table->date('effective_date')->nullable();
             $table->date('end_date')->nullable();
             $table->string('claims_filing_limit')->nullable();
-            $table->boolean('life_time')->nullable();
+            $table->enum('life_time', ['Yes', 'No'])->default('Yes');
             $table->string('waiting_period')->nullable();
+            $table->string('waiting_period_remarks')->nullable();
             $table->string('missing_tooth_clause')->nullable();
+            $table->string('missing_tooth_clause_remarks')->nullable();
             $table->string('ortho_maximum')->nullable();
             $table->string('ortho_remaining_maximum')->nullable();
             $table->string('ortho_age_limit')->nullable();
@@ -37,12 +39,13 @@ return new class extends Migration
             $table->string('remaining_maximum')->nullable();
             $table->string('plan_year')->nullable();
             $table->string('deductible_applies_to')->nullable();
-            $table->boolean('preventive_waived')->nullable();
+            $table->string('preventive_waived')->nullable();
             $table->json('deductibles_data')->nullable(); // JSON column to store all exam data
             $table->json('exam_data')->nullable(); // JSON column to store all exam data
             $table->json('coverage_data')->nullable(); // JSON column to store Coverage data like Diagnostic, Preventive, etc.
             $table->json('required_preauth_xray_data')->nullable(); // JSON column to store Coverage data like extraction, crown, rct, etc.
-            $table->string('fluoride_sealants_data')->nullable(); //JSON data store            
+            $table->json('fluoride_sealants_data')->nullable(); //JSON data store            
+            $table->json('share_history_data')->nullable(); //JSON data store            
             $table->date('verified_date')->nullable();
             $table->string('verified_by')->nullable();
             $table->string('insurance_rep_name')->nullable();

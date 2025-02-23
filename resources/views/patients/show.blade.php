@@ -110,7 +110,7 @@
                             @foreach ($appointments as $appointment)
                               <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ ymdtomdy($appointment->appt_date) }}</td>
+                                <td>{{ viewDate($appointment->appt_date) }}</td>
                                 <td>{{ setTimeFormat($appointment->appt_time) }}</td>
                                 <td></td>
                                 <td><span class="badge bg-success">Active</span></td>

@@ -6,11 +6,12 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\Patient;
 use App\Models\Eligibility;
+use App\Models\EligibilityGroupNumberData;
 use App\Models\EligibilityHistory;
 use App\Models\EligibilityPatient;
+use App\Exports\EligibilityExport;
 use App\Models\Insurance;
 use Illuminate\Support\Facades\DB;
-use App\Exports\EligibilityExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 class EligibilityController extends Controller
@@ -35,7 +36,9 @@ class EligibilityController extends Controller
         ->get(['eligibility_patients.*', 'e.id', 'e.is_eligible','e.verified_by','e.verified_date']);
         // dd($eligibilityPatients);
 
-        return view('eligibilities.index', compact('eligibilities'));
+        $displayLength = 50;
+
+        return view('eligibilities.index', compact('eligibilities','displayLength'));
     }
 
     public function form($patientId = null, $insuranceId = null)
@@ -46,19 +49,20 @@ class EligibilityController extends Controller
             $deductiblesData = json_decode($eligibility->deductibles_data, true) ?? [];
             $examData = json_decode($eligibility->exam_data, true) ?? [];
             $coverageData = json_decode($eligibility->coverage_data, true) ?? [];
-            $fluorideSealantsData = json_decode($eligibility->fluoride_sealants_data, true) ?? [];
             $requiredPreauthXrayData = json_decode($eligibility->required_preauth_xray_data, true) ?? [];
+            $shareHistoryData = json_decode($eligibility->share_history_data, true) ?? [];
+            $fluorideSealantsData = json_decode($eligibility->fluoride_sealants_data, true) ?? [];
         } else {
             // Handle the case where no eligibility record exists
             $deductiblesData = [];
             $examData = [];
             $coverageData = [];
-            $fluorideSealantsData = [];
             $requiredPreauthXrayData = [];
+            $shareHistoryData = [];
+            $fluorideSealantsData = [];
         }
-
         $insurances = Insurance::all(); // Fetch all insurance companies
-        return view('eligibilities.form', compact('eligibility', 'patient', 'insuranceId','deductiblesData', 'examData', 'coverageData', 'fluorideSealantsData', 'requiredPreauthXrayData','insurances'));
+        return view('eligibilities.form', compact('eligibility', 'patient', 'insuranceId','deductiblesData', 'examData', 'coverageData', 'shareHistoryData', 'fluorideSealantsData', 'requiredPreauthXrayData','insurances'));
     }
 
 
@@ -72,11 +76,18 @@ class EligibilityController extends Controller
             'patient_id' => 'required|exists:patients,id',
             'insurance_id' => 'required|exists:insurances,id',
             'policy_holder_name' => 'required|string|max:255',
+            'policy_holder_dob' => 'required|date',
             'network_status' => 'required|string|max:255',
+
+            'group_number' => 'required|string|max:255',
+            'group_name' => 'required|string|max:255',
+
             'coverage_data' => 'array', // Ensure data is an array
             'coverage_data.*' => 'nullable|string|max:255', // Validate each field
             // 'fluoride_sealants_data' => 'nullable|json',
             // Add validation rules for other fields as needed
+        ], [
+            'insurance_id.required' => 'The insurance name field is required.', // Custom error message
         ]);
 
         $deductiblesData = [
@@ -147,19 +158,6 @@ class EligibilityController extends Controller
             ]
         ];
 
-        $fluorideSealantsData = [
-            'D1208_D1206' => [
-                'frequency' => $request->input('D1208_D1206_frequency'),
-                'history' => $request->input('D1208_D1206_history'),
-                'age_limit' => $request->input('D1208_D1206_age_limit'),
-            ],
-            'D1351' => [
-                'frequency' => $request->input('D1351_frequency'),
-                'history' => $request->input('D1351_history'),
-                'age_limit' => $request->input('D1351_age_limit'),
-            ],
-        ];
-
         $coverageData = [
             'diagnostic_xray' => ['coverage' => $request->input('diagnostic_xray'),'remarks' => ''],
             'preventive' => ['coverage' => $request->input('preventive'),'remarks' => ''],
@@ -180,13 +178,31 @@ class EligibilityController extends Controller
         ];
 
         $requiredPreauthXrayData = [
-                'extraction' => $request->input('extraction'),
-                'crown' => $request->input('crown'),
-                'rct' => $request->input('rct'),
-                'periodontal' => $request->input('periodontal'),
-                'denture' => $request->input('denture'),
+            'extraction' => $request->input('extraction'),
+            'crown' => $request->input('crown'),
+            'rct' => $request->input('rct'),
+            'periodontal' => $request->input('periodontal'),
+            'denture' => $request->input('denture'),
         ];
-        // dd($coverageData);
+
+        $shareHistoryData = [
+            'exam_codes' => $request->input('exam_codes'),
+            'cleaning_codes' => $request->input('cleaning_codes'),
+            'xray_codes' => $request->input('xray_codes'),
+        ];
+        
+        $fluorideSealantsData = [
+            'fluoride' => [
+                'frequency' => $request->input('fluoride_frequency'),
+                'history' => $request->input('fluoride_history'),
+                'age_limit' => $request->input('fluoride_age_limit'),
+            ],
+            'sealant' => [
+                'frequency' => $request->input('sealant_frequency'),
+                'history' => $request->input('sealant_history'),
+                'age_limit' => $request->input('sealant_age_limit'),
+            ],
+        ];
 
         $insurance = Insurance::find($validated['insurance_id']);
         if (!$insurance) {
@@ -231,14 +247,24 @@ class EligibilityController extends Controller
         $eligibility->deductibles_data = json_encode($deductiblesData); // Convert array to JSON;
         $eligibility->exam_data = json_encode($examData); // Convert array to JSO;
         $eligibility->fluoride_sealants_data = json_encode($fluorideSealantsData); // Convert array to JSON;
-        $eligibility->coverage_data = json_encode($coverageData);
+        $eligibility->coverage_data = json_encode($coverageData); // Convert array to JSON;
         $eligibility->required_preauth_xray_data = json_encode($requiredPreauthXrayData);
+        $eligibility->share_history_data = json_encode($shareHistoryData);
         $eligibility->verified_date = Carbon::now();
         $eligibility->verified_by = $request->input('verified_by');
         $eligibility->insurance_rep_name = $request->input('insurance_rep_name');
         $eligibility->insurance_reference_number = $request->input('insurance_reference_number');
         $eligibility->additional_notes = $request->input('additional_notes');
         $eligibility->save();
+        // dd($eligibility);
+        $groupData = EligibilityGroupNumberData::updateOrCreate(
+            ['group_number' => $validated['group_number']], 
+            [
+                'group_name' => $request->input('group_name'),
+                'exam_data' => json_encode($examData), // Convert array to JSON;
+                'coverage_data' => json_encode($coverageData), // Convert array to JSON;
+            ]
+        );
 
         // Return a response, or redirect after successful storage
         return redirect()->route('eligibilities.index')->with('success', $message);
@@ -280,6 +306,7 @@ class EligibilityController extends Controller
             'coverage_data' => $eligibility->coverage_data,
             'required_preauth_xray_data' => $eligibility->required_preauth_xray_data,
             'fluoride_sealants_data' => $eligibility->fluoride_sealants_data,
+            'share_history_data' => $eligibility->share_history_data,
             'verified_date' => $eligibility->verified_date,
             'verified_by' => $eligibility->verified_by,
             'insurance_rep_name' => $eligibility->insurance_rep_name,
@@ -299,10 +326,30 @@ class EligibilityController extends Controller
         $examData = json_decode($eligibility->exam_data, true) ?? [];
         $coverageData = json_decode($eligibility->coverage_data, true) ?? [];
         $fluorideSealantsData = json_decode($eligibility->fluoride_sealants_data, true) ?? [];
+        $shareHistoryData = json_decode($eligibility->share_history_data, true) ?? [];
         // dd($examData);
         return view('eligibilities.edit', compact('eligibility', 'patient', 'deductiblesData','examData', 'coverageData', 'fluorideSealantsData'));
     }
 
+    public function getGroupData(Request $request)
+    {
+        $groupNumber = $request->input('group_number');
+
+        $groupData = EligibilityGroupNumberData::where('group_number', $groupNumber)->first();
+
+        if ($groupData) {
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'group_name' => $groupData->group_name,
+                    'examData' => $groupData->exam_data ?? [],
+                    'coverageData' => $groupData->coverage_data ?? [],
+                ]
+            ]);
+        } else {
+            return response()->json(['success' => false, 'message' => 'No data found']);
+        }
+    }
     /**
      * Remove the specified resource from storage.
      */
@@ -319,7 +366,8 @@ class EligibilityController extends Controller
 
     public function exportExcel($patientId)
     {
-        return Excel::download(new EligibilityExport($patientId), 'eligibility_data_' . $patientId . '.xlsx');
+        $patient = Patient::findOrFail($patientId);
+        return Excel::download(new EligibilityExport($patientId), 'Full_Form_' . $patientId . '_' . $patient->name. '_' . date('m-d-Y') . '.xlsx');
     }
 
 }

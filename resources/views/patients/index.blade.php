@@ -77,7 +77,7 @@
                                     <td>{{ $patient->first_name }}</td>
                                     <td>{{ $patient->last_name }}</td>
                                     <td>{{ $patient->email }}</td>
-                                    <td>{{ ymdtomdy($patient->dob) }}</td>
+                                    <td>{{ viewDate($patient->dob) }}</td>
                                     <td>{{ $patient->cell_phone }}</td>
                                     <td>{{ ucfirst($patient->gender) }}</td>
                                     <td>

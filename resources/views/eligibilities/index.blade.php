@@ -3,10 +3,12 @@
 @section('content')
 <div class="page-content">
 
+    
+
     <div class="main-content d-flex justify-content-between flex-wrap">
         <h2 class="page-title">Eligibility Information</h2>
     </div>
-
+    
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
@@ -18,9 +20,23 @@
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="btn-close"></button>
                         </div>
                     @endif
-
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label for="search_appt_date" class="form-label">Search Appt. Date</label>
+                            <input type="text" id="search_appt_date" class="form-control" placeholder="MM/DD/YYYY">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="search_clinic" class="form-label">Filter by Clinic</label>
+                            <select id="search_clinic" class="form-select">
+                                <option value="">All Clinics</option>
+                                @foreach ($eligibilities->pluck('office.name')->unique() as $clinic)
+                                    <option value="{{ \Illuminate\Support\Str::limit($clinic, 7) }}">{{ $clinic }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
                     <div class="table-responsive">
-                        <table class="table" id="dataTableExample">
+                        <table class="table" id="dataTableExample" data-display-length="50">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -79,5 +95,6 @@
         </div>
     </div>
 </div>
+
 @endsection
 

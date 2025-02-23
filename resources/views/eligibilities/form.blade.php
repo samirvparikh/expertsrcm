@@ -32,21 +32,27 @@
                                             <label for="is_eligible" class="col-sm-4 col-form-label">Eligible?</label>
                                             <div class="col-sm-8">
                                                 <select class="form-control" name="is_eligible" id="is_eligible">
-                                                    <option value="Yes" {{ old('is_eligible', 'Yes') == 'Yes' ? 'selected' : '' }}>Yes</option>
-                                                    <option value="No" {{ old('is_eligible', 'No') == 'No' ? 'selected' : '' }}>No</option>
+                                                    <option value="Yes" {{ old('is_eligible', $eligibility->network_status ?? 'No') == 'Yes' ? 'selected' : '' }}>Yes</option>
+                                                    <option value="No" {{ old('is_eligible', $eligibility->network_status ?? 'No') == 'No' ? 'selected' : '' }}>No</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="row mb-3">
                                             <label for="policy_holder_name" class="col-sm-4 col-form-label">Policy Holder Name</label>
                                             <div class="col-sm-8">
-                                                <input type="text" id="policy_holder_name" name="policy_holder_name" class="form-control" value="{{ old('policy_holder_name', $eligibility->policy_holder_name ?? '') }}">
+                                                <input type="text" id="policy_holder_name" name="policy_holder_name" class="form-control @error('policy_holder_name') is-invalid @enderror" value="{{ old('policy_holder_name', $eligibility->policy_holder_name ?? '') }}">
+                                                @error('policy_holder_name')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
                                             </div>
                                         </div>
                                         <div class="row mb-3">
                                             <label for="policy_holder_dob" class="col-sm-4 col-form-label">Policy Holder DOB</label>
                                             <div class="col-sm-8">
-                                                <input id="policy_holder_dob" name="policy_holder_dob" value="{{ old('policy_holder_dob', optional($eligibility)->policy_holder_dob ? \Carbon\Carbon::parse($eligibility->policy_holder_dob)->format('m/d/Y') : '') }}" class="form-control" data-inputmask="'alias': 'datetime'" data-inputmask-placeholder="*" data-inputmask-inputformat="dd/mm/yyyy" inputmode="numeric">
+                                                <input id="policy_holder_dob" name="policy_holder_dob" class="form-control @error('policy_holder_dob') is-invalid @enderror" value="{{ old('policy_holder_dob', optional($eligibility)->policy_holder_dob ? \Carbon\Carbon::parse($eligibility->policy_holder_dob)->format('m/d/Y') : '') }}" data-inputmask="'alias': 'datetime'" data-inputmask-placeholder="*" data-inputmask-inputformat="dd/mm/yyyy" inputmode="numeric">
+                                                @error('policy_holder_dob')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
                                             </div>
                                         </div>
                                         <div class="row mb-3">
@@ -85,15 +91,21 @@
                                             </div>
                                         </div>
                                         <div class="row mb-3">
-                                            <label for="group_name" class="col-sm-4 col-form-label">Group Name</label>
+                                            <label for="group_number" class="col-sm-4 col-form-label">Group Number</label>
                                             <div class="col-sm-8">
-                                                <input type="text" id="group_name" name="group_name" class="form-control" value="{{ old('group_name', $eligibility->group_name ?? '') }}">
+                                                <input type="text" id="group_number" name="group_number" class="form-control @error('group_number') is-invalid @enderror" value="{{ old('group_number', $eligibility->group_number ?? '') }}">
+                                                @error('group_number')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
                                             </div>
                                         </div>
                                         <div class="row mb-3">
-                                            <label for="group_number" class="col-sm-4 col-form-label">Group Number</label>
+                                            <label for="group_name" class="col-sm-4 col-form-label">Group Name</label>
                                             <div class="col-sm-8">
-                                                <input type="text" id="group_number" name="group_number" class="form-control" value="{{ old('group_number', $eligibility->group_number ?? '') }}">
+                                                <input type="text" id="group_name" name="group_name" class="form-control @error('group_name') is-invalid @enderror" value="{{ old('group_name', $eligibility->group_name ?? '') }}">
+                                                @error('group_name')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
                                             </div>
                                         </div>
                                         <div class="row mb-3">
@@ -103,7 +115,7 @@
                                             </div>
                                         </div>
                                         <div class="row mb-3">
-                                            <label for="end_date" class="col-sm-4 col-form-label">Effective Date</label>
+                                            <label for="end_date" class="col-sm-4 col-form-label">End Date</label>
                                             <div class="col-sm-8">
                                                 <input type="text" id="end_date" name="end_date" class="form-control" value="{{ old('end_date', optional($eligibility)->end_date ? \Carbon\Carbon::parse(optional($eligibility)->end_date)->format('m/d/Y') : '') }}" data-inputmask="'alias': 'datetime'" data-inputmask-inputformat="mm/dd/yyyy" inputmode="numeric">
                                             </div>
@@ -117,19 +129,38 @@
                                         <div class="row mb-3">
                                             <label for="life_time" class="col-sm-4 col-form-label">Life Time</label>
                                             <div class="col-sm-8">
-                                                <input type="text" id="life_time" name="life_time" class="form-control" value="{{ old('life_time', $eligibility->life_time ?? '') }}">
+                                                <select class="form-control" name="life_time" id="life_time">
+                                                    <option value="Yes" {{ old('network_status', $eligibility->life_time ?? '') == 'Yes' ? 'selected' : '' }}>Yes</option>
+                                                    <option value="No" {{ old('network_status', $eligibility->life_time ?? '') == 'No' ? 'selected' : '' }}>No</option>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="row mb-3">
                                             <label for="waiting_period" class="col-sm-4 col-form-label">Waiting Period</label>
                                             <div class="col-sm-8">
-                                                <input type="text" id="waiting_period" name="waiting_period" class="form-control" value="{{ old('waiting_period', $eligibility->waiting_period ?? '') }}">
+                                                <select name="waiting_period" id="waiting_period" class="form-control @error('waiting_period') is-invalid @enderror">
+                                                    <option value="Yes" {{ old('waiting_period', $eligibility->waiting_period ?? 'No') == 'Yes' ? 'selected' : '' }}>Yes</option>
+                                                    <option value="No" {{ old('waiting_period', $eligibility->waiting_period ?? 'No') == 'No' ? 'selected' : '' }}>No</option>
+                                                    <option value="N/A" {{ old('waiting_period', $eligibility->waiting_period ?? 'No') == 'N/A' ? 'selected' : '' }}>N/A</option>
+                                                    <option value="May Apply" {{ old('waiting_period', $eligibility->waiting_period ?? 'No') == 'May Apply' ? 'selected' : '' }}>May Apply</option>
+                                                </select>
+                                                @error('waiting_period')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
                                             </div>
                                         </div>
                                         <div class="row mb-3">
                                             <label for="missing_tooth_clause" class="col-sm-4 col-form-label">Missing Tooth Clause</label>
                                             <div class="col-sm-8">
-                                                <input type="text" id="missing_tooth_clause" name="missing_tooth_clause" class="form-control" value="{{ old('missing_tooth_clause', $eligibility->missing_tooth_clause ?? '') }}">
+                                                <select name="missing_tooth_clause" id="missing_tooth_clause" class="form-control @error('missing_tooth_clause') is-invalid @enderror">
+                                                    <option value="Yes" {{ old('missing_tooth_clause', $eligibility->missing_tooth_clause ?? 'No') == 'Yes' ? 'selected' : '' }}>Yes</option>
+                                                    <option value="No" {{ old('missing_tooth_clause', $eligibility->missing_tooth_clause ?? 'No') == 'No' ? 'selected' : '' }}>No</option>
+                                                    <option value="N/A" {{ old('missing_tooth_clause', $eligibility->missing_tooth_clause ?? 'No') == 'N/A' ? 'selected' : '' }}>N/A</option>
+                                                    <option value="May Apply" {{ old('missing_tooth_clause', $eligibility->missing_tooth_clause ?? 'No') == 'May Apply' ? 'selected' : '' }}>May Apply</option>
+                                                </select>
+                                                @error('missing_tooth_clause')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
                                             </div>
                                         </div>
                                         <div class="row mb-3">
@@ -165,7 +196,11 @@
                                         <div class="row mb-3">
                                             <label for="plan_year" class="col-sm-4 col-form-label">Plan Year</label>
                                             <div class="col-sm-8">
-                                                <input type="text" id="plan_year" name="plan_year" class="form-control" value="{{ old('plan_year', $eligibility->plan_year ?? '') }}">
+                                                {{-- <input type="text" id="plan_year" name="plan_year" class="form-control" value="{{ old('plan_year', $eligibility->plan_year ?? '') }}"> --}}
+                                                <select class="form-control" name="plan_year" id="plan_year">
+                                                    <option value="Calender Year" {{ old('network_status', $eligibility->plan_year ?? '') == 'Calender Year' ? 'selected' : '' }}>Calender Year</option>
+                                                    <option value="Plan Year" {{ old('network_status', $eligibility->plan_year ?? '') == 'Plan Year' ? 'selected' : '' }}>Plan Year</option>
+                                                </select>
                                             </div>
                                         </div>
                                         
@@ -181,7 +216,7 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        @foreach(getEligibilityFormFieldsArray()['deductiblesData'] as $key => $label)
+                                                        @foreach(getEligibilityFormFieldsArray()['deductiblesArray'] as $key => $label)
                                                             <tr>
                                                                 <td>{{ $label }}</td>
                                                                 <td>
@@ -217,7 +252,6 @@
                                             </div>
                                         </div>
 
-
                                         <div>
                                             <div class="d-flex align-items-center p-2 border-bottom tx-16">
                                                 <span data-feather="alert-circle" class="icon-md me-2"></span>
@@ -235,7 +269,7 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        @foreach(getEligibilityFormFieldsArray()['examData'] as $key => $label)
+                                                        @foreach(getEligibilityFormFieldsArray()['examDataArray'] as $key => $label)
                                                             <tr>
                                                                 <td>{{ $label }}</td>
                                                                 <td>
@@ -267,7 +301,7 @@
                                         <div class="table-responsive">
                                             <table class="table mb-0">
                                                 <tbody>
-                                                @foreach(getEligibilityFormFieldsArray()['coverageData'] as $key => $data)
+                                                @foreach(getEligibilityFormFieldsArray()['coverageArray'] as $key => $data)
                                                         <tr>
                                                             <td>{{ $data['coverage'] }}</td>
                                                             <td>
@@ -317,32 +351,22 @@
                                         </div>
                                     </div>
                                     <div class="card-body">
-                                        @php
-                                            $fields = [
-                                                'exam_codes' => 'D0150/D0120/D0140/D9310',
-                                                'cleaning_codes' => 'D1110/D4910',
-                                                'xray_codes' => 'D0210/D0330',
-                                            ];
-                                        @endphp
-
-                                        @foreach($fields as $key => $label)
+                                        @foreach(getEligibilityFormFieldsArray()['shareHistoryArray'] as $field => $label)
                                             <div class="row mb-3">
-                                                <label for="{{ $key }}" class="col-sm-4 col-form-label">{{ $label }}</label>
+                                                <label for="{{ $field }}" class="col-sm-4 col-form-label">{{ $label }}</label>
                                                 <div class="col-sm-8">
-                                                    <input type="text" class="form-control" id="{{ $key }}" name="{{ $key }}" value="{{ old($key, $fluorideSealantsData[$key] ?? '') }}">
+                                                    <input type="text" class="form-control" id="{{ $field }}" name="{{ $field }}" value="{{ old($field, $shareHistoryData[$field] ?? '') }}">
                                                 </div>
                                             </div>
                                         @endforeach
                                     </div>
-
-
+                                    
                                     <div>
                                         <div class="d-flex align-items-center p-2 border-bottom tx-16">
                                             <span data-feather="alert-circle" class="icon-md me-2"></span>
                                             Fluoride & Sealants
                                         </div>
                                     </div>
-
                                     <div class="row mb-3">
                                         <div class="table-responsive">
                                             <table class="table mb-0">
@@ -355,24 +379,17 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @php
-                                                        $fluorideFields = [
-                                                            'D1208_D1206' => 'D1208, D1206',
-                                                            'D1351' => 'D1351',
-                                                        ];
-                                                    @endphp
-
-                                                    @foreach($fluorideFields as $key => $label)
+                                                    @foreach(getEligibilityFormFieldsArray()['fluorideSealantsArray'] as $field => $label)
                                                         <tr>
                                                             <td>{{ $label }}</td>
                                                             <td>
-                                                                <input type="text" id="{{ $key }}_frequency" name="{{ $key }}_frequency" class="form-control" value="{{ old($key.'_frequency', $fluorideSealantsData[$key]['frequency'] ?? '') }}">
+                                                                <input type="text" id="{{ $field }}_frequency" name="{{ $field }}_frequency" class="form-control" value="{{ old($field.'_frequency', $fluorideSealantsData[$field]['frequency'] ?? '') }}">
                                                             </td>
                                                             <td>
-                                                                <input type="text" id="{{ $key }}_history" name="{{ $key }}_history" class="form-control" value="{{ old($key.'_history', $fluorideSealantsData[$key]['history'] ?? '') }}">
+                                                                <input type="text" id="{{ $field }}_history" name="{{ $field }}_history" class="form-control" value="{{ old($field.'_history', $fluorideSealantsData[$field]['history'] ?? '') }}">
                                                             </td>
                                                             <td>
-                                                                <input type="text" id="{{ $key }}_age_limit" name="{{ $key }}_age_limit" class="form-control" value="{{ old($key.'_age_limit', $fluorideSealantsData[$key]['age_limit'] ?? '') }}">
+                                                                <input type="text" id="{{ $field }}_age_limit" name="{{ $field }}_age_limit" class="form-control" value="{{ old($field.'_age_limit', $fluorideSealantsData[$field]['age_limit'] ?? '') }}">
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -433,4 +450,56 @@
         </div>
     </div>
     
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#group_number').on('change', function () {
+            let groupNumber = $(this).val().trim();
+
+            if (groupNumber) {
+                $.ajax({
+                    url: "{{ route('eligibility.getGroupData') }}",
+                    type: "GET",
+                    data: { group_number: groupNumber },
+                    success: function (response) {
+                                                
+                        if (response.success) {
+                            if (response.data.group_name !== null && response.data.group_name !== "") {
+                                $('#group_name').val(response.data.group_name);
+                            }
+                            if (response.data.examData !== null && response.data.examData !== "") {
+                                let examData = JSON.parse(response.data.examData);
+                                Object.keys(examData).forEach(function (key) {
+                                    let frequency = examData[key].frequency || "";
+                                    // let history = examData[key].history || "";
+                                    
+                                    $('#' + key + '_frequency').val(frequency);
+                                    // $('#' + key + '_history').val(history);
+                                });
+                            }
+
+                            if (response.data.coverageData !== null && response.data.coverageData !== "") {
+                                let coverageData = JSON.parse(response.data.coverageData);
+                                Object.keys(coverageData).forEach(function (key) {
+                                    let coverage = coverageData[key].coverage || "";
+                                    $('#' + key).val(coverage);
+                                });
+                            }
+
+                        }
+                    },
+                    error: function () {
+                        console.error("Error fetching data.");
+                    }
+                });
+            }
+        });
+    });
+
+</script>
+@endsection
+
+@section('scripts')
+
 @endsection

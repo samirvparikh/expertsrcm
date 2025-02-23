@@ -41,6 +41,7 @@ class EligibilityHistory extends Model
         'coverage_data',
         'required_preauth_xray_data',
         'fluoride_sealants_data',
+        'share_history_data',
         'verified_date',
         'verified_by',
         'insurance_rep_name',
@@ -53,7 +54,9 @@ class EligibilityHistory extends Model
         'deductibles_data' => 'array',
         'exam_data' => 'array',
         'coverage_data' => 'array',
+        'required_preauth_xray_data' => 'array',
         'fluoride_sealants_data' => 'array',  // Convert JSON to array
+        'share_history_data' => 'array',  // Convert JSON to array
         'verified_date' => 'datetime',
         'updated_at' => 'datetime',
     ];
