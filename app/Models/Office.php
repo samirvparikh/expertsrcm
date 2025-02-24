@@ -45,6 +45,11 @@ class Office extends Model
         'user_id',
     ];
 
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'office_user');
+    }
+
     /**
      * Define the relationship to the user who created the office.
      */

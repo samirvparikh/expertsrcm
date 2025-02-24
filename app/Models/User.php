@@ -42,4 +42,20 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function offices()
+    {
+        return $this->belongsToMany(Office::class, 'office_user');
+    }
+
+    public function getUserTypeAttribute($value)
+    {
+        return ucfirst($value); // Converts 'dentist' → 'Dentist'
+        // return ucwords($value); // Converts 'dentist assistant' → 'Dentist Assistant'
+    }
+
+    public function getContactMethodAttribute($value)
+    {
+        return ucwords(str_replace('_', ' ', $value));
+    }
 }

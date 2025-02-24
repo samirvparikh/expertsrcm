@@ -13,12 +13,29 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->enum('user_type',['dentist', 'hygienist', 'assistant', 'staff'])->default('staff');
+            $table->string('username')->unique();
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
             $table->string('email')->unique();
+            $table->date('dob')->nullable();
+            $table->string('mobile')->nullable();
+            $table->string('home')->nullable();
+            $table->string('work')->nullable();
+            $table->string('ext')->nullable();
+            $table->string('fax')->nullable();
+            $table->enum('role', ['admin', 'billing_coordinator', 'insurance_coordinator', 'office_manager'])->default('admin');
+            $table->enum('preferred_contact_method', ['email', 'mobile', 'work_phone', 'home_phone', 'text_message'])->default('email');
+            $table->string('photo')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
+            $table->unsignedBigInteger('created_by')->nullable(); // User who created the record
+            $table->unsignedBigInteger('updated_by')->nullable(); // User who last updated the record
             $table->timestamps();
+
+            $table->foreign('created_by')->references('id')->on('users');
+            $table->foreign('updated_by')->references('id')->on('users');
         });
     }
 
