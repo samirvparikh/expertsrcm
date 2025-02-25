@@ -48,6 +48,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Office::class, 'office_user');
     }
 
+    public function getNameAttribute()
+    {
+        return "{$this->first_name} {$this->last_name}";
+    }
+
     public function getUserTypeAttribute($value)
     {
         return ucfirst($value); // Converts 'dentist' → 'Dentist'

@@ -27,6 +27,7 @@ return new class extends Migration
             $table->enum('role', ['admin', 'billing_coordinator', 'insurance_coordinator', 'office_manager'])->default('admin');
             $table->enum('preferred_contact_method', ['email', 'mobile', 'work_phone', 'home_phone', 'text_message'])->default('email');
             $table->string('photo')->nullable();
+            $table->boolean('status')->default(1); // 1 = Active, 0 = Inactive
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

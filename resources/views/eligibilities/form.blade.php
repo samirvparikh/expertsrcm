@@ -408,13 +408,13 @@
                                         <div class="row mb-3">
                                             <label for="date" class="col-sm-4 col-form-label">Date</label>
                                             <div class="col-sm-8">
-                                                <input type="text" id="verified_date" name="verified_date" class="form-control" value="{{ old('verified_date', optional($eligibility)->verified_date ? $eligibility->verified_date->format('m/d/Y') : '') }}" data-inputmask="'alias': 'datetime'" data-inputmask-inputformat="mm/dd/yyyy" inputmode="numeric">
+                                                <input type="text" id="verified_date" name="verified_date" class="form-control" value="{{ old('verified_date', optional($eligibility)->verified_date ? $eligibility->verified_date->format('m/d/Y') : date('m/d/Y')) }}" data-inputmask="'alias': 'datetime'" data-inputmask-inputformat="mm/dd/yyyy" inputmode="numeric">
                                             </div>
                                         </div>            
                                         <div class="row mb-3">
                                             <label for="verified_by" class="col-sm-4 col-form-label">Verified By</label>
                                             <div class="col-sm-8">
-                                                <input type="text" class="form-control" id="verified_by" name="verified_by" value="{{ old('verified_by', auth()->check() ? auth()->user()->name : 'Guest') }}">
+                                                <input type="text" class="form-control" id="verified_by" name="verified_by" value="{{ old('verified_by', auth()->check() ? auth()->user()->username : 'Guest') }}">
                                             </div>
                                         </div>            
                                         <div class="row mb-3">
