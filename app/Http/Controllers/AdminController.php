@@ -40,8 +40,8 @@ public function AdminLogout(Request $request){
     }// End Method 
 
 
-    public function AdminProfile(){
-
+    public function AdminProfile()
+    {
         $id = Auth::user()->id;
         $profileData = User::find($id);
         return view('admin.admin_profile_view',compact('profileData'));
@@ -49,21 +49,33 @@ public function AdminLogout(Request $request){
      }// End Method 
 
 
-     public function AdminProfileStore(Request $request){
-
+     public function AdminProfileStore(Request $request) 
+     {
         $id = Auth::user()->id;
         $data = User::find($id);
-        $data->username = $request->username;
-        $data->name = $request->name;
+        $data->first_name = $request->first_name; 
+        $data->last_name = $request->last_name; 
         $data->email = $request->email;
-        $data->phone = $request->phone;
-        $data->address = $request->address; 
+        $data->mobile = $request->mobile;
+        $data->home = $request->home;
+        $data->work = $request->work;
 
         if ($request->file('photo')) {
             $file = $request->file('photo');
-            @unlink(public_path('upload/admin_images/'.$data->photo));
-            $filename = date('YmdHi').$file->getClientOriginalName(); 
-            $file->move(public_path('upload/admin_images'),$filename);
+
+            // Define the upload path
+            $uploadPath = public_path('upload/profile_photo');
+
+            // Check if directory exists, if not, create it
+            if (!file_exists($uploadPath)) {
+              mkdir($uploadPath, 0775, true);  // Create directory with proper permissions
+            }
+            
+            // Delete the old file if exists
+            @unlink($uploadPath.'/'.$data->photo);
+            $filename = date('YmdHi').$file->getClientOriginalName();
+            // Move file to the directory
+            $file->move($uploadPath, $filename);
             $data['photo'] = $filename;  
         }
 
@@ -240,17 +252,16 @@ public function AdminLogout(Request $request){
   }// End Method 
 
 
-  public function StoreAdmin(Request $request){
-
+  public function StoreAdmin(Request $request)
+  {
     $user = new User();
     $user->username = $request->username;
-    $user->name = $request->name;
+    $user->first_name = $request->first_name; 
+    $user->last_name = $request->last_name; 
     $user->email = $request->email;
-    $user->phone = $request->phone;
-    $user->address = $request->address;
-    $user->password =  Hash::make($request->password);
-    $user->role = 'admin';
-    $user->status = 'active';
+    $user->mobile = $request->mobile;
+    $user->home = $request->home;
+    $user->work = $request->work;    
     $user->save();
 
     if ($request->roles) {
@@ -278,13 +289,12 @@ public function AdminLogout(Request $request){
    public function UpdateAdmin(Request $request,$id){
 
     $user = User::findOrFail($id);
-    $user->username = $request->username;
-    $user->name = $request->name;
+    $user->first_name = $request->first_name; 
+    $user->last_name = $request->last_name; 
     $user->email = $request->email;
-    $user->phone = $request->phone;
-    $user->address = $request->address; 
-    $user->role = 'admin';
-    $user->status = 'active';
+    $user->mobile = $request->mobile;
+    $user->home = $request->home;
+    $user->work = $request->work;
     $user->save();
 
     $user->roles()->detach();

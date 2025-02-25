@@ -10,7 +10,7 @@
                         <div class="d-flex align-items-center justify-content-between mb-2">
                             <div>
                                 <img class="wd-100 rounded-circle"
-                                    src="{{ !empty($profileData->photo) ? url('upload/admin_images/' . $profileData->photo) : asset('images/admin/male-avatar.jpg') }}"
+                                    src="{{ !empty($profileData->photo) ? url('upload/profile_photo/' . $profileData->photo) : asset('images/admin/male-avatar.jpg') }}"
                                     alt="profile">
                                 <span class="h4 ms-3 ">{{ $profileData->username }}</span>
                             </div>
@@ -51,35 +51,90 @@
                 <div class="row">
                     <div class="card">
                         <div class="card-body">
-                            <h6 class="card-title">Update Admin Profile </h6>
+                            <h6 class="card-title">Update Profile </h6>
                             <form method="POST" action="{{ route('admin.profile.store') }}" class="forms-sample"
                                 enctype="multipart/form-data">
                                 @csrf
+
                                 <div class="mb-3">
-                                    <label for="exampleInputUsername1" class="form-label">Username</label>
-                                    <input type="text" name="username" class="form-control" id="exampleInputUsername1"
-                                        autocomplete="off" value="{{ $profileData->username }}">
+                                    <label class="form-label">Userame <span class="text-danger">*</span></label>
+                                    <input type="text" name="username" class="form-control  @error('username') is-invalid @enderror" value="{{ old('username', $profileData->username ?? '') }}" autocomplete="off" disabled>
+                                    @error('username')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">Name </label>
-                                    <input type="text" name="name" class="form-control" id="exampleInputUsername1"
-                                        autocomplete="off" value="{{ $profileData->name }}">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">First Name <span class="text-danger">*</span></label>
+                                            <input type="text" name="first_name" class="form-control @error('first_name') is-invalid @enderror" value="{{ old('first_name', $profileData->first_name ?? '') }}" placeholder="Enter first name">
+                                            @error('first_name')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Last Name <span class="text-danger">*</span></label>
+                                            <input type="text" name="last_name" class="form-control @error('last_name') is-invalid @enderror" value="{{ old('last_name', $profileData->last_name ?? '') }}" placeholder="Enter last name">
+                                            @error('last_name')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">Email </label>
-                                    <input type="email" name="email" class="form-control" id="exampleInputUsername1"
-                                        autocomplete="off" value="{{ $profileData->email }}">
+                                
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Email <span class="text-danger">*</span></label>
+                                            <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email', $profileData->email ?? '') }}">
+                                            @error('email')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Date Of Birth</label>
+                                            <input type="text" name="dob" class="form-control @error('dob') is-invalid @enderror" value="{{ old('dob', $profileData->dob ?? '') }}">
+                                            @error('dob')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">Phone </label>
-                                    <input type="text" name="phone" class="form-control" id="exampleInputUsername1"
-                                        autocomplete="off" value="{{ $profileData->phone }}">
+
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="mb-3">
+                                            <label class="form-label">Mobile <span class="text-danger">*</span></label>
+                                            <input type="text" name="mobile" class="form-control @error('mobile') is-invalid @enderror" value="{{ old('mobile', $profileData->mobile ?? '') }}">
+                                            @error('mobile')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="mb-3">
+                                            <label class="form-label">Home</label>
+                                            <input type="text" name="home" class="form-control @error('home') is-invalid @enderror" value="{{ old('home', $profileData->home ?? '') }}">
+                                            @error('home')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="mb-3">
+                                            <label class="form-label">Work</label>
+                                            <input type="text" name="work" class="form-control @error('work') is-invalid @enderror" value="{{ old('work', $profileData->work ?? '') }}">
+                                            @error('work')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">Address </label>
-                                    <input type="text" name="address" class="form-control" id="exampleInputUsername1"
-                                        autocomplete="off" value="{{ $profileData->address }}">
-                                </div>
+
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="form-label">Photo </label>
                                     <input class="form-control" name="photo" type="file" id="image">
@@ -87,7 +142,7 @@
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="form-label"> </label>
                                     <img id="showImage" class="wd-80 rounded-circle"
-                                        src="{{ !empty($profileData->photo) ? url('upload/admin_images/' . $profileData->photo) : asset('images/admin/male-avatar.jpg') }}"
+                                        src="{{ !empty($profileData->photo) ? url('upload/profile_photo/' . $profileData->photo) : asset('images/admin/male-avatar.jpg') }}"
                                         alt="profile">
                                 </div>
                                 <button type="submit" class="btn btn-primary me-2">Save Changes </button>
