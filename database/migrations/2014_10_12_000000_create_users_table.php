@@ -29,6 +29,7 @@ return new class extends Migration
             $table->string('profile_photo')->nullable();
             $table->boolean('status')->default(1); // 1 = Active, 0 = Inactive
             $table->timestamp('email_verified_at')->nullable();
+            $table->string('password_hint')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->unsignedBigInteger('created_by')->nullable(); // User who created the record

@@ -40,7 +40,7 @@
                                     <td>{{ $user->username }}</td>
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
-                                    <td>{{ $user->dob }}</td>
+                                    <td>{{ viewDate($user->dob) }}</td>
                                     <td>{{ $user->mobile }}</td>
                                     <td>{{ $user->role }}</td>
                                     <td>
@@ -51,11 +51,13 @@
                                         @endif    
                                     </td>
                                     <td  class="text-end">
-                                        <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning btn-xs">Edit</a>
+                                        <a href="{{ route('users.edit', $user->id) }}" class="btn btn-inverse-warning btn-xs">Edit</a>
                                         <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline-block;">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-xs">Delete</button>
+                                            <button type="submit" class="btn btn-inverse-danger btn-xs" onclick="return confirm('Are you sure you want to delete this?');">
+                                                Delete
+                                            </button>
                                         </form>
                                     </td>
                                 </tr>

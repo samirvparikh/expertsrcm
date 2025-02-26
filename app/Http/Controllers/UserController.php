@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use App\Models\User;
 
 class UserController extends Controller
@@ -38,16 +39,18 @@ class UserController extends Controller
             'role' => 'required|in:admin,billing_coordinator,insurance_coordinator,office_manager',
             'password' => 'required|min:8|confirmed',
         ]);
-
+        
         User::create([
             'username' => $request->username,
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
-            'dob' => $request->dob,
+            'mobile' => $request->mobile,
+            'home' => $request->home,
+            'password_hint' => $request->password,
             'password' => bcrypt($request->password),
         ]);
-    
+
         return redirect()->route('users.index');
         // return redirect()->route('users.index')->with('success', 'User created successfully.');
     }
@@ -76,11 +79,23 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $request->validate([
-            'name' => 'required|string|max:191',
-            'email' => 'required|email|unique:users,email,' . $user->id,
+            'username' => 'required|string|max:255|unique:users,username,' . $id,
+            'email' => 'required|email|unique:users,email,' . $id,
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'mobile' => 'required',
+            'role' => 'required|in:admin,billing_coordinator,insurance_coordinator,office_manager',
+            'password' => $request->password ? 'nullable|min:8|confirmed' : '', // Only validate password if it's provided
         ]);
     
-        $user->update($request->only('name', 'email'));
+        $data = $request->except(['password']);
+        if ($request->filled('password')) {
+            $data['password'] = bcrypt($request->password);
+        }
+        
+
+        $user->update($data);
+        // $user->update($request->all());
     
         return redirect()->route('users.index')->with('success', 'User updated successfully.');
     }
@@ -95,3 +110,4 @@ class UserController extends Controller
         return redirect()->route('users.index')->with('success', 'User deleted successfully.');
     }
 }
+

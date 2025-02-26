@@ -1,6 +1,23 @@
 <?php
 use Carbon\Carbon;
 
+if (!function_exists('viewDate')) {
+    function viewDate($value = null)
+    {
+        //DATE_SEPARATOR  Define in config\constants.php
+        if($value){
+            return date('m'.config('constants.DATE_SEPARATOR').'d'.config('constants.DATE_SEPARATOR').'Y', strtotime($value));
+        }
+    }
+}
+
+if (!function_exists('setTimeFormat')) {
+    function setTimeFormat($value = null)
+    {
+        return Carbon::createFromFormat('H:i:s', $value)->format('g:i A');
+    }
+}
+
 if (!function_exists('getEligibilityFormFieldsArray')) {
     function getEligibilityFormFieldsArray()
     {
@@ -115,19 +132,3 @@ if (!function_exists('getEligibilityFormFieldsArray')) {
     }
 }
 
-if (!function_exists('viewDate')) {
-    function viewDate($value = null)
-    {
-        //DATE_SEPARATOR  Define in config\constants.php
-        if($value){
-            return date('m'.config('constants.DATE_SEPARATOR').'d'.config('constants.DATE_SEPARATOR').'Y', strtotime($value));
-        }
-    }
-}
-
-if (!function_exists('setTimeFormat')) {
-    function setTimeFormat($value = null)
-    {
-        return Carbon::createFromFormat('H:i:s', $value)->format('g:i A');
-    }
-}

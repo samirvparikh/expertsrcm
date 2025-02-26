@@ -35,7 +35,7 @@
                             <div class="col-sm-6">
                                 <div class="mb-3">
                                     <label class="form-label">First Name <span class="text-danger">*</span></label>
-                                    <input type="text" name="first_name" class="form-control @error('first_name') is-invalid @enderror" placeholder="Enter first name">
+                                    <input type="text" name="first_name" class="form-control @error('first_name') is-invalid @enderror" value="{{ old('first_name') }}">
                                     @error('first_name')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -44,7 +44,7 @@
                             <div class="col-sm-6">
                                 <div class="mb-3">
                                     <label class="form-label">Last Name <span class="text-danger">*</span></label>
-                                    <input type="text" name="last_name" class="form-control @error('last_name') is-invalid @enderror" placeholder="Enter last name">
+                                    <input type="text" name="last_name" class="form-control @error('last_name') is-invalid @enderror" value="{{ old('last_name') }}">
                                     @error('last_name')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -53,7 +53,7 @@
                         </div>
                         
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-12">
                                 <div class="mb-3">
                                     <label class="form-label">Email <span class="text-danger">*</span></label>
                                     <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}">
@@ -62,15 +62,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-sm-6">
-                                <div class="mb-3">
-                                    <label class="form-label">Date Of Birth</label>
-                                    <input type="text" name="dob" class="form-control @error('dob') is-invalid @enderror" value="{{ old('dob') }}">
-                                    @error('dob')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
+                            
                         </div>
 
                         <div class="row">
@@ -138,6 +130,7 @@
                                 </div>
                             </div>
                         </div>
+                        
                         <div class="mb-3">
                             <label class="form-label">Status: <span class="text-danger">*</span></label>
                             <select name="status" class="form-select @error('status') is-invalid @enderror" required>

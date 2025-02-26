@@ -52,3 +52,26 @@ CREATE TABLE `temp_appt` (
 ) ENGINE=MyISAM;
 
 php artisan make:migration create_eligibilities_table
+
+
+<input id="dob" name="dob" class="form-control @error('dob') is-invalid @enderror" value="{{ old('dob', $user->dob ? \Carbon\Carbon::parse($user->dob)->format('d/m/Y') : '') }}" data-inputmask="'alias': 'datetime'" data-inputmask-inputformat="dd/mm/yyyy">
+
+<div class="col-sm-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Date Of Birth</label>
+                                    <input id="dob" name="dob" class="form-control @error('dob') is-invalid @enderror" value="{{ old('dob') }}" data-inputmask="'alias': 'datetime'" data-inputmask-placeholder="*" data-inputmask-inputformat="dd/mm/yyyy" inputmode="numeric">
+                                    @error('dob')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+
+// 'dob' => 'date_format:m/d/Y',
+            // 'dob' => Carbon::createFromFormat('m/d/Y', $request->dob)->format('Y-m-d'),
+                            // if ($request->filled('dob')) {
+        //     try {
+        //         $data['dob'] = Carbon::createFromFormat('m/d/Y', $request->dob)->format('Y-m-d');
+        //     } catch (\Exception $e) {
+        //         return back()->withErrors(['dob' => 'Invalid date format.']);
+        //     }
+        // }
