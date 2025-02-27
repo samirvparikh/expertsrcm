@@ -10,7 +10,7 @@
                         <div class="d-flex align-items-center justify-content-between mb-2">
                             <div>
                                 <img class="wd-100 rounded-circle"
-                                    src="{{ !empty($profileData->photo) ? url('upload/profile_photo/' . $profileData->photo) : asset('images/admin/male-avatar.jpg') }}"
+                                    src="{{ !empty($profileData->profile_photo) ? asset('../' . $profileData->profile_photo) : asset('images/admin/male-avatar.jpg') }}"
                                     alt="profile">
                                 <span class="h4 ms-3 ">{{ $profileData->username }}</span>
                             </div>
@@ -136,13 +136,13 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">Photo </label>
-                                    <input class="form-control" name="photo" type="file" id="image">
+                                    <label for="exampleInputEmail1" class="form-label">Profile Photo </label>
+                                    <input class="form-control" name="profile_photo" type="file" id="image">
                                 </div>
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="form-label"> </label>
                                     <img id="showImage" class="wd-80 rounded-circle"
-                                        src="{{ !empty($profileData->photo) ? url('upload/profile_photo/' . $profileData->photo) : asset('images/admin/male-avatar.jpg') }}"
+                                        src="{{ !empty($profileData->profile_photo) ? asset('../' . $profileData->profile_photo) : asset('images/admin/male-avatar.jpg') }}"
                                         alt="profile">
                                 </div>
                                 <button type="submit" class="btn btn-primary me-2">Save Changes </button>

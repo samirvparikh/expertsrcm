@@ -46,7 +46,7 @@ public function AdminLogout(Request $request){
         $profileData = User::find($id);
         return view('admin.admin_profile_view',compact('profileData'));
 
-     }// End Method 
+    }// End Method 
 
 
      public function AdminProfileStore(Request $request) 
@@ -59,26 +59,23 @@ public function AdminLogout(Request $request){
         $data->mobile = $request->mobile;
         $data->home = $request->home;
         $data->work = $request->work;
-
-        if ($request->file('photo')) {
-            $file = $request->file('photo');
-
-            // Define the upload path
-            $uploadPath = public_path('upload/profile_photo');
-
-            // Check if directory exists, if not, create it
-            if (!file_exists($uploadPath)) {
-              mkdir($uploadPath, 0775, true);  // Create directory with proper permissions
-            }
-            
-            // Delete the old file if exists
+        
+        
+        $folder = 'upload/profile_photo';
+        if ($request->file('profile_photo')) {
+            $uploadPath = public_path($folder); // Corrected path
+            /*if (!file_exists($uploadPath)) {
+                mkdir($uploadPath, 0775, true); // Create directory with proper permissions
+            }*/
+            $file = $request->file('profile_photo');
+            $extension = $file->getClientOriginalExtension();
+            $filename = $data->id . '_' . time() . '.' . $extension;
             @unlink($uploadPath.'/'.$data->photo);
-            $filename = date('YmdHi').$file->getClientOriginalName();
-            // Move file to the directory
             $file->move($uploadPath, $filename);
-            $data['photo'] = $filename;  
+            // Store only the relative path in the database
+            $data['profile_photo'] = $folder . '/' . $filename;
         }
-
+        
         $data->save();
 
         $notification = array(
