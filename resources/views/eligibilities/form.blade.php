@@ -49,7 +49,7 @@
                                         <div class="row mb-3">
                                             <label for="policy_holder_dob" class="col-sm-4 col-form-label">Policy Holder DOB</label>
                                             <div class="col-sm-8">
-                                                <input id="policy_holder_dob" name="policy_holder_dob" class="form-control @error('policy_holder_dob') is-invalid @enderror" value="{{ old('policy_holder_dob', optional($eligibility)->policy_holder_dob ? \Carbon\Carbon::parse($eligibility->policy_holder_dob)->format('m/d/Y') : '') }}" data-inputmask="'alias': 'datetime'" data-inputmask-placeholder="*" data-inputmask-inputformat="dd/mm/yyyy" inputmode="numeric">
+                                                <input id="policy_holder_dob" name="policy_holder_dob" class="form-control @error('policy_holder_dob') is-invalid @enderror" value="{{ old('policy_holder_dob', optional($eligibility)->policy_holder_dob ? \Carbon\Carbon::parse($eligibility->policy_holder_dob)->format('m/d/Y') : '') }}" data-inputmask="'alias': 'datetime'" data-inputmask-placeholder="*" data-inputmask-inputformat="mm/dd/yyyy" inputmode="numeric">
                                                 @error('policy_holder_dob')
                                                     <span class="text-danger">{{ $message }}</span>
                                                 @enderror
