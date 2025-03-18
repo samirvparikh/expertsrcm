@@ -6,7 +6,7 @@
         <h2 class="page-title">Providers</h2>
         <div>
             <a href="{{ route('providers.create') }}" class="btn btn-primary">
-                <i class="btn-icon-prepend" data-feather="plus"></i> Add New Provider
+                <i class="btn-icon-prepend" data-feather="plus"></i> Add New
             </a>
         </div>
     </div>

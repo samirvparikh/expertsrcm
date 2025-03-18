@@ -30,7 +30,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('providers.index') }}" class="nav-link">Providers</a>
-                        </li>
+                        </li>                        
                         <li class="nav-item">
                             <a href="{{ route('insurances.index') }}" class="nav-link">Insurances</a>
                         </li>
@@ -48,6 +48,28 @@
                 </a>
             </li>
 
+
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="collapse" href="#rolesPermission" role="button" aria-expanded="false"
+                    aria-controls="rolesPermission">
+                    <i class="link-icon" data-feather="settings"></i>
+                    <span class="link-title">Administration</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse" id="rolesPermission">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ route('permissions.index') }}" class="nav-link">Permissions</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('all.roles') }}" class="nav-link">Roles</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('all.roles.permission') }}" class="nav-link">All Role In Permission </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
 
 
             <li class="nav-item nav-category">Docs</li>

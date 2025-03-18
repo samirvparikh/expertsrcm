@@ -11,7 +11,7 @@ use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\InsuranceController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\EligibilityController;
-
+use App\Http\Controllers\RoleController;
 
 
 Route::controller(CsvController::class)->group(function(){
@@ -62,6 +62,31 @@ Route::middleware('auth')->group(function () {
     Route::get('/change/password', [AdminController::class, 'AdminChangePassword'])->name('admin.change.password');
     Route::post('/update/password', [AdminController::class, 'AdminUpdatePassword'])->name('admin.update.password');
     Route::get('/logout', [AdminController::class, 'AdminLogout'])->name('admin.logout');
+
+    Route::controller(RoleController::class)->group(function() {
+        Route::get('/permissions', 'index')->name('permissions.index');
+        Route::get('/permissions/create', 'create')->name('permissions.create');
+        Route::post('/permissions/store', 'StorePermission')->name('permissions.store');
+        Route::get('/permissions/edit/{id}', 'EditPermission')->name('permissions.edit');        
+        Route::post('/update/permission', 'UpdatePermission')->name('update.permission');
+        Route::get('/delete/permission/{id}', 'DeletePermission')->name('delete.permission');    
+
+        Route::get('/all/roles', 'AllRoles')->name('all.roles');
+        Route::get('/add/roles', 'AddRoles')->name('add.roles');
+        Route::post('/store/roles', 'StoreRoles')->name('store.roles');
+        Route::get('/edit/roles/{id}', 'EditRoles')->name('edit.roles');
+        Route::post('/update/roles', 'UpdateRoles')->name('update.roles');
+        Route::get('/delete/roles/{id}', 'DeleteRoles')->name('delete.roles');
+
+        Route::get('/add/roles/permission', 'AddRolesPermission')->name('add.roles.permission');
+        Route::post('/role/permission/store', 'RolePermissionStore')->name('role.permission.store');
+        Route::get('/all/roles/permission', 'AllRolesPermission')->name('all.roles.permission');
+
+        Route::get('/admin/edit/roles/{id}', 'AdminEditRoles')->name('admin.edit.roles');
+        Route::post('/admin/roles/update/{id}', 'AdminRolesUpdate')->name('admin.roles.update');
+        Route::get('/admin/delete/roles/{id}', 'AdminDeleteRoles')->name('admin.delete.roles');
+    });
+
 
 });
 

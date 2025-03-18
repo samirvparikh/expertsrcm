@@ -3,15 +3,14 @@
 @section('content')
 
 <div class="page-content">
-
-    <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
+    <div class="main-content d-flex justify-content-between flex-wrap">
+        <h2 class="page-title">Users</h2>
         <div>
-            <h4 class="mb-3 mb-md-0">Users</h4>                
+            <a href="{{ route('users.create') }}" class="btn btn-primary">
+                <i class="btn-icon-prepend" data-feather="plus"></i> Add New
+            </a>
         </div>
-        <div>
-            <a href="{{ route('users.create') }}" class="btn btn-primary"><i class="btn-icon-prepend" data-feather="plus"></i> Add New </a>
-        </div>
-    </div>        
+    </div>   
 
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
