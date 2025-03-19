@@ -41,8 +41,11 @@
                             <select name="group_name" class="form-select mb-3"
                                 aria-label="Default select example">
                                 <option selected="">Select Group </option>
+                                <option value="User" {{ old('group_name', $permission->group_name) == 'User' ? 'selected' : '' }}>User</option>
+                                <option value="Patient" {{ old('group_name', $permission->group_name) == 'Patient' ? 'selected' : '' }}>Patient</option>
+                                <option value="Office" {{ old('group_name', $permission->group_name) == 'Office' ? 'selected' : '' }}>Office</option>
+                                <option value="Proiveder" {{ old('group_name', $permission->group_name) == 'Proiveder' ? 'selected' : '' }}>Proiveder</option>
                                 <option value="Eligibility" {{ old('group_name', $permission->group_name) == 'Eligibility' ? 'selected' : '' }}>Eligibility</option>
-                                <option value="Role and Permission" {{ old('group_name', $permission->group_name) == 'Role and Permission' ? 'selected' : '' }}>Role and Permission</option>
                             </select>
                         </div>
                         <div class="col-md-12">

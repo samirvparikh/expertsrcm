@@ -10,6 +10,7 @@ use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\InsuranceController;
 use App\Http\Controllers\PatientController;
+use App\Http\Controllers\OptionController;
 use App\Http\Controllers\EligibilityController;
 use App\Http\Controllers\RoleController;
 
@@ -36,7 +37,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('offices', OfficeController::class);
     Route::resource('providers', ProviderController::class);
     Route::resource('insurances', InsuranceController::class);
-    Route::resource('patients', PatientController::class);
+    Route::resource('patients', PatientController::class);    
+    Route::resource('options', OptionController::class)->except(['destroy']);
+    Route::get('/options/delete/{id}', [OptionController::class, 'delete'])->name('options.delete');
 
     Route::controller(PatientController::class)->group(function(){
         Route::get('/profile', 'profile')->name('patient.profile');

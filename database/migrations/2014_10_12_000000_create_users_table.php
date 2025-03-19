@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('work')->nullable();
             $table->string('ext')->nullable();
             $table->string('fax')->nullable();
-            $table->enum('role', ['admin', 'billing_coordinator', 'insurance_coordinator', 'office_manager'])->default('admin');
+            $table->string('role')->nullable();
             $table->enum('preferred_contact_method', ['email', 'mobile', 'work_phone', 'home_phone', 'text_message'])->default('email');
             $table->string('profile_photo')->nullable();
             $table->boolean('status')->default(1); // 1 = Active, 0 = Inactive

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\User;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -22,7 +23,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('users.create');
+        $roles = Role::all();
+        return view('users.create', compact('roles'));
     }
 
     /**
@@ -36,8 +38,8 @@ class UserController extends Controller
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'mobile' => 'required',
-            'role' => 'required|in:admin,billing_coordinator,insurance_coordinator,office_manager',
-            'password' => 'required|min:8|confirmed',
+            'role' => 'required',
+            'password' => 'required|min:6|confirmed',
         ]);
         
         User::create([
@@ -47,6 +49,7 @@ class UserController extends Controller
             'email' => $request->email,
             'mobile' => $request->mobile,
             'home' => $request->home,
+            'role' => $request->role,
             'password_hint' => $request->password,
             'password' => bcrypt($request->password),
         ]);

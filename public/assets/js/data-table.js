@@ -41,6 +41,11 @@ $(function() {
         $('#search_clinic').on('change', function () {
             table.column(1).search(this.value).draw();
         });
+
+        // Option List Filter by Category
+        $('#search_category').on('change', function () {
+            table.column(1).search(this.value).draw();
+        });
     });
     
 });

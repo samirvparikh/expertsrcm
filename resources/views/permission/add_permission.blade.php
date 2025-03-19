@@ -43,8 +43,11 @@
                             <label for="input1" class="form-label">Permission Group </label>
                             <select name="group_name" class="form-select mb-3" aria-label="Default select example" required>
                                 <option value="" selected="">Select Group </option>
-                                <option value="Team">Eligibility</option>
-                                <option value="Role and Permission">Role and Permission </option>
+                                <option value="User">User</option>
+                                <option value="Patient">Patient</option>
+                                <option value="Office">Office</option>
+                                <option value="Proiveder">Proiveder</option>
+                                <option value="Eligibility">Eligibility</option>
                             </select>
                         </div>
                         <div class="col-md-12">

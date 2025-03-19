@@ -1,9 +1,8 @@
+ALTER TABLE `users` CHANGE `role` `role` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL; 
+ALTER TABLE `permissions` ADD `group_name` VARCHAR(255) NULL AFTER `name`; 
+
 composer require spatie/laravel-permission
 php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"
-
-php artisan make:controller RoleController
-
-
 
 
 
@@ -11,37 +10,9 @@ php artisan make:controller RoleController
 php artisan make:migration create_insurances_table
 
 php artisan migrate
-
 php artisan make:model Insurance
-
+php artisan make:controller OptionController
 php artisan make:controller InsuranceController --resource
-
-
-
-php artisan make:migration create_csv_table
-php artisan make:model Csv
-php artisan make:import CsvImport --model=Csv
-php artisan make:export CsvExport --model=Csv
-
-php artisan make:controller ImportController
-
-
-php artisan make:model Patient
-
-
-php artisan make:controller PatientController --resource
-
-php artisan make:model Provider
-php artisan make:controller ProviderController --resource
-php artisan make:controller EligibilityController
-php artisan make:model Procedure
-
-php artisan make:migration create_appointments_table
-php artisan make:controller AppointmentController
-php artisan make:model Appointment
-
-php artisan make:model TempEligibilityPatient
-
 
 CREATE TABLE `temp_appt` (
   `id` bigint UNSIGNED NOT NULL,
@@ -60,27 +31,24 @@ CREATE TABLE `temp_appt` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=MyISAM;
 
-php artisan make:migration create_eligibilities_table
-
-
 <input id="dob" name="dob" class="form-control @error('dob') is-invalid @enderror" value="{{ old('dob', $user->dob ? \Carbon\Carbon::parse($user->dob)->format('d/m/Y') : '') }}" data-inputmask="'alias': 'datetime'" data-inputmask-inputformat="dd/mm/yyyy">
 
 <div class="col-sm-6">
-                                <div class="mb-3">
-                                    <label class="form-label">Date Of Birth</label>
-                                    <input id="dob" name="dob" class="form-control @error('dob') is-invalid @enderror" value="{{ old('dob') }}" data-inputmask="'alias': 'datetime'" data-inputmask-placeholder="*" data-inputmask-inputformat="dd/mm/yyyy" inputmode="numeric">
-                                    @error('dob')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
+    <div class="mb-3">
+        <label class="form-label">Date Of Birth</label>
+        <input id="dob" name="dob" class="form-control @error('dob') is-invalid @enderror" value="{{ old('dob') }}" data-inputmask="'alias': 'datetime'" data-inputmask-placeholder="*" data-inputmask-inputformat="dd/mm/yyyy" inputmode="numeric">
+        @error('dob')
+            <span class="text-danger">{{ $message }}</span>
+        @enderror
+    </div>
+</div>
 
 // 'dob' => 'date_format:m/d/Y',
-            // 'dob' => Carbon::createFromFormat('m/d/Y', $request->dob)->format('Y-m-d'),
-                            // if ($request->filled('dob')) {
-        //     try {
-        //         $data['dob'] = Carbon::createFromFormat('m/d/Y', $request->dob)->format('Y-m-d');
-        //     } catch (\Exception $e) {
-        //         return back()->withErrors(['dob' => 'Invalid date format.']);
-        //     }
-        // }
+// 'dob' => Carbon::createFromFormat('m/d/Y', $request->dob)->format('Y-m-d'),
+                // if ($request->filled('dob')) {
+//     try {
+//         $data['dob'] = Carbon::createFromFormat('m/d/Y', $request->dob)->format('Y-m-d');
+//     } catch (\Exception $e) {
+//         return back()->withErrors(['dob' => 'Invalid date format.']);
+//     }
+// }

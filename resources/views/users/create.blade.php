@@ -100,10 +100,10 @@
                             <label class="form-label">Role: <span class="text-danger">*</span></label>
                             <select name="role" class="form-select @error('role') is-invalid @enderror">
                                 <option value="">-- Select Role --</option>
-                                <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
-                                <option value="billing_coordinator" {{ old('role') == 'billing_coordinator' ? 'selected' : '' }}>Billing Coordinator</option>
-                                <option value="insurance_coordinator" {{ old('role') == 'insurance_coordinator' ? 'selected' : '' }}>Insurance Coordinator</option>
-                                <option value="office_manager" {{ old('role') == 'office_manager' ? 'selected' : '' }}>Office Manager</option>
+                                @foreach($roles as $role)
+                                    <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                @endforeach
+                                
                             </select>
                             @error('role')
                                 <span class="text-danger">{{ $message }}</span>
