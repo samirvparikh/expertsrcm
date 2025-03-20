@@ -15,7 +15,7 @@ use DB;
 class RoleController extends Controller
 {
     public function index() {
-        $permissions = Permission::latest()->get();
+        $permissions = Permission::orderBy('group_name')->get();
         return view('permission.all_permission',compact('permissions'));
     } // End Method 
 
@@ -87,32 +87,11 @@ class RoleController extends Controller
     }// End Method 
 
 
-    public function Export() {
-
-        return Excel::download(new PermissionExport, 'permission.xlsx');
-
-    }// End Method
-
-
-    public function Import(Request $request) {
-
-        Excel::import(new PermissionImport, $request->file('import_file'));
-       
-        $notification = array(
-            'message' => 'Permission Imported Successfully',
-            'alert-type' => 'success'
-        );
-
-        return redirect()->back()->with($notification); 
-
-    }// End Method
-
-
     /////////// All Roles Mehtod //////////////////////
 
     public function AllRoles() {
 
-        $roles = Role::latest()->get();
+        $roles = Role::orderBy('name')->get();
         return view('roles.all_roles',compact('roles'));
 
     }// End Method
@@ -133,7 +112,7 @@ class RoleController extends Controller
             'alert-type' => 'success'
         );
 
-        return redirect()->route('all.roles')->with($notification);  
+        return redirect()->route('roles.index')->with($notification);  
 
     }// End Method
 
@@ -159,7 +138,7 @@ class RoleController extends Controller
             'alert-type' => 'success'
         );
 
-        return redirect()->route('all.roles')->with($notification);   
+        return redirect()->route('roles.index')->with($notification);   
 
     }// End Method
 
@@ -203,7 +182,7 @@ class RoleController extends Controller
             'alert-type' => 'success'
         );
 
-        return redirect()->route('all.roles.permission')->with($notification);   
+        return redirect()->route('rolepermissions.index')->with($notification);   
 
     }// End Method
 
@@ -241,7 +220,7 @@ class RoleController extends Controller
             'alert-type' => 'success'
         );
 
-        return redirect()->route('all.roles.permission')->with($notification); 
+        return redirect()->route('rolepermissions.index')->with($notification); 
   
     }// End Method
 

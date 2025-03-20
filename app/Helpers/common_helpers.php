@@ -1,5 +1,14 @@
 <?php
 use Carbon\Carbon;
+use App\Models\Option;
+
+if (!function_exists('getOptions')) {
+    function getOptions($category)
+    {
+        // dd(Option::where('category', $category)->pluck('value', 'key')->toArray());
+        return Option::where('category', $category)->pluck('value', 'key')->toArray();
+    }
+}
 
 if (!function_exists('viewDate')) {
     function viewDate($value = null)

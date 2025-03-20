@@ -26,7 +26,7 @@
                         @method('PUT')
                         <div class="mb-3">
                             <label class="form-label">Category</label>
-                            <input type="text" name="category" class="form-control @error('category') is-invalid @enderror" value="{{ old('category', $option->category) }}">
+                            <input type="text" name="category" class="form-control @error('category') is-invalid @enderror" value="{{ old('category', $option->category) }}" readonly>
                             @error('category')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -46,6 +46,18 @@
                             @enderror
                         </div>
 
+                        <div class="mb-3">
+                            <label class="form-label">Status <span class="text-danger">*</span></label>
+                            <select name="status" class="form-select @error('status') is-invalid @enderror" required>
+                                @foreach(getOptions('status') as $key => $value)
+                                    <option value="{{ $key }}" {{ old('status') == $key ? 'selected' : '' }}>{{ $value }}</option>
+                                @endforeach
+                            </select>
+                            @error('status')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
                         <button type="submit" class="btn btn-primary me-2">Save Changes</button>
                         <button type="button" class="btn btn-secondary" onclick="window.location='{{ route('options.index') }}'">Cancel</button>
                     </form>
@@ -54,4 +66,48 @@
         </div>
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#categoryInput').on('keyup', function() {
+        let query = $(this).val();
+
+        if (query.length > 1) {
+            $.ajax({
+                url: "{{ route('categories.search') }}",
+                type: "GET",
+                data: { query: query },
+                success: function(data) {
+                    let dropdown = $('#categorySuggestions');
+                    dropdown.empty().show();
+                    
+                    if (data.length > 0) {
+                        $.each(data, function(index, value) {
+                            dropdown.append('<div class="dropdown-item category-item">' + value + '</div>');
+                        });
+                    } else {
+                        dropdown.append('<div class="dropdown-item text-muted">No results found</div>');
+                    }
+                }
+            });
+        } else {
+            $('#categorySuggestions').hide();
+        }
+    });
+
+    // Handle category selection
+    $(document).on('click', '.category-item', function() {
+        $('#categoryInput').val($(this).text());
+        $('#categorySuggestions').hide();
+    });
+
+    // Hide dropdown when clicking outside
+    $(document).on('click', function(event) {
+        if (!$(event.target).closest('#categoryInput, #categorySuggestions').length) {
+            $('#categorySuggestions').hide();
+        }
+    });
+});
+</script>
 @endsection

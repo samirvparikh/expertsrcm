@@ -42,18 +42,21 @@ class UserController extends Controller
             'password' => 'required|min:6|confirmed',
         ]);
         
-        User::create([
-            'username' => $request->username,
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'email' => $request->email,
-            'mobile' => $request->mobile,
-            'home' => $request->home,
-            'role' => $request->role,
-            'password_hint' => $request->password,
-            'password' => bcrypt($request->password),
-        ]);
-
+        $user = new User();
+        $user->username = $request->username;
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        $user->email = $request->email;
+        $user->mobile = $request->mobile;
+        $user->home = $request->home;
+        $user->password = bcrypt($request->password);
+        $user->password_hint = $request->password;
+        $user->role = 'admin';
+        $user->save();
+        
+        if($request->role){
+            $user->assignRole($request->role);
+        }
         return redirect()->route('users.index');
         // return redirect()->route('users.index')->with('success', 'User created successfully.');
     }

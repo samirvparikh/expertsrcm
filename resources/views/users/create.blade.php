@@ -101,10 +101,10 @@
                             <select name="role" class="form-select @error('role') is-invalid @enderror">
                                 <option value="">-- Select Role --</option>
                                 @foreach($roles as $role)
-                                    <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                    <option value="{{ $role->name }}">{{ $role->name }}</option>
                                 @endforeach
-                                
                             </select>
+
                             @error('role')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -141,6 +141,7 @@
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
+
                         {{-- <div class="mb-3">
                             <label class="form-label">Multiple select using select 2</label>
                             <select class="js-example-basic-multiple form-select" multiple="multiple" data-width="100%">

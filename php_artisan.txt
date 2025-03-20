@@ -1,6 +1,47 @@
 ALTER TABLE `users` CHANGE `role` `role` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL; 
 ALTER TABLE `permissions` ADD `group_name` VARCHAR(255) NULL AFTER `name`; 
 
+php artisan migrate:fresh
+php artisan db:seed --class=UserSeeder
+php artisan db:seed --class=OptionSeeder
+
+INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'users.index', 'User', 'web', NULL, NULL);
+INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'users.store', 'User', 'web', NULL, NULL);
+INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'users.create', 'User', 'web', NULL, NULL);
+INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'users.show', 'User', 'web', NULL, NULL);
+INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'users.update', 'User', 'web', NULL, NULL);
+INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'users.destroy', 'User', 'web', NULL, NULL);
+INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'users.edit', 'User', 'web', NULL, NULL);
+
+INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'eligibility.export', 'Eligibility', 'web', NULL, NULL);
+INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'eligibilities.form', 'Eligibility', 'web', NULL, NULL);
+INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'eligibilities.index', 'Eligibility', 'web', NULL, NULL);
+INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'eligibility.store', 'Eligibility', 'web', NULL, NULL);
+INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'eligibility.getGroupData', 'Eligibility', 'web', NULL, NULL);
+
+INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'providers.index', 'Proiveder', 'web', NULL, NULL);
+INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'providers.store', 'Proiveder', 'web', NULL, NULL);
+INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'providers.create', 'Proiveder', 'web', NULL, NULL);
+INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'providers.show', 'Proiveder', 'web', NULL, NULL);
+INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'providers.update', 'Proiveder', 'web', NULL, NULL);
+INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'providers.destroy', 'Proiveder', 'web', NULL, NULL);
+INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'providers.edit', 'Proiveder', 'web', NULL, NULL);
+
+INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'patients.index', 'Patient', 'web', NULL, NULL);
+INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'patients.create', 'Patient', 'web', NULL, NULL);
+INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'patients.show', 'Patient', 'web', NULL, NULL);
+INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'patients.update', 'Patient', 'web', NULL, NULL);
+INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'patients.destroy', 'Patient', 'web', NULL, NULL);
+INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'patients.edit', 'Patient', 'web', NULL, NULL);
+
+INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'offices.index', 'Office', 'web', NULL, NULL);
+INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'offices.store', 'Office', 'web', NULL, NULL);
+INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'offices.create', 'Office', 'web', NULL, NULL);
+INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'offices.show', 'Office', 'web', NULL, NULL);
+INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'offices.update', 'Office', 'web', NULL, NULL);
+INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'offices.destroy', 'Office', 'web', NULL, NULL);
+INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'offices.edit', 'Office', 'web', NULL, NULL);
+
 composer require spatie/laravel-permission
 php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"
 
@@ -52,3 +93,15 @@ CREATE TABLE `temp_appt` (
 //         return back()->withErrors(['dob' => 'Invalid date format.']);
 //     }
 // }
+
+
+<div class="mb-3" data-select2-id="7">
+    <label class="form-label">Single select box using select 2</label>
+    <select class="js-example-basic-single form-select select2-hidden-accessible" data-width="100%" data-select2-id="1" tabindex="-1" aria-hidden="true">
+        <option value="TX" data-select2-id="3">Texas</option>
+        <option value="NY" data-select2-id="17">New York</option>
+        <option value="FL" data-select2-id="18">Florida</option>
+        <option value="KN" data-select2-id="19">Kansas</option>
+        <option value="HW" data-select2-id="20">Hawaii</option>
+    </select><span class="select2 select2-container select2-container--default select2-container--below select2-container--focus" dir="ltr" data-select2-id="2" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-d8d7-container"><span class="select2-selection__rendered" id="select2-d8d7-container" role="textbox" aria-readonly="true" title="New York">New York</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+</div>

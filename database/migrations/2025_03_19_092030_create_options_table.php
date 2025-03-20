@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('category'); // e.g., 'status', 'gender', 'group_name'
             $table->string('key'); // e.g., 'yes', 'no', 'male', 'female'
             $table->string('value'); // e.g., 'Yes', 'No', 'Male', 'Female'
-            $table->enum('status', ['Active', 'Inactive'])->nullable(); // Gender
+            $table->enum('status', ['Active', 'Inactive'])->default('Active');
             $table->timestamps();
         });
     }

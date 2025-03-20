@@ -40,6 +40,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('patients', PatientController::class);    
     Route::resource('options', OptionController::class)->except(['destroy']);
     Route::get('/options/delete/{id}', [OptionController::class, 'delete'])->name('options.delete');
+    Route::get('/categories/search', [OptionController::class, 'search'])->name('categories.search');
 
     Route::controller(PatientController::class)->group(function(){
         Route::get('/profile', 'profile')->name('patient.profile');
@@ -74,7 +75,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/update/permission', 'UpdatePermission')->name('update.permission');
         Route::get('/delete/permission/{id}', 'DeletePermission')->name('delete.permission');    
 
-        Route::get('/all/roles', 'AllRoles')->name('all.roles');
+        Route::get('/roles', 'AllRoles')->name('roles.index');
         Route::get('/add/roles', 'AddRoles')->name('add.roles');
         Route::post('/store/roles', 'StoreRoles')->name('store.roles');
         Route::get('/edit/roles/{id}', 'EditRoles')->name('edit.roles');
@@ -83,7 +84,7 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/add/roles/permission', 'AddRolesPermission')->name('add.roles.permission');
         Route::post('/role/permission/store', 'RolePermissionStore')->name('role.permission.store');
-        Route::get('/all/roles/permission', 'AllRolesPermission')->name('all.roles.permission');
+        Route::get('/rolepermissions', 'AllRolesPermission')->name('rolepermissions.index');
 
         Route::get('/admin/edit/roles/{id}', 'AdminEditRoles')->name('admin.edit.roles');
         Route::post('/admin/roles/update/{id}', 'AdminRolesUpdate')->name('admin.roles.update');

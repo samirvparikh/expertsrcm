@@ -48,13 +48,13 @@
                                     <th>Appt. Time</th>
                                     {{-- <th>Prim. Subscriber</th> --}}
                                     <th>Prim. Carrier Name</th>
-                                    <!-- <th>Prim. Subscriber ID</th> -->
+                                    {{-- <th>Prim. Subscriber ID</th> --}}
                                     <th>Sec. Carrier Name</th>
-                                    <!-- <th>Sec. Subscriber ID</th> -->
+                                    {{-- <th>Sec. Subscriber ID</th> --}}
                                     <th>Eligible?</th>
                                     <th>Verified By</th>
                                     <th>Verified Date</th>
-                                    <!-- <th>Created Date</th> -->
+                                    {{-- <th>Created Date</th> --}}
                                     <th class="text-end">Actions</th>
                                 </tr>
                             </thead>
@@ -70,13 +70,13 @@
                                     <td>{{ \Carbon\Carbon::parse($eligibility->appt_time)->format('g:i A') }}</td>
                                     {{-- <td>{{ $eligibility->prim_subscriber ?? '' }}</td> --}}
                                     <td>{{ $eligibility->primaryInsurance->name ?? '' }}</td>
-                                    <!-- <td>{{ $eligibility->prim_subscriber_id ?? '' }}</td> -->
+                                    {{-- <td>{{ $eligibility->prim_subscriber_id ?? '' }}</td> --}}
                                     <td>{{ $eligibility->secondayInsurance->name ?? '' }}</td>
-                                    <!-- <td>{{ $eligibility->sec_subscriber_id ?? '' }}</td> -->
+                                    {{-- <td>{{ $eligibility->sec_subscriber_id ?? '' }}</td> --}}
                                     <td>{{ $eligibility->is_eligible }}</td>
                                     <td>{{ $eligibility->verified_by }}</td>
                                     <td>{{ $eligibility->verified_date ? $eligibility->verified_date->format('m/d/Y') : '' }}</td>
-                                    <!-- <td>{{ $eligibility->created_at->format('m/d/Y h:i:s') }}</td> -->
+                                    {{-- <td>{{ $eligibility->created_at->format('m/d/Y h:i:s') }}</td> --}}
                                     <td class="text-end">
                                         @if(isset($eligibility->id))
                                         <a href="{{ route('eligibility.export', $eligibility->patient_id) }}" class="btn btn-inverse-danger btn-xs">Export</a>
