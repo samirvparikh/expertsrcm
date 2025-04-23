@@ -16,14 +16,16 @@ class EligibilityPatientImport implements ToModel, WithHeadingRow
         if (is_numeric($dob)) {
             $dob = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($dob)->format('Y-m-d');
         } else {
-            $dob = \Carbon\Carbon::parse($dob)->format('Y-m-d');
+            // $dob = \Carbon\Carbon::parse($dob)->format('Y-m-d');
+            $dob = \Carbon\Carbon::createFromFormat('Y-m-d', $dob);
         }
 
         $appt_date = $row['appt_date'];
         if (is_numeric($appt_date)) {
             $appt_date = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($appt_date)->format('Y-m-d');
         } else {
-            $appt_date = \Carbon\Carbon::parse($appt_date)->format('Y-m-d');
+            // $appt_date = \Carbon\Carbon::parse($appt_date)->format('Y-m-d');
+            $appt_date = \Carbon\Carbon::createFromFormat('Y-m-d', $appt_date);
         }
 
         return new TempEligibilityPatient([

@@ -16,14 +16,16 @@ class CsvImport implements ToModel, WithHeadingRow
         if (is_numeric($dob)) {
             $dob = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($dob)->format('Y-m-d');
         } else {
-            $dob = \Carbon\Carbon::parse($dob)->format('Y-m-d');
+            // $dob = \Carbon\Carbon::parse($dob)->format('Y-m-d');
+            $dob = \Carbon\Carbon::createFromFormat('Y-m-d', $dob);
         }
 
         $billingDate = $row['billing_date'];
         if (is_numeric($billingDate)) {
             $billingDate = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($billingDate)->format('Y-m-d');
         } else {
-            $billingDate = \Carbon\Carbon::parse($billingDate)->format('Y-m-d');
+            // $billingDate = \Carbon\Carbon::parse($billingDate)->format('Y-m-d');
+            $billingDate = \Carbon\Carbon::createFromFormat('Y-m-d', $billingDate);
         }
 
         return new Csv([
