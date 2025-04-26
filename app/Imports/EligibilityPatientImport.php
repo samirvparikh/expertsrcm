@@ -17,6 +17,7 @@ class EligibilityPatientImport implements ToModel, WithHeadingRow
             $dob = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($dob)->format('Y-m-d');
         } else {
             $dob = \Carbon\Carbon::parse($dob)->format('Y-m-d');
+            // $dob = \Carbon\Carbon::createFromFormat('Y-m-d', $dob);
         }
 
         $appt_date = $row['appt_date'];
@@ -24,6 +25,7 @@ class EligibilityPatientImport implements ToModel, WithHeadingRow
             $appt_date = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($appt_date)->format('Y-m-d');
         } else {
             $appt_date = \Carbon\Carbon::parse($appt_date)->format('Y-m-d');
+            // $appt_date = \Carbgon\Carbon::createFromFormat('Y-m-d', $appt_date);
         }
 
         return new TempEligibilityPatient([

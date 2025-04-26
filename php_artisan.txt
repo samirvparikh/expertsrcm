@@ -3,52 +3,16 @@ ALTER TABLE `permissions` ADD `group_name` VARCHAR(255) NULL AFTER `name`;
 
 php artisan migrate:fresh
 php artisan db:seed --class=UserSeeder
+php artisan db:seed --class=PermissionSeeder
 php artisan db:seed --class=OptionSeeder
 php artisan db:seed --class=PermissionSeeder
 
 
-INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'users.index', 'User', 'web', NULL, NULL);
-INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'users.store', 'User', 'web', NULL, NULL);
-INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'users.create', 'User', 'web', NULL, NULL);
-INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'users.show', 'User', 'web', NULL, NULL);
-INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'users.update', 'User', 'web', NULL, NULL);
-INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'users.destroy', 'User', 'web', NULL, NULL);
-INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'users.edit', 'User', 'web', NULL, NULL);
-
-INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'eligibility.export', 'Eligibility', 'web', NULL, NULL);
-INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'eligibilities.form', 'Eligibility', 'web', NULL, NULL);
-INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'eligibilities.index', 'Eligibility', 'web', NULL, NULL);
-INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'eligibility.store', 'Eligibility', 'web', NULL, NULL);
-INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'eligibility.getGroupData', 'Eligibility', 'web', NULL, NULL);
-
-INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'providers.index', 'Proiveder', 'web', NULL, NULL);
-INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'providers.store', 'Proiveder', 'web', NULL, NULL);
-INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'providers.create', 'Proiveder', 'web', NULL, NULL);
-INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'providers.show', 'Proiveder', 'web', NULL, NULL);
-INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'providers.update', 'Proiveder', 'web', NULL, NULL);
-INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'providers.destroy', 'Proiveder', 'web', NULL, NULL);
-INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'providers.edit', 'Proiveder', 'web', NULL, NULL);
-
-INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'patients.index', 'Patient', 'web', NULL, NULL);
-INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'patients.create', 'Patient', 'web', NULL, NULL);
-INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'patients.show', 'Patient', 'web', NULL, NULL);
-INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'patients.update', 'Patient', 'web', NULL, NULL);
-INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'patients.destroy', 'Patient', 'web', NULL, NULL);
-INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'patients.edit', 'Patient', 'web', NULL, NULL);
-
-INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'offices.index', 'Office', 'web', NULL, NULL);
-INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'offices.store', 'Office', 'web', NULL, NULL);
-INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'offices.create', 'Office', 'web', NULL, NULL);
-INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'offices.show', 'Office', 'web', NULL, NULL);
-INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'offices.update', 'Office', 'web', NULL, NULL);
-INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'offices.destroy', 'Office', 'web', NULL, NULL);
-INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'offices.edit', 'Office', 'web', NULL, NULL);
 
 composer require spatie/laravel-permission
 php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"
 
 
-php artisan migrate:refresh --path=database/migrations/2025_03_07_091414_create_permission_tables.php
 
 php artisan make:migration create_insurances_table
 
@@ -56,6 +20,10 @@ php artisan migrate
 php artisan make:model Insurance
 php artisan make:controller OptionController
 php artisan make:controller InsuranceController --resource
+
+
+SELECT GROUP_CONCAT(name) as name FROM `permissions` where group_name='Eligibility' 
+SELECT GROUP_CONCAT(CONCAT("'", name, "'") SEPARATOR ', ') AS name FROM `permissions` WHERE group_name = 'Eligibility' 
 
 CREATE TABLE `temp_appt` (
   `id` bigint UNSIGNED NOT NULL,

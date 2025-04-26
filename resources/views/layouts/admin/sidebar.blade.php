@@ -20,37 +20,38 @@
                     <span class="link-title">Administration</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
+
+                @php
+                    $menuItems = [
+                        'users' => 'Users',
+                        'offices' => 'Offices',
+                        'providers' => 'Providers',
+                        'insurances' => 'Insurances',
+                        'patients' => 'Patients',
+                    ];
+                @endphp
+
                 <div class="collapse" id="uiComponents">
                     <ul class="nav sub-menu">
-                        @can('edit posts')
-                        <li class="nav-item">
-                            <a href="{{ route('users.index') }}" class="nav-link">Users</a>
-                        </li>
-                        @endcan
-                        <li class="nav-item">
-                            <a href="{{ route('offices.index') }}" class="nav-link">Offices</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('providers.index') }}" class="nav-link">Providers</a>
-                        </li>                        
-                        <li class="nav-item">
-                            <a href="{{ route('insurances.index') }}" class="nav-link">Insurances</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('patients.index') }}" class="nav-link">Patients</a>
-                        </li>
+                        @foreach ($menuItems as $route => $label)
+                            @canany(["{$route}.index"])
+                                <li class="nav-item">
+                                    <a href="{{ route("{$route}.index") }}" class="nav-link">{{ $label }}</a>
+                                </li>
+                            @endcanany
+                        @endforeach
                     </ul>
                 </div>
             </li>
             
+            @canany(['eligibilities.index', 'eligibilities.form', 'eligibility.store', 'eligibility.export', 'eligibility.getGroupData'])
             <li class="nav-item">
                 <a href="{{ route('eligibilities.index') }}" class="nav-link">
                   <i class="link-icon" data-feather="calendar"></i>
                   <span class="link-title">Eligibility</span>
                 </a>
             </li>
-
-
+            @endcanany
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="collapse" href="#rolesPermission" role="button" aria-expanded="false"
                     aria-controls="rolesPermission">
