@@ -4,6 +4,8 @@ ALTER TABLE `permissions` ADD `group_name` VARCHAR(255) NULL AFTER `name`;
 php artisan migrate:fresh
 php artisan db:seed --class=UserSeeder
 php artisan db:seed --class=OptionSeeder
+php artisan db:seed --class=PermissionSeeder
+
 
 INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'users.index', 'User', 'web', NULL, NULL);
 INSERT INTO `permissions` (`id`, `name`, `group_name`, `guard_name`, `created_at`, `updated_at`) VALUES (NULL, 'users.store', 'User', 'web', NULL, NULL);
@@ -46,7 +48,7 @@ composer require spatie/laravel-permission
 php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"
 
 
-
+php artisan migrate:refresh --path=database/migrations/2025_03_07_091414_create_permission_tables.php
 
 php artisan make:migration create_insurances_table
 
