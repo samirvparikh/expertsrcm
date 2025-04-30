@@ -7,6 +7,39 @@
 
     <div class="main-content d-flex justify-content-between flex-wrap">
         <h2 class="page-title">Eligibility Information</h2>
+        
+        <div class="d-flex align-items-center flex-wrap text-nowrap">
+            <button type="button" class="btn btn-primary btn-icon-text mb-2 mb-md-0" data-bs-toggle="modal" data-bs-target="#varyingModal">
+                <i class="btn-icon-prepend" data-feather="download-cloud"></i>
+                Import Data
+            </button>
+        </div>
+    </div>
+
+    <div class="modal fade @if($errors->any()) show @endif" id="varyingModal" tabindex="-1" aria-labelledby="varyingModalLabel" aria-hidden="true" @if($errors->any()) style="display: block;" @endif>
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="varyingModalLabel">Import CSV File</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="btn-close"></button>
+            </div>
+            <form action="{{ route('import.eligibility.patient.create') }}" method="POST" id="myForm" class="forms-sample" enctype="multipart/form-data">
+            @csrf
+            <div class="modal-body">
+                    <div class="mb-3">                          
+                        <input type="file" name="file" class="form-control" required>
+                        @error('file')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Import</button>
+            </div>
+            </form>
+        </div>
+        </div>
     </div>
     
     <div class="row">
@@ -95,6 +128,15 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        @if($errors->any())
+            var modal = new bootstrap.Modal(document.getElementById('varyingModal'));
+            modal.show();
+        @endif
+    });
+</script>
 
 @endsection
 

@@ -78,6 +78,7 @@
             
 
             {{-- @role('superadmin') --}}
+            {{--
             <li class="nav-item nav-category">Setting</li>
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="collapse" href="#setting" role="button" aria-expanded="false"
@@ -92,8 +93,8 @@
                             <a href="{{ route('options.index') }}" class="nav-link">Option Master</a>
                         </li>
                     </ul>
-                </div>
-            </li>
+                </div> 
+            </li>--}}
             {{-- @endrole --}}
         </ul>
     </div>

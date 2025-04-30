@@ -11,8 +11,6 @@ class OptionController extends Controller
 {
     public function index()
     {
-        echo auth()->user()->roles->first()->name ?? 'No Role';
-        die;
         // $options = Option::all();
         // $options = Option::orderBy('category')->get();
         $options = Option::orderBy('category')->get();
