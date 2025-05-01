@@ -28,17 +28,17 @@
                         'providers' => 'Providers',
                         'insurances' => 'Insurances',
                         'patients' => 'Patients',
-                    ];
+                    ];                    
                 @endphp
 
                 <div class="collapse" id="uiComponents">
                     <ul class="nav sub-menu">
                         @foreach ($menuItems as $route => $label)
-                            @canany(["{$route}.index"])
+                            {{-- @canany(["{$route}.index"]) --}}
                                 <li class="nav-item">
                                     <a href="{{ route("{$route}.index") }}" class="nav-link">{{ $label }}</a>
                                 </li>
-                            @endcanany
+                            {{-- @endcanany --}}
                         @endforeach
                     </ul>
                 </div>
@@ -78,7 +78,6 @@
             
 
             {{-- @role('superadmin') --}}
-            {{--
             <li class="nav-item nav-category">Setting</li>
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="collapse" href="#setting" role="button" aria-expanded="false"
@@ -93,9 +92,9 @@
                             <a href="{{ route('options.index') }}" class="nav-link">Option Master</a>
                         </li>
                     </ul>
-                </div> 
-            </li>--}}
+                </div>
+            </li>
             {{-- @endrole --}}
-        </ul>
+        </ul>   
     </div>
 </nav>
