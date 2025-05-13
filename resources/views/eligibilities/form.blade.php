@@ -246,8 +246,8 @@
                                             <label for="preventive_waived" class="col-sm-4 col-form-label">Preventive Waived</label>
                                             <div class="col-sm-8">
                                                 <select class="form-control" name="preventive_waived" id="preventive_waived">
-                                                    <option value="1" {{ old('preventive_waived', '1') == '1' ? 'selected' : '' }}>Yes</option>
-                                                    <option value="0" {{ old('preventive_waived', '0') == '0' ? 'selected' : '' }}>No</option>
+                                                    <option value="Yes" {{ old('preventive_waived', $eligibility->preventive_waived ?? 'Yes') == 'Yes' ? 'selected' : '' }}>Yes</option>
+                                                    <option value="No" {{ old('preventive_waived', $eligibility->preventive_waived ?? 'No') == 'No' ? 'selected' : '' }}>No</option>
                                                 </select>
                                             </div>
                                         </div>
