@@ -15,11 +15,24 @@ class EligibilityPatientImport implements ToModel, WithHeadingRow
         // dd($row);
         // Ensure valid date parsing
         $dob = $row['date_of_birth'];
-        if (is_numeric($dob)) {
+        /*if (is_numeric($dob)) {
             $dob = Date::excelToDateTimeObject($dob)->format('Y-m-d');
         } else {
-            // $dob = Carbon::parse($dob)->format('Y-m-d');
-            $dob = Carbon::createFromFormat('Y-m-d', $dob);
+            $dob = Carbon::parse($dob)->format('Y-m-d');
+            // $dob = Carbon::createFromFormat('Y-m-d', $dob);
+        }*/
+
+        try {
+            // Try parsing with flexible format detection
+            $dob = Carbon::parse($dob)->format('Y-m-d');
+        } catch (\Exception $e) {
+            try {
+                // Try strict format if parse fails
+                $dob = Carbon::createFromFormat('Y-m-d', $dob)->format('Y-m-d');
+            } catch (\Exception $e) {
+                // Handle invalid date format (optional)
+                $dob = null; // or throw exception / log error
+            }
         }
 
         $appt_date = $row['appt_date'];
