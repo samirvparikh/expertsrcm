@@ -90,11 +90,15 @@ $eligibility = $eligibilities->first();
 
         <tr>
             <td style="background-color: #fff1cf">Ortho Maximum</td>
-            <td colspan="3" style="background-color: #fff1cf">{{ $eligibility->ortho_maximum ?? '' }}</td>
+            <td colspan="3" style="background-color: #fff1cf">
+                {{ is_numeric($eligibility->ortho_maximum ?? '')  ? '$'.$eligibility->ortho_maximum : ($eligibility->ortho_maximum ?? '') }}
+            </td>
         </tr>
         <tr>
             <td style="background-color: #fff1cf">Ortho Remianing Maximum</td>
-            <td colspan="3" style="background-color: #fff1cf">{{ $eligibility->ortho_remaining_maximum ?? '' }}</td>
+            <td colspan="3" style="background-color: #fff1cf">
+                {{ is_numeric($eligibility->ortho_remaining_maximum ?? '')  ? '$'.$eligibility->ortho_remaining_maximum : ($eligibility->ortho_remaining_maximum ?? '') }}
+            </td>
         </tr>
         <tr>
             <td style="background-color: #fff1cf">Ortho Age Limit</td>
@@ -102,11 +106,15 @@ $eligibility = $eligibilities->first();
         </tr>
         <tr>
             <td>Annual Maximum</td>
-            <td colspan="3">{{ $eligibility->annual_maximum ?? '' }}</td>
+            <td colspan="3">
+                {{ is_numeric($eligibility->annual_maximum ?? '')  ? '$'.$eligibility->annual_maximum : ($eligibility->annual_maximum ?? '') }}
+            </td>
         </tr>
         <tr>
             <td>Remaining Maximum</td>
-            <td colspan="3">{{ $eligibility->remaining_maximum ?? '' }}</td>
+            <td colspan="3">
+                {{ is_numeric($eligibility->remaining_maximum ?? '')  ? '$'.$eligibility->remaining_maximum : ($eligibility->remaining_maximum ?? '') }}
+            </td>
         </tr>
         <tr>
             <td>Plan Year</td>
@@ -152,7 +160,9 @@ $eligibility = $eligibilities->first();
         @foreach(getEligibilityFormFieldsArray()['coverageArray'] as $key => $value)
             <tr>
                 <td>{{ $value['coverage'] }}</td>                
-                <td colspan="2">{{ $coverageData[$key]['coverage'] ?? '' }}</td>
+                <td colspan="2">
+                    {{ is_numeric($coverageData[$key]['coverage'] ?? '')  ? $coverageData[$key]['coverage'] . '%'  : ($coverageData[$key]['coverage'] ?? '') }}
+                </td>
                 <td>{{ $coverageData[$key]['remarks'] ?? '' }}</td>
             </tr>
         @endforeach
