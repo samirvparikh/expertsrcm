@@ -10,6 +10,7 @@ use App\Models\EligibilityGroupNumberData;
 use App\Models\EligibilityHistory;
 use App\Models\EligibilityPatient;
 use App\Exports\EligibilityExport;
+use App\Exports\EligibilityExportMultipleSheet;
 use App\Models\Insurance;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
@@ -367,7 +368,8 @@ class EligibilityController extends Controller
     public function exportExcel($patientId)
     {
         $patient = Patient::findOrFail($patientId);
-        return Excel::download(new EligibilityExport($patientId), 'Full_Form_' . $patientId . '_' . $patient->name. '_' . date('m-d-Y') . '.xlsx');
+        // return Excel::download(new EligibilityExport($patientId), 'Full_Form_' . $patientId . '_' . $patient->name. '_' . date('m-d-Y') . '.xlsx');
+        return Excel::download(new EligibilityExportMultipleSheet($patientId), 'Full_Form_' . $patientId . '_' . $patient->name. '_' . date('m-d-Y') . '.xlsx');
     }
 
 }
