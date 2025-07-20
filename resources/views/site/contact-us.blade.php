@@ -89,6 +89,18 @@
                                         <input type="text" id="userCaptchaAnswer" name="userCaptchaAnswer" required>
                                         <input type="hidden" id="captchaAnswer" name="captchaAnswer">
                                     </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+                                        <div class="form-check">
+                                            <input type="checkbox" id="terms" name="terms" required>
+                                            <label for="terms">
+                                                By opting in for text messages, you agree to receive an appointment reminders and important updates from ExpertsRCM at the number provided. 
+                                                Message frequency varies. Msg & data rates may apply. Reply STOP to unsubscribe. 
+                                                Reply HELP for help. View our 
+                                                <a href="{{ url('/privacy-policy') }}" target="_blank">Privacy Policy</a> and 
+                                                <a href="{{ url('/terms-conditions') }}" target="_blank">Terms & Conditions</a> for more information.
+                                            </label>
+                                        </div>
+                                    </div>
                                     <div class="col-lg-12 col-md-12 col-sm-12 form-group message-btn">
                                         <div id="loader" style="display: none; margin-right: 10px;">
                                             <div class="spinner"></div>

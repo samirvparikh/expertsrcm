@@ -10,3 +10,5 @@ Route::get('/payment-posting', function () {  return view('site.payment-posting'
 Route::get('/account-receivable', function () {  return view('site.account-receivable'); });
 Route::get('/adjustment-and-adjudication', function () {  return view('site.adjustment-and-adjudication'); });
 Route::get('/contact-us', function () {  return view('site.contact-us'); });
+Route::get('/privacy-policy', function () {  return view('site.privacy-policy'); });
+Route::get('/terms-conditions', function () {  return view('site.terms-conditions'); });
