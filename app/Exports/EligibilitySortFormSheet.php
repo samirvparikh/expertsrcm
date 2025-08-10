@@ -26,29 +26,50 @@ class EligibilitySortFormSheet implements FromView, WithColumnWidths, WithStyles
     public function columnWidths(): array
     {
         return [
-            'A' => 40, // Set width of first column
-            'B' => 30, // Set width of first column
-            'C' => 30, // Set width of first column
-            'D' => 30, // Set width of first column
+            'A' => 20, // Set width of first column
+            'B' => 10, // Set width of first column
+            'C' => 20, // Set width of first column
+            'D' => 10, // Set width of first column
+            'E' => 10, // Set width of first column
+            'F' => 10, // Set width of first column
+            'G' => 20, // Set width of first column
+            'H' => 50, // Set width of first column
         ];
     }
 
     // ✅ Apply Borders to All Rows & Columns
     public function styles(Worksheet $sheet)
     {
-        // Get the last row and column dynamically
         $highestRow = $sheet->getHighestRow();
-        $highestColumn = $sheet->getHighestColumn();
-        // dd($highestRow, $highestColumn);
-        $cellRange = 'A1:' . $highestColumn . $highestRow;
-        // dd($cellRange);
 
-        // Apply border style
-        $sheet->getStyle($cellRange)->applyFromArray([
+        // $sheet->getParent()->getDefaultStyle()->getFont()
+        //     ->setName('Lexend')
+        //     ->setSize(9); // optional size
+
+        // Apply borders to A-D
+        $sheet->getStyle('A1:D' . $highestRow)->applyFromArray([
             'borders' => [
                 'allBorders' => [
-                    'borderStyle' => Border::BORDER_THIN, // Thin border
-                    'color' => ['rgb' => '000000'], // Black color
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                    'color' => ['rgb' => '000000']
+                ],
+            ],
+        ]);
+
+        // Apply borders to G onward
+        $sheet->getStyle('G1:' . $sheet->getHighestColumn() . $highestRow)->applyFromArray([
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                    'color' => ['rgb' => '000000']
+                ],
+            ],
+        ]);
+
+        $sheet->getStyle('G23:I31')->applyFromArray([
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_NONE,
                 ],
             ],
         ]);
@@ -57,7 +78,7 @@ class EligibilitySortFormSheet implements FromView, WithColumnWidths, WithStyles
     public function view(): View
     {
 
-        return view('eligibilities.export', [
+        return view('eligibilities.export-sort-form', [
             'eligibilities' => Eligibility::with('patient')->where('patient_id', $this->patientId)->get()
         ]);
     }

@@ -120,8 +120,8 @@ if (!function_exists('getEligibilityFormFieldsArray')) {
                 'dentures' => 'Dentures - D5110',
                 'nightguard' => 'Nightguard - D9944',
                 'perio_srp' => 'Perio SRP - D4341',
+                'd4381' => 'D4381',
                 'perio_maintenance' => 'Perio Maintenance - D4910',
-                'd4381' => 'D4381'
             ],
             'shareHistoryArray' => [
                 'exam_codes' => 'D0150/D0120/D0140/D9310',
@@ -131,6 +131,7 @@ if (!function_exists('getEligibilityFormFieldsArray')) {
             'fluorideSealantsArray' => [
                 'fluoride' => 'D1208, D1206',
                 'sealant' => 'D1351',
+                'sealant_2' => 'D1351',
             ],
             'options' => [
                 'Yes' => 'Yes',

@@ -91,119 +91,50 @@ class EligibilityController extends Controller
             'insurance_id.required' => 'The insurance name field is required.', // Custom error message
         ]);
 
-        $deductiblesData = [
-            'deductibles' => [
-                'individual' => $request->input('deductibles_individual'),
-                'family' => $request->input('deductibles_family'),
-                'ortho' => $request->input('deductibles_ortho'),
-            ],
-            'deductible_remain' => [
-                'individual' => $request->input('deductible_remain_individual'),
-                'family' => $request->input('deductible_remain_family'),
-                'ortho' => $request->input('deductible_remain_ortho'),
-            ],
-        ];
+        $deductiblesData = [];
+        foreach (getEligibilityFormFieldsArray()['deductiblesArray'] as $key => $label) {
+            $deductiblesData[$key] = [
+                'individual' => $request->input("{$key}_individual"),
+                'family' => $request->input("{$key}_family"),
+                'ortho' => $request->input("{$key}_ortho"),
+            ];
+        }
 
-        $examData = [
-            'periodic_exam' => [
-                'frequency' => $request->input('periodic_exam_frequency'),
-                'history' => $request->input('periodic_exam_history'),
-            ],
-            'comp_exam' => [
-                'frequency' => $request->input('comp_exam_frequency'),
-                'history' => $request->input('comp_exam_history'),
-            ],
-            'consultation' => [
-                'frequency' => $request->input('consultation_frequency'),
-                'history' => $request->input('consultation_history'),
-            ],
-            'fac_photographic' => [
-                'frequency' => $request->input('fac_photographic_frequency'),
-                'history' => $request->input('fac_photographic_history'),
-            ],
-            'prophy' => [
-                'frequency' => $request->input('prophy_frequency'),
-                'history' => $request->input('prophy_history'),
-            ],
-            'bw' => [
-                'frequency' => $request->input('bw_frequency'),
-                'history' => $request->input('bw_history'),
-            ],
-            'fmx_pano' => [
-                'frequency' => $request->input('fmx_pano_frequency'),
-                'history' => $request->input('fmx_pano_history'),
-            ],
-            'crowns' => [
-                'frequency' => $request->input('crowns_frequency'),
-                'history' => $request->input('crowns_history'),
-            ],
-            'dentures' => [
-                'frequency' => $request->input('dentures_frequency'),
-                'history' => $request->input('dentures_history'),
-            ],
-            'nightguard' => [
-                'frequency' => $request->input('nightguard_frequency'),
-                'history' => $request->input('nightguard_history'),
-            ],
-            'perio_srp' => [
-                'frequency' => $request->input('perio_srp_frequency'),
-                'history' => $request->input('perio_srp_history'),
-            ],
-            'perio_maintenance' => [
-                'frequency' => $request->input('perio_maintenance_frequency'),
-                'history' => $request->input('perio_maintenance_history'),
-            ],
-            'd4381' => [
-                'frequency' => $request->input('d4381_frequency'),
-                'history' => $request->input('d4381_history'),
-            ]
-        ];
+        $examData = [];
+        foreach (getEligibilityFormFieldsArray()['examDataArray'] as $key => $label) {
+            $examData[$key] = [
+                'frequency' => $request->input("{$key}_frequency"),
+                'history' => $request->input("{$key}_history"),
+            ];
+        }
 
-        $coverageData = [
-            'diagnostic_xray' => ['coverage' => $request->input('diagnostic_xray'),'remarks' => ''],
-            'preventive' => ['coverage' => $request->input('preventive'),'remarks' => ''],
-            'oral_facial_images' => ['coverage' => $request->input('oral_facial_images'),'remarks' => ''],
-            'basic_restorative' => ['coverage' => $request->input('basic_restorative'),'remarks' => $request->input('basic_restorative_ramarks')],
-            'major_restorative_d2950' => ['coverage' => $request->input('major_restorative_d2950'),'remarks' => ''],
-            'major_restorative_d2740' => ['coverage' => $request->input('major_restorative_d2740'),'remarks' => $request->input('major_restorative_d2740_ramarks')],
-            'endo' => ['coverage' => $request->input('endo'),'remarks' => ''],
-            'perio_d4341' => ['coverage' => $request->input('perio_d4341'),'remarks' => ''],
-            'perio_d4346' => ['coverage' => $request->input('perio_d4346'),'remarks' => ''],
-            'perio_d4381' => ['coverage' => $request->input('perio_d4381'),'remarks' => ''],
-            'oral_surgery' => ['coverage' => $request->input('oral_surgery'),'remarks' => ''],
-            'bonegraft' => ['coverage' => $request->input('bonegraft'),'remarks' => ''],
-            'prostho' => ['coverage' => $request->input('prostho'),'remarks' => ''],
-            'implants' => ['coverage' => $request->input('implants'),'remarks' => ''],
-            'ortho' => ['coverage' => $request->input('ortho'),'remarks' => ''],
-            'nightguard' => ['coverage' => $request->input('nightguard'),'remarks' => ''],
-        ];
 
-        $requiredPreauthXrayData = [
-            'extraction' => $request->input('extraction'),
-            'crown' => $request->input('crown'),
-            'rct' => $request->input('rct'),
-            'periodontal' => $request->input('periodontal'),
-            'denture' => $request->input('denture'),
-        ];
+        $coverageData = [];
+        foreach (getEligibilityFormFieldsArray()['coverageArray'] as $key => $settings) {
+            $coverageData[$key] = [
+                'coverage' => $request->input($key),
+                'remarks' => $settings['remarks'] ? $request->input("{$key}_remarks") : '',
+            ];
+        }
 
-        $shareHistoryData = [
-            'exam_codes' => $request->input('exam_codes'),
-            'cleaning_codes' => $request->input('cleaning_codes'),
-            'xray_codes' => $request->input('xray_codes'),
-        ];
+        $requiredPreauthXrayData = [];
+        foreach (getEligibilityFormFieldsArray()['requiredPreauthXrayArray'] as $key => $label) {
+            $requiredPreauthXrayData[$key] = $request->input($key);
+        }
+
+        $shareHistoryData = [];
+        foreach (getEligibilityFormFieldsArray()['shareHistoryArray'] as $key => $codes) {
+            $shareHistoryData[$key] = $request->input($key);
+        }
         
-        $fluorideSealantsData = [
-            'fluoride' => [
-                'frequency' => $request->input('fluoride_frequency'),
-                'history' => $request->input('fluoride_history'),
-                'age_limit' => $request->input('fluoride_age_limit'),
-            ],
-            'sealant' => [
-                'frequency' => $request->input('sealant_frequency'),
-                'history' => $request->input('sealant_history'),
-                'age_limit' => $request->input('sealant_age_limit'),
-            ],
-        ];
+        $fluorideSealantsData = [];
+        foreach (getEligibilityFormFieldsArray()['fluorideSealantsArray'] as $key => $codes) {
+            $fluorideSealantsData[$key] = [
+                'frequency' => $request->input($key . '_frequency'),
+                'history'   => $request->input($key . '_history'),
+                'age_limit' => $request->input($key . '_age_limit'),
+            ];
+        }
 
         $insurance = Insurance::find($validated['insurance_id']);
         if (!$insurance) {
@@ -368,8 +299,8 @@ class EligibilityController extends Controller
     public function exportExcel($patientId)
     {
         $patient = Patient::findOrFail($patientId);
-        // return Excel::download(new EligibilityExport($patientId), 'Full_Form_' . $patientId . '_' . $patient->name. '_' . date('m-d-Y') . '.xlsx');
-        return Excel::download(new EligibilityExportMultipleSheet($patientId), 'Full_Form_' . $patientId . '_' . $patient->name. '_' . date('m-d-Y') . '.xlsx');
+        // return Excel::download(new EligibilityExport($patientId), 'Eligibility_' . $patientId . '_' . $patient->name. '_' . date('m-d-Y') . '.xlsx');
+        return Excel::download(new EligibilityExportMultipleSheet($patientId), 'Eligibility_' . $patientId . '_' . $patient->name. '_' . date('m-d-Y') . '.xlsx');
     }
 
 }

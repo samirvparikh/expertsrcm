@@ -57,7 +57,7 @@ class EligibilityFullFormSheet implements FromView, WithColumnWidths, WithStyles
     public function view(): View
     {
 
-        return view('eligibilities.export', [
+        return view('eligibilities.export-full-form', [
             'eligibilities' => Eligibility::with('patient')->where('patient_id', $this->patientId)->get()
         ]);
     }

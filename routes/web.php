@@ -30,7 +30,13 @@ Route::controller(ImportController::class)->group(function(){
     Route::post('import', 'import')->name('import.eligibility.patient.create');
 });
 
-// Route::resource('eligibilities', EligibilityController::class);
+Route::get('/eligibility-preview/{patientId}', function ($patientId=1) {
+    $eligibilities = \App\Models\Eligibility::with('patient')
+        ->where('patient_id', $patientId)
+        ->get();
+
+    return view('eligibilities.export-sort-form', compact('eligibilities'));
+});
 
 Route::middleware('auth')->group(function () {
     Route::resource('users', UserController::class);
