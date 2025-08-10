@@ -41,10 +41,15 @@ class EligibilitySortFormSheet implements FromView, WithColumnWidths, WithStyles
     public function styles(Worksheet $sheet)
     {
         $highestRow = $sheet->getHighestRow();
-
-        // $sheet->getParent()->getDefaultStyle()->getFont()
-        //     ->setName('Lexend')
-        //     ->setSize(9); // optional size
+        $highestColumn = $sheet->getHighestColumn();
+        $cellRange = 'A1:' . $highestColumn . $highestRow;
+        $sheet->getStyle($cellRange)->applyFromArray([
+            'font' => [
+                'name' => 'Arial',   // Font family
+                'size' => 9,         // Font size
+                'bold' => true,
+            ],
+        ]);
 
         // Apply borders to A-D
         $sheet->getStyle('A1:D' . $highestRow)->applyFromArray([
@@ -71,8 +76,13 @@ class EligibilitySortFormSheet implements FromView, WithColumnWidths, WithStyles
                 'allBorders' => [
                     'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_NONE,
                 ],
-            ],
+            ],            
         ]);
+
+        // $sheet->getStyle('A1:A' . $highestRow)->getFont()
+            // ->setName('Arial')
+            // ->setSize(9)
+            // ->setBold(true);
     }
 
     public function view(): View

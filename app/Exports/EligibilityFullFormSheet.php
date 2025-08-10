@@ -39,9 +39,7 @@ class EligibilityFullFormSheet implements FromView, WithColumnWidths, WithStyles
         // Get the last row and column dynamically
         $highestRow = $sheet->getHighestRow();
         $highestColumn = $sheet->getHighestColumn();
-        // dd($highestRow, $highestColumn);
         $cellRange = 'A1:' . $highestColumn . $highestRow;
-        // dd($cellRange);
 
         // Apply border style
         $sheet->getStyle($cellRange)->applyFromArray([
@@ -51,7 +49,16 @@ class EligibilityFullFormSheet implements FromView, WithColumnWidths, WithStyles
                     'color' => ['rgb' => '000000'], // Black color
                 ],
             ],
+            'font' => [
+                'name' => 'Arial',   // Font family
+                'size' => 9,         // Font size
+            ],
         ]);
+
+        $sheet->getStyle('A1:A' . $highestRow)->getFont()
+            // ->setName('Arial')
+            // ->setSize(9)
+            ->setBold(true);
     }
 
     public function view(): View

@@ -12,8 +12,14 @@ $eligibility = $eligibilities->first();
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
     <title>F.F. {{ $eligibility->patient->name ?? '' }}</title>
+    <style>
+        .text-right {
+            background-color: #FFD966;
+            text-align: right;
+        }
+    </style>
 </head>
 
 <body>
@@ -23,26 +29,26 @@ $eligibility = $eligibilities->first();
         </tr>
         <tr>
             <td>Patient Name Full</td>
-            <td colspan="3">{{ $eligibility->patient->name ?? '' }}</td>
+            <td colspan="3" style="text-align: right;">{{ $eligibility->patient->name ?? '' }}</td>
         </tr>
         <tr>
             <td>Patient DOB</td>
-            <td colspan="3">{{ viewDate($eligibility->patient->dob) ?? '' }}</td>
+            <td colspan="3" style="text-align: right;">{{ viewDate($eligibility->patient->dob) ?? '' }}</td>
         </tr>
         <tr>
             <td>Policy Holder Name</td>
-            <td colspan="3">{{ $eligibility->policy_holder_name ?? '' }}</td>
+            <td colspan="3" style="text-align: right;">{{ $eligibility->policy_holder_name ?? '' }}</td>
         </tr>
         <tr>
             <td>Policy Holder DOB</td>
-            <td colspan="3">{{ viewDate($eligibility->policy_holder_dob) ?? '' }}</td>
+            <td colspan="3" style="text-align: right;">{{ viewDate($eligibility->policy_holder_dob) ?? '' }}</td>
         </tr>
         <tr>
             <td colspan="4" style="border: 1px solid black; background-color: #21fffe; font-weight: bold; text-align: center;">Insurance Details</td>
         </tr>
         <tr>
             <td>Insurance Name</td>
-            <td colspan="3">{{ $eligibility->insurance_name ?? '' }}</td>
+            <td colspan="3" class="text-right">{{ $eligibility->insurance_name ?? '' }}</td>
         </tr>
         <tr>
             <td style="background-color: {{ $eligibility->network_status ? '#25fd3c' : '#ff524f' }}">In Network / Out of Network</td>
