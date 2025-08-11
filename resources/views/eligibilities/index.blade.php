@@ -69,10 +69,11 @@
                         </div>
                     </div>
                     <div class="table-responsive">
-                        <table class="table" id="dataTableExample" data-display-length="50">
+                        <table class="table table-hover" id="dataTableExample" data-display-length="100">
                             <thead>
                                 <tr>
                                     <th>#</th>
+                                    <th class="text-end">Actions</th>
                                     <th>Clinic</th>
                                     <th>Provider</th>
                                     <th>Patient Name</th>
@@ -88,13 +89,20 @@
                                     <th>Verified By</th>
                                     <th>Verified Date</th>
                                     {{-- <th>Created Date</th> --}}
-                                    <th class="text-end">Actions</th>
+                                    {{-- <th class="text-end">Actions</th> --}}
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($eligibilities as $eligibility)
                                 <tr class="{{ $eligibility->is_eligible == 'Yes' ? 'bg-success bg-opacity-10' : ($eligibility->is_eligible == 'No' ? 'bg-danger bg-opacity-10' : '') }}">
                                     <td>{{ $loop->iteration }}</td>
+                                    <td class="d-flex justify-content-between">
+                                        <a href="{{ route('eligibilities.form', ['patientId' => $eligibility->patient_id, 'insuranceId' => $eligibility->primary_insurance_id]) }}" class="btn btn-inverse-warning btn-xs">Edit</a>
+
+                                        @if(isset($eligibility->id))
+                                        <a href="{{ route('eligibility.export', $eligibility->patient_id) }}" class="btn btn-inverse-danger btn-xs">Export</a>
+                                        @endif                                        
+                                    </td>                                    
                                     <td>{{ \Illuminate\Support\Str::limit($eligibility->office->name, 7) }}</td>
                                     <td>{{ \Illuminate\Support\Str::limit($eligibility->provider->name, 7) }}</td>
                                     <td>{{ $eligibility->patient->name }}</td>
@@ -110,13 +118,13 @@
                                     <td>{{ $eligibility->verified_by }}</td>
                                     <td>{{ $eligibility->verified_date ? $eligibility->verified_date->format('m/d/Y') : '' }}</td>
                                     {{-- <td>{{ $eligibility->created_at->format('m/d/Y h:i:s') }}</td> --}}
-                                    <td class="text-end">
+                                    {{-- <td class="text-end">
                                         @if(isset($eligibility->id))
                                         <a href="{{ route('eligibility.export', $eligibility->patient_id) }}" class="btn btn-inverse-danger btn-xs">Export</a>
                                         @endif
                                         <a href="{{ route('eligibilities.form', ['patientId' => $eligibility->patient_id, 'insuranceId' => $eligibility->primary_insurance_id]) }}" class="btn btn-inverse-warning btn-xs">Edit</a>
                                         
-                                    </td>
+                                    </td> --}}
                                 </tr>
                                 @endforeach
                             </tbody>
