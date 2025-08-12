@@ -49,6 +49,9 @@ class EligibilitySortFormSheet implements FromView, WithColumnWidths, WithStyles
                 'size' => 9,         // Font size
                 'bold' => true,
             ],
+            'alignment' => [
+                'wrapText' => true,
+            ],
         ]);
 
         // Apply borders to A-D

@@ -73,8 +73,8 @@ $eligibility = $eligibilities->first();
             <td>REMAIN</td>
             <td>{{ is_numeric($deductiblesData['deductible_remain']['ortho'] ?? '')  ? '$'.$deductiblesData['deductible_remain']['ortho'] : ($deductiblesData['deductible_remain']['ortho'] ?? '') }}</td>
             <td colspan="2"></td>
+            <td>, Prophy -</td>
             <td>{{ $examData['prophy']['frequency'] ?? '' }}</td>
-            <td></td>
         </tr>
         <tr>
             <td colspan="4"></td>
