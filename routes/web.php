@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CsvController;
 use App\Http\Controllers\ImportController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\ProviderController;
@@ -14,6 +15,13 @@ use App\Http\Controllers\OptionController;
 use App\Http\Controllers\EligibilityController;
 use App\Http\Controllers\RoleController;
 
+use App\Http\Controllers\CignaOauthController;
+
+Route::get('/cigna/login',    [CignaOauthController::class, 'login'])->name('cigna.login');
+Route::get('/cigna/callback', [CignaOauthController::class, 'callback'])->name('cigna.callback');
+
+Route::get('/cigna/coverage', [CignaOauthController::class, 'coverage'])->name('cigna.coverage');
+Route::get('/cigna/logout',   [CignaOauthController::class, 'logout'])->name('cigna.logout');
 
 Route::controller(CsvController::class)->group(function(){
     Route::get('csv', 'index');
@@ -51,11 +59,12 @@ Route::middleware('auth')->group(function () {
     Route::controller(PatientController::class)->group(function(){
         Route::get('/profile', 'profile')->name('patient.profile');
     });
-
     
+    Route::get('/appointment/index/{date?}', [AppointmentController::class, 'index'])->name('appointments.index');
+
     Route::get('/eligibility/index', [EligibilityController::class, 'index'])->name('eligibilities.index');
     Route::get('/eligibility/form/{patientId?}/{insuranceId?}', [EligibilityController::class, 'form'])->name('eligibilities.form');
-    Route::post('/eligibility/store/{id?}', [EligibilityController::class, 'store'])->name('eligibility.store');
+    Route::post('/eligibility/store', [EligibilityController::class, 'store'])->name('eligibility.store');
     Route::get('/get-group-data', [EligibilityController::class, 'getGroupData'])->name('eligibility.getGroupData');
 
     Route::get('/eligibility/export/{patientId}', [EligibilityController::class, 'exportExcel'])->name('eligibility.export');

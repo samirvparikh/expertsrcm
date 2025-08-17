@@ -17,7 +17,8 @@
                         @endif
                         <form action="{{ route('eligibility.store') }}" method="POST" class="forms-sample">
                             @csrf
-                            <input type="hidden" name="patient_id" id="patient_id" class="form-control" value="{{ $patient->id }}">
+                            <input type="hidden" name="patientId" id="patientId" class="form-control" value="{{ $patientId }}">
+                            <input type="hidden" name="insuranceId" id="insuranceId" class="form-control" value="{{ $insuranceId }}">
                             <div class="row">
                                 <div class="col-lg-6 border-end-lg">
                                     <div>
@@ -309,8 +310,8 @@
                                                             </td>
                                                             <td>
                                                             @if($data['remarks'])
-                                                                <input type="text" id="{{ $key }}_ramarks" name="{{ $key }}_ramarks" class="form-control ms-2"
-                                                                    placeholder="Enter Remarks" value="{{ old($key.'_ramarks', $coverageData[$key]['remarks'] ?? '') }}">
+                                                                <input type="text" id="{{ $key }}_remarks" name="{{ $key }}_remarks" class="form-control ms-2"
+                                                                    placeholder="Enter Remarks" value="{{ old($key.'_remarks', $coverageData[$key]['remarks'] ?? '') }}">
                                                             @endif
                                                             </td>
                                                         </tr>
@@ -432,7 +433,8 @@
                                         <div class="row mb-3">
                                             <label for="additional_notes" class="col-sm-4 col-form-label">Additional Notes</label>
                                             <div class="col-sm-8">
-                                                <input type="text" class="form-control" id="additional_notes" name="additional_notes" value="{{ old('additional_notes', $eligibility->additional_notes ?? '') }}">
+                                                <textarea class="form-control" id="additional_notes" name="additional_notes" rows="5">{{ old('additional_notes', $eligibility->additional_notes ?? '') }}</textarea>
+                                                {{-- <input type="text" class="form-control" id="additional_notes" name="additional_notes" value="{{ old('additional_notes', $eligibility->additional_notes ?? '') }}"> --}}
                                             </div>
                                         </div>
                                     </div>

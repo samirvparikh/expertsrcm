@@ -1,15 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-<style>
-    #dataTableExample th:last-child,
-    #dataTableExample td:last-child {
-        position: sticky;
-        right: 0;
-        background: #fff; /* match table bg */
-        z-index: 2;
-    }
-</style>
 <div class="page-content">
 
     
@@ -82,42 +73,46 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    {{-- <th class="text-end">Actions</th> --}}
+                                    <th class="text-end">Actions</th>
                                     <th>Clinic</th>
                                     <th>Provider</th>
                                     <th>Patient Name</th>
-                                    <th>Date of Birth</th>
+                                    <th>Date of Birth {{ $date }}</th>
+                                    <th>Appt. Date</th>
+                                    <th>Appt. Time</th>
                                     {{-- <th>Prim. Subscriber</th> --}}
                                     <th>Prim. Carrier Name</th>
                                     {{-- <th>Prim. Subscriber ID</th> --}}
                                     <th>Sec. Carrier Name</th>
                                     {{-- <th>Sec. Subscriber ID</th> --}}
-                                    <th>Appt. Date</th>
-                                    <th>Appt. Time</th>                                    
                                     <th>Eligible?</th>
                                     <th>Verified By</th>
                                     <th>Verified Date</th>
                                     {{-- <th>Created Date</th> --}}
-                                    <th class="text-end">Actions</th>
+                                    {{-- <th class="text-end">Actions</th> --}}
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($eligibilities as $eligibility)
                                 <tr class="{{ $eligibility->is_eligible == 'Yes' ? 'bg-success bg-opacity-10' : ($eligibility->is_eligible == 'No' ? 'bg-danger bg-opacity-10' : '') }}">
                                     <td>{{ $loop->iteration }}</td>
-                                     
-
+                                    <td class="d-flex justify-content-between">
+                                        <a alt="Edit" href="{{ route('eligibilities.form', ['patientId' => $eligibility->patient_id, 'insuranceId' => $eligibility->primary_insurance_id]) }}" class="btn btn-inverse-warning btn-icon border btn-xs me-2"><i data-feather="edit"></i></a>                                        
+                                        @if(isset($eligibility->id))
+                                            <a href="{{ route('eligibility.export', $eligibility->patient_id) }}" class="btn btn-inverse-success btn-icon border btn-xs me-2"><i data-feather="download"></i></a>
+                                        @endif                                        
+                                    </td> 
                                     <td>{{ \Illuminate\Support\Str::limit($eligibility->office->name, 7) }}</td>
                                     <td>{{ \Illuminate\Support\Str::limit($eligibility->provider->name, 7) }}</td>
                                     <td>{{ $eligibility->patient->name }}</td>
                                     <td>{{  \Carbon\Carbon::parse($eligibility->patient->dob)->format('m/d/Y') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($eligibility->appt_date)->format('m/d/Y') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($eligibility->appt_time)->format('g:i A') }}</td>
                                     {{-- <td>{{ $eligibility->prim_subscriber ?? '' }}</td> --}}
                                     <td>{{ $eligibility->primaryInsurance->name ?? '' }}</td>
                                     {{-- <td>{{ $eligibility->prim_subscriber_id ?? '' }}</td> --}}
                                     <td>{{ $eligibility->secondayInsurance->name ?? '' }}</td>
                                     {{-- <td>{{ $eligibility->sec_subscriber_id ?? '' }}</td> --}}
-                                    <td>{{ \Carbon\Carbon::parse($eligibility->appt_date)->format('m/d/Y') }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($eligibility->appt_time)->format('g:i A') }}</td>                                    
                                     <td>{{ $eligibility->is_eligible }}</td>
                                     <td>{{ $eligibility->verified_by }}</td>
                                     <td>{{ $eligibility->verified_date ? $eligibility->verified_date->format('m/d/Y') : '' }}</td>
@@ -129,15 +124,6 @@
                                         <a href="{{ route('eligibilities.form', ['patientId' => $eligibility->patient_id, 'insuranceId' => $eligibility->primary_insurance_id]) }}" class="btn btn-inverse-warning btn-xs">Edit</a>
                                         
                                     </td> --}}
-                                    <td class="d-flex justify-content-between">
-                                        {{-- <a href="{{ route('eligibilities.form', ['patientId' => $eligibility->patient_id, 'insuranceId' => $eligibility->primary_insurance_id]) }}" class="btn btn-inverse-warning btn-xs">Edit</a> --}}
-                                        <a alt="Edit" href="{{ route('eligibilities.form', ['patientId' => $eligibility->patient_id, 'insuranceId' => $eligibility->primary_insurance_id]) }}" class="btn btn-inverse-warning btn-icon border btn-xs me-2"><i data-feather="edit"></i></a>
-                                        
-                                        @if(isset($eligibility->id))
-                                        {{-- <a href="{{ route('eligibility.export', $eligibility->patient_id) }}" class="btn btn-inverse-danger btn-xs">Export</a> --}}
-                                        <a href="{{ route('eligibility.export', $eligibility->patient_id) }}" class="btn btn-inverse-success btn-icon border btn-xs me-2"><i data-feather="download"></i></a>
-                                        @endif                                        
-                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>

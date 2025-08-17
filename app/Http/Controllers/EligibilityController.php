@@ -17,6 +17,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class EligibilityController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      */
@@ -63,7 +64,7 @@ class EligibilityController extends Controller
             $fluorideSealantsData = [];
         }
         $insurances = Insurance::all(); // Fetch all insurance companies
-        return view('eligibilities.form', compact('eligibility', 'patient', 'insuranceId','deductiblesData', 'examData', 'coverageData', 'shareHistoryData', 'fluorideSealantsData', 'requiredPreauthXrayData','insurances'));
+        return view('eligibilities.form', compact('patientId', 'insuranceId', 'eligibility', 'patient', 'deductiblesData', 'examData', 'coverageData', 'shareHistoryData', 'fluorideSealantsData', 'requiredPreauthXrayData','insurances'));
     }
 
 
@@ -74,23 +75,30 @@ class EligibilityController extends Controller
     {
         // Validate the form data
         $validated = $request->validate([
-            'patient_id' => 'required|exists:patients,id',
+            'patientId' => 'required|exists:patients,id',
+            'insuranceId' => 'required|exists:patients,id',
             'insurance_id' => 'required|exists:insurances,id',
             'policy_holder_name' => 'required|string|max:255',
             'policy_holder_dob' => 'required|date',
             'network_status' => 'required|string|max:255',
-
+            
             'group_number' => 'required|string|max:255',
             'group_name' => 'required|string|max:255',
-
+            
             'coverage_data' => 'array', // Ensure data is an array
             'coverage_data.*' => 'nullable|string|max:255', // Validate each field
             // 'fluoride_sealants_data' => 'nullable|json',
-            // Add validation rules for other fields as needed
         ], [
             'insurance_id.required' => 'The insurance name field is required.', // Custom error message
         ]);
-
+        
+        $eligibilityPatient = EligibilityPatient::where('patient_id', $request->input('patientId'))
+            ->where('primary_insurance_id', $request->input('insuranceId'))->first();
+        if ($eligibilityPatient) {
+            $eligibilityPatient->primary_insurance_id = $validated['insurance_id'];
+            $eligibilityPatient->save();
+        }
+        // dd($request);
         $deductiblesData = [];
         foreach (getEligibilityFormFieldsArray()['deductiblesArray'] as $key => $label) {
             $deductiblesData[$key] = [
@@ -108,7 +116,7 @@ class EligibilityController extends Controller
             ];
         }
 
-
+        // echo $request->input('basic_restorative_remarks'); die;
         $coverageData = [];
         foreach (getEligibilityFormFieldsArray()['coverageArray'] as $key => $settings) {
             $coverageData[$key] = [
@@ -141,7 +149,7 @@ class EligibilityController extends Controller
             return redirect()->back()->with('error', 'Invalid insurance ID.');
         }
         
-        $eligibility = Eligibility::where('patient_id', $validated['patient_id'])->first();
+        $eligibility = Eligibility::where('patient_id', $validated['patientId'])->first();
         if ($eligibility) {
             // Store History Before Updating
             $this->storeEligibilityHistory($eligibility);
@@ -152,7 +160,7 @@ class EligibilityController extends Controller
             $message = "Eligibility details created successfully!";
         }
 
-        $eligibility->patient_id = $validated['patient_id'];
+        $eligibility->patient_id = $validated['patientId'];
         $eligibility->insurance_id = $validated['insurance_id'];
         $eligibility->is_eligible = $request->input('is_eligible');
         $eligibility->policy_holder_name = $request->input('policy_holder_name');

@@ -50,7 +50,7 @@ return new class extends Migration
             $table->string('verified_by')->nullable();
             $table->string('insurance_rep_name')->nullable();
             $table->string('insurance_reference_number')->nullable();
-            $table->string('additional_notes')->nullable();
+            $table->longText('additional_notes')->nullable();
             $table->timestamps();
 
             $table->foreign('eligibility_id')->references('id')->on('eligibilities');
