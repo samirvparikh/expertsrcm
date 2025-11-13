@@ -53,7 +53,7 @@
 
                                     </ul>
                                 <div class="btn-box">
-                                    <a href="about-us.html" class="theme-btn btn-one">Read More...</a>
+                                    <a href="{{ url('/about-us') }}" class="theme-btn btn-one">Read More...</a>
                                 </div>
                             </div>
                         </div>
@@ -74,7 +74,7 @@
                         <div class="inner-box">                                
                             <div class="icon-box"><i class="icon-24"></i></div>
                             <h4>Credentialing</h4>
-                            <p>We assist with the credentialing and recredentialing process, ensuring your practice is properly enrolled with insurance carriers, allowing you to get reimbursed for your services without delays. <a href="credentialing.html">Read More...</a></p>
+                            <p>We assist with the credentialing and recredentialing process, ensuring your practice is properly enrolled with insurance carriers, allowing you to get reimbursed for your services without delays. <a href="{{ url('/credentialing') }}">Read More...</a></p>
                             
                         </div>
                     </div>
@@ -84,7 +84,7 @@
                         <div class="inner-box">
                             <div class="icon-box"><i class="icon-25"></i></div>
                             <h4>Eligibility</h4>
-                            <p>Our team verifies patient insurance eligibility, ensuring that your practice knows exactly what is covered before services are rendered, reducing claim denials and patient confusion. <a href="eligibility.html">Read More...</a></p>
+                            <p>Our team verifies patient insurance eligibility, ensuring that your practice knows exactly what is covered before services are rendered, reducing claim denials and patient confusion. <a href="{{ url('/eligibility') }}">Read More...</a></p>
                         </div>
                     </div>
                 </div>
@@ -93,7 +93,7 @@
                         <div class="inner-box">
                             <div class="icon-box"><i class="icon-26"></i></div>
                             <h4>Claim Submission</h4>
-                            <p>We handle the entire claim submission process, ensuring that all claims are accurately submitted and follow payer-specific requirements to avoid delays or denials. <a href="claim-submission.html">Read More...</a></p>
+                            <p>We handle the entire claim submission process, ensuring that all claims are accurately submitted and follow payer-specific requirements to avoid delays or denials. <a href="{{ url('/claim-submission') }}">Read More...</a></p>
                         </div>
                     </div>
                 </div>
@@ -102,7 +102,7 @@
                         <div class="inner-box">
                             <div class="icon-box"><i class="icon-26"></i></div>
                             <h4>Payment Posting</h4>
-                            <p>Our team ensures that payments from insurance providers and patients are accurately posted to the correct accounts, helping you maintain financial accuracy and improving cash flow. <a href="payment-posting.html">Read More...</a></p>
+                            <p>Our team ensures that payments from insurance providers and patients are accurately posted to the correct accounts, helping you maintain financial accuracy and improving cash flow. <a href="{{ url('/payment-posting') }}">Read More...</a></p>
                         </div>
                     </div>
                 </div>
@@ -111,7 +111,7 @@
                         <div class="inner-box">
                             <div class="icon-box"><i class="icon-27"></i></div>
                             <h4>Account Receivable</h4>
-                            <p>We manage your accounts receivable by following up on unpaid claims, resolving discrepancies, and ensuring that your practice receives timely payments, helping to reduce Days in Accounts Receivable (DAR) and improve liquidity. <a href="account-receivable.html">Read More...</a></p>
+                            <p>We manage your accounts receivable by following up on unpaid claims, resolving discrepancies, and ensuring that your practice receives timely payments, helping to reduce Days in Accounts Receivable (DAR) and improve liquidity. <a href="{{ url('/account-receivable') }}">Read More...</a></p>
                         </div>
                     </div>
                 </div>
@@ -120,7 +120,7 @@
                         <div class="inner-box">
                             <div class="icon-box"><i class="icon-24"></i></div>
                             <h4>Adjustment and Adjudication</h4>
-                            <p>We handle claim adjustments and adjudication processes to resolve payment discrepancies, manage denials, and ensure that all claims are paid correctly in accordance with payer contracts. <a href="adjustment-and-adjudication.html">Read More...</a></p>
+                            <p>We handle claim adjustments and adjudication processes to resolve payment discrepancies, manage denials, and ensure that all claims are paid correctly in accordance with payer contracts. <a href="{{ url('/adjustment-and-adjudication') }}">Read More...</a></p>
                         </div>
                     </div>
                 </div>
